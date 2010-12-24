@@ -14,7 +14,7 @@
     <extension point="xbmc.addon.metadata">
         <platform>all</platform>
         <summary>Fastpasstv.com</summary>
-        <description>This video add-on enables streaming tv shows & movies videos (divxden & wisevid) from fastpasstv.com</description>
+        <description>This video add-on enables streaming tv shows & movies videos (divxden & wisevid) from fastpasstv.com. You need to get your own username and password from the website</description>
     </extension>
 </addon>
 
