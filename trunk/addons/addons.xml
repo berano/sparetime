@@ -32,7 +32,7 @@
     <extension point="xbmc.addon.metadata">
         <platform>all</platform>
         <summary>FORA.tv</summary>
-        <description>This video add-on enables streaming talks and lectures from FORA.tv</description>
+        <description>This video add-on enables streaming forums, talks and lectures from FORA.tv.</description>
     </extension>
 </addon>
 
@@ -50,7 +50,7 @@
     <extension point="xbmc.addon.metadata">
         <platform>all</platform>
         <summary>TopDocumentaryFilms.com</summary>
-        <description>This video add-on enables streaming documentaries from topdocumentaryfilms.com</description>
+        <description>This video add-on enables streaming selected documentaries from topdocumentaryfilms.com.</description>
     </extension>
 </addon>
 
@@ -68,7 +68,7 @@
     <extension point="xbmc.addon.metadata">
         <platform>all</platform>
         <summary>Veehd.com</summary>
-        <description>This video add-on enables streaming tv shows, movies and clips from veehd.com. You need to get your own username and password from the website</description>
+        <description>This video add-on enables streaming tv shows, movies and clips from veehd.com. You need to get your own username and password from the website.</description>
     </extension>
 </addon>
 
