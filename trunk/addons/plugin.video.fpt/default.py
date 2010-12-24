@@ -345,7 +345,7 @@ def check_settings():
 		pwd   = fpt.getSetting('pwd')
 		if (not uname or uname == '') or (not pwd or pwd == ''):
 				d = xbmcgui.Dialog()
-				d.ok('Welcome to FASTPASSTV.COM', 'To start using this plugin first go to www.fastpasstv.com.','and create an (free) account.')
+				d.ok('Welcome to fastpasstv.com', 'To start using this plugin first go to www.fastpasstv.com.','and create an (free) account.')
 				fpt.openSettings(sys.argv[ 0 ]) 
 						
 params=get_params()
