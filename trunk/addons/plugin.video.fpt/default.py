@@ -133,18 +133,6 @@ def Y3TV(url,name):
 		addDir('Play (avi) from DivxDen (Pt 2) '+'--'+ref,'http://www.fastpasstv.com'+url,8,'')
 	for url in dv:
 		addDir('Play (avi) from DivxDen '+'--'+ref,'http://www.fastpasstv.com'+url,8,'')
-	for url in ml:
-		addDir('Play from Milo','http://www.fastpasstv.com'+url,10,'')
-	for url in vz:
-		addDir('Play from Voez','http://www.fastpasstv.com'+url,11,'')
-	for url in gb:
-		addDir('Play from 2G','http://www.fastpasstv.com'+url,12,'')
-	for url in gbu:
-		addDir('Play from GBU '+ref,'http://www.fastpasstv.com'+url,13,'')
-	for url in meta:
-		addDir('Play from metadivx '+ref,'http://www.fastpasstv.com'+url,15,'')
-	for url in loom:
-		addDir('Play from loom '+ref,'http://www.fastpasstv.com'+url,16,'')
 	for url in wise:
 		addDir('Play from wise '+ref,'http://www.fastpasstv.com'+url,19,'')
 
