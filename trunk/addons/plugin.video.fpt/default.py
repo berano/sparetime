@@ -12,7 +12,7 @@ def CATS():
         addDir('Latest Added Movies','http://www.fastpasstv.com/',5,'')
 	addDir('Movies','http://www.fastpasstv.com/movies',1,'')
 	addDir('Documentaries','http://www.fastpasstv.com/documentaries',1,'')
-	addDir('Cartoons','http://www.fastpasstv.com/cartoons',1,'')
+	#addDir('Cartoons','http://www.fastpasstv.com/cartoons',1,'')
 	#addDir('ANIME','http://www.fastpasstv.com/anime',1,'')
 	addDir('Search','http://www.fastpasstv.com/',9,'')
 
