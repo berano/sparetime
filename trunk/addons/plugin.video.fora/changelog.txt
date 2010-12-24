@@ -1,0 +1,7 @@
+v0.2 (December 2010):
+  - mirrors now sorted by type, source and part
+  - added categories Popular, Latest Releases etc.
+  - whether a film is HD or not is now visible
+
+v0.1 (November 2010) :
+  - initial release
