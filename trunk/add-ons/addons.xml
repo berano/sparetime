@@ -22,7 +22,7 @@
 	<extension point="xbmc.addon.repository" name="nixa add-on repository">
 		<info compressed="false">http://sparetime.googlecode.com/svn/trunk/add-ons/addons.xml</info>
 		<checksum></checksum>
-		<datadir zip="false">http://http://sparetime.googlecode.com/svn/trunk/add-ons</datadir>
+		<datadir zip="false">http://sparetime.googlecode.com/svn/trunk/add-ons</datadir>
 	</extension>
 	<extension point="xbmc.addon.metadata">
 		<summary>Install Addons from http://sparetime.googlecode.com</summary>
