@@ -46,7 +46,7 @@ def INDEX(url,name):
 	videos=[(thumbs[i],names[i],urls[i])for i in range (0,len(urls))]
 	nxt=re.compile('</a></li><li class="nextpage"><a rel="nofollow" href="(.+?)">&raquo;</a></li>			</ul>').findall(link)
 	for thumb,name,url in videos:
-		addDir(name,'http://veehd.com/video/'+url,3,thumb)
+		addDir(name,'http://veehd.com/video/'+url,3,'')
 	for url in nxt:
 		addDir('Next page','http://veehd.com'+url,2,'')
 
@@ -85,7 +85,7 @@ def SEARCH():
 		videos=[(thumbs[i],names[i],urls[i])for i in range (0,len(urls))]
 		nxt=re.compile('href="(.+?)&page=2">&raquo;</a></li>').findall(link)
 		for thumb,name,url in videos:
-			addDir(name,'http://veehd.com/video/'+url,3,thumb)
+			addDir(name,'http://veehd.com/video/'+url,3,'')
 		for url in nxt:
 			addDir('Next page','http://veehd.com'+url+'&page=2',2,'')
 
