@@ -55,7 +55,7 @@
 </addon>
 
 <addon id="plugin.video.veehd"
-       name="VeeHD"
+       name="veehd"
        version="1.00"
        provider-name="nixa">
   <requires>
