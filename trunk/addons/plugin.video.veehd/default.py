@@ -126,15 +126,6 @@ def addLink(name,url,iconimage,plot,date):
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=url,listitem=liz,isFolder=False)
         return ok
 
-def resolveLink(url,name,thumb,plot):
-        li=xbmcgui.ListItem(name,
-                            path = url,
-			    thumbnailImage=thumb)
-        li.setInfo( type="Video", infoLabels={ "Title": name } )
-        li.setInfo( type="Video", infoLabels={ "Plot": plot} )
-        xbmcplugin.setResolvedUrl(int(sys.argv[1]), True, li)
-        return True
-
 def check_settings():
 		uname = vhd.getSetting('uname')
 		pwd   = vhd.getSetting('pwd')
