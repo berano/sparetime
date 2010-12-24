@@ -114,7 +114,7 @@ def addDir(name,url,mode,thumbnail):
         liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=thumbnail)
         liz.setInfo( "video", { "Title":name})
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
-        return ok
+        return ok 
       
 def addLink(name,url,iconimage,plot,date):
         ok=True
@@ -140,7 +140,7 @@ def check_settings():
 		pwd   = vhd.getSetting('pwd')
 		if (not uname or uname == '') or (not pwd or pwd == ''):
 				d = xbmcgui.Dialog()
-				d.ok('Welcome to the veehd add-on.', 'To start using this plugin first go to veehd.com','and create a (free) account.')
+				d.ok('Welcome to the VEEHD.', 'To start using this plugin first go to veehd.com','and create a (free) account.')
 				vhd.openSettings(sys.argv[ 0 ])
 
 
