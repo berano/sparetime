@@ -13,7 +13,7 @@
     <extension point="xbmc.addon.metadata">
         <platform>all</platform>
         <summary>Fastpasstv</summary>
-        <description>This XBMC plugin enables streaming tv shows & movies videos (divxden & wisevid) from http://wwww.fastpasstv.com</description>
+        <description>This XBMC plugin enables streaming tv shows & movies videos (divxden & wisevid) from fastpasstv</description>
     </extension>
 </addon>
 
