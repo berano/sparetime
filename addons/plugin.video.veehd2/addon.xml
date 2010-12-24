@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.veehd2"
+       name="veehd"
+       version="1.00"
+       provider-name="nixa">
+  <requires>
+    <import addon="xbmc.python" version="1.0"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource"
+            library="default.py">
+        <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">Watch movies & video clips from veehd.com. You need to get your username and password from the website.</summary>
+    <description lang="en">Enjoy it!</description>
+     <platform>all</platform>
+  </extension>
+</addon>
+
