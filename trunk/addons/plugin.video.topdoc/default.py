@@ -1,8 +1,4 @@
 import urllib,urllib2,re,sys,xbmcplugin,xbmcgui,cookielib,xbmcaddon
-import BeautifulSoup
-from BeautifulSoup import BeautifulSoup
-import feedparser
-
 
 #TopDocs - nixa
 
