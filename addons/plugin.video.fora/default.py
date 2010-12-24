@@ -1,5 +1,4 @@
 import urllib,urllib2,re,sys,xbmcplugin,xbmcgui,xbmcaddon
-#FORATV-nixa
 
 def CATS():
         addDir('Economy','http://fora.tv/topic/economy',1,'','')
