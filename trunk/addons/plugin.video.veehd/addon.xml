@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="plugin.video.veehd"
        name="VeeHD"
-       version="1.0"
+       version="1.00"
        provider-name="nixa">
   <requires>
     <import addon="xbmc.python" version="1.0"/>
@@ -11,8 +11,8 @@
         <provides>video</provides>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <summary>Watch talks from TED.com, a site dedicated to 'Ideas Worth Spreading'</summary>
-    <description>TED is a small nonprofit devoted to Ideas Worth Spreading. It started out (in 1984) as a conference bringing together people from three worlds: Technology, Entertainment, Design. Since then its scope has become ever broader.</description>
+    <summary>Search and stream good movies</summary>
+    <description>Search and stream good movies from veehd.com. Get user/pass from http://veehd.com</description>
     <platform>all</platform>
   </extension>
 </addon>
