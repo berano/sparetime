@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="repository.googlecode.sparetime" name="Nixa Add-ons" version="1.0.0" provider-name="Nixa">
-	<extension point="xbmc.addon.repository" name="Nixa Add-on Repository">
+<addon id="repository.googlecode.sparetime" name="nixa addons" version="1.0" provider-name="nixa">
+	<extension point="xbmc.addon.repository" name="nixa add-on repository">
 		<info compressed="false">http://sparetime.googlecode.com/svn/trunk/add-ons/addons.xml</info>
 		<checksum></checksum>
 		<datadir zip="false">http://sparetime.googlecode.com/svn/trunk/add-ons</datadir>
 	</extension>
 	<extension point="xbmc.addon.metadata">
-		<summary>Install Add-ons from http://sparetime.googlecode.com</summary>
-		<description>Download and install add-ons from http://sparetime.googlecode.com addon repository.</description>
+		<summary>Install Addons from http://sparetime.googlecode.com</summary>
+		<description>Download and install addons from nixa repository.</description>
 		<platform>all</platform>
 	</extension>
 </addon>
+
 
