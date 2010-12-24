@@ -140,7 +140,7 @@ def check_settings():
 		pwd   = vhd.getSetting('pwd')
 		if (not uname or uname == '') or (not pwd or pwd == ''):
 				d = xbmcgui.Dialog()
-				d.ok('Welcome to the TVCatchup plugin.', 'To start using this plugin first go to www.TVCatchup.com','and create a (free) account.')
+				d.ok('Welcome to the veehd add-on.', 'To start using this plugin first go to veehd.com','and create a (free) account.')
 				vhd.openSettings(sys.argv[ 0 ])
 
 
