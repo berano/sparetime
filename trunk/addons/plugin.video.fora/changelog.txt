@@ -1,5 +1,2 @@
 v1.00:
   - initial release
-
-v1.01:
-  - initial release
