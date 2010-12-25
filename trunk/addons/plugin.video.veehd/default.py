@@ -68,7 +68,7 @@ def VIDEO(url):
         response = urllib2.urlopen(req)
         link=response.read()
       	match=re.compile('href="(.+?)"><b><u>Download video</u>').findall(link)[0]
-	addLink(name,match,'http://www.indianablood.org/donating/PublishingImages/Silver-Play-Button.jpg','','')
+	addLink(name,match,'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png','','')
 
 def SEARCH():
         keyb = xbmc.Keyboard('', 'Search VEEHD')
