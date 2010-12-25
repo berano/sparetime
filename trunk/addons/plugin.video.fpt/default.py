@@ -175,7 +175,7 @@ def VIDSFLV(url,name):
 	hashlong = cleanup[-46:].replace(' ','')	
 	hashshort =  re.compile('divxden(.+?)file').findall(link)[0]
     	finalurl = 'http://'+hashshort.replace('the','').replace('you','').replace(' ','').replace('|','')+'.divxden.com:182/d/'+hashlong+'/'+ fcodenm
-	addLink('Play',finalurl,'http://www.indianablood.org/donating/PublishingImages/Silver-Play-Button.jpg','','')
+	addLink('Play',finalurl,'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png','','')
 
 def VIDSDIVX(url,name):
 	urlogin = 'http://www.fastpasstv.com/register'
@@ -217,7 +217,7 @@ def VIDSDIVX(url,name):
 	rawhashshort = re.compile('divxden(.+?)np_vid').findall(link)[0]
 	hashshort =  re.compile('divxden(.+?)src').findall(link)[0]
    	finalurl = 'http://'+hashshort.replace('the','').replace('you','').replace(' ','').replace('|','')+'.divxden.com:182/d/'+hashlong+'/'+ fcodenm
-	addLink('Play',finalurl,'http://www.indianablood.org/donating/PublishingImages/Silver-Play-Button.jpg','','')
+	addLink('Play',finalurl,'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png','','')
 
 
 def SEARCH():
