@@ -2,7 +2,7 @@ import urllib,urllib2,re,sys,xbmcplugin,xbmcgui,cookielib,os,string,urlparse,xbm
 
 def CATS():
         addDir('Genres','pass',1,'')
-        addDir('Recently added','http://www.theonlydevice.com/',2,'')
+        #addDir('Recently added','http://www.theonlydevice.com/',2,'')
         addDir('Featured movies','http://www.theonlydevice.com/category/featured/page/1',2,'')
 	addDir('Search','http://www.theonlydevice.com/',5,'')
 
