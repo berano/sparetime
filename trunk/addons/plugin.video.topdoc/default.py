@@ -127,6 +127,7 @@ def VIDS(url,name):
         response = urllib2.urlopen(req)
 	link=response.read()
 	altcode=re.compile('href="http://www.youtube.com/view_play_list(.+?)"').findall(link)
+	coderaw=re.compile('value="http://www.youtube.com/p/(.+?)"').findall(link)
 	for code in altcode:
 		req = urllib2.Request("http://gdata.youtube.com/feeds/api/playlists/"+code.replace('?p=','')+"?&v=2&max-results=50")
         	req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
@@ -153,35 +154,35 @@ def VIDS(url,name):
 				addLink('Play '+name.replace(' ','')+' -'+' Part '+ str(i),'http://'+finalurl.replace('%2F','/').replace('%3F','?').replace('%3D','=').replace('%25','%').replace('%2F','/').replace('%26','&'),'','','')
 			except: pass
 
-	try:
-		coderaw=re.compile('value="http://www.youtube.com/p/(.+?)"').findall(link)[0]
-		codeplist = coderaw[:16]
-		match="http://gdata.youtube.com/feeds/api/playlists/"+codeplist+"?&v=2&max-results=50"
-		req = urllib2.Request(match)
-        	req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        	response = urllib2.urlopen(req)
-		link=response.read()
-		urlsingle = re.compile("part</media:keywords><media:player url='(.+?)'/><media:thumbnail").findall(link)
-		urlsingle2 = re.compile("</title><link rel='alternate' type='text/html' href='(.+?)'").findall(link)
-		for url in urlsingle:
-			try:
-				req = urllib2.Request(url)
-				response = urllib2.urlopen(req)
-				link = response.read()
-				finalurl=re.compile('fmt_url_map=.+?%7Chttp%3A%2F%2F(.+?)%2C.+?%7Chttp').findall(link)[0]
-				i=i+1
-				addLink('Play '+name.replace(' ','')+' -'+' Part '+ str(i),'http://'+finalurl.replace('%2F','/').replace('%3F','?').replace('%3D','=').replace('%25','%').replace('%2F','/').replace('%26','&'),'','','')
-			except: pass
-		for url in urlsingle2:
-			try:
-				req = urllib2.Request(url)
-				response = urllib2.urlopen(req)
-				link = response.read()
-				finalurl=re.compile('fmt_url_map=.+?%7Chttp%3A%2F%2F(.+?)%2C.+?%7Chttp').findall(link)[0]
-				i=i+1
-				addLink('Play '+name.replace(' ','')+' -'+' Part '+ str(i),'http://'+finalurl.replace('%2F','/').replace('%3F','?').replace('%3D','=').replace('%25','%').replace('%2F','/').replace('%26','&'),'','','')
-			except: pass
-	except: pass
+	for code in coderaw:
+		try:
+			codeplist = code[:16]
+			match="http://gdata.youtube.com/feeds/api/playlists/"+codeplist+"?&v=2&max-results=50"
+			req = urllib2.Request(match)
+        		req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        		response = urllib2.urlopen(req)
+			link=response.read()
+			urlsingle = re.compile("part</media:keywords><media:player url='(.+?)'/><media:thumbnail").findall(link)
+			urlsingle2 = re.compile("</title><link rel='alternate' type='text/html' href='(.+?)'").findall(link)
+			for url in urlsingle:
+				try:
+					req = urllib2.Request(url)
+					response = urllib2.urlopen(req)
+					link = response.read()
+					finalurl=re.compile('fmt_url_map=.+?%7Chttp%3A%2F%2F(.+?)%2C.+?%7Chttp').findall(link)[0]
+					i=i+1
+					addLink('Play '+name.replace(' ','')+' -'+' Part '+ str(i),'http://'+finalurl.replace('%2F','/').replace('%3F','?').replace('%3D','=').replace('%25','%').replace('%2F','/').replace('%26','&'),'','','')
+				except: pass
+			for url in urlsingle2:
+				try:
+					req = urllib2.Request(url)
+					response = urllib2.urlopen(req)
+					link = response.read()
+					finalurl=re.compile('fmt_url_map=.+?%7Chttp%3A%2F%2F(.+?)%2C.+?%7Chttp').findall(link)[0]
+					i=i+1
+					addLink('Play '+name.replace(' ','')+' -'+' Part '+ str(i),'http://'+finalurl.replace('%2F','/').replace('%3F','?').replace('%3D','=').replace('%25','%').replace('%2F','/').replace('%26','&'),'','','')
+				except: pass
+		except: pass
 
 	try:
 		coderaw2=re.compile('value="http://www.youtube.com/v/(.+?)"').findall(link)[0]
