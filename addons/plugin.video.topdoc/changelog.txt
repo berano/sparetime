@@ -3,3 +3,7 @@ v1.0:
 
 v1.1:
   - supported Series (Youtube)
+
+v1.2:
+  - supported Vimeo
+

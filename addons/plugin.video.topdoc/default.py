@@ -192,7 +192,6 @@ def VIDS(url,name):
 		link = response.read()
 		finalurl=re.compile('fmt_url_map=.+?%7Chttp%3A%2F%2F(.+?)%2C.+?%7Chttp').findall(link)[0]
 		addLink('Play '+name,'http://'+finalurl.replace('%2F','/').replace('%3F','?').replace('%3D','=').replace('%25','%').replace('%2F','/').replace('%26','&'),'','','')
-
 	except: pass
 
 	try:
@@ -221,26 +220,26 @@ def VIDS(url,name):
 	try:
 		blp=re.compile('value="file=(.+?)flv').findall(link)[0]
 		addLink('Play '+name,'http://server1.sureynot.com/xmoov.php?file='+blp+'flv','','','')
-
 	except: pass
 
 	try:
 		vid=re.compile('"http://videos.engagemedia.org/(.+?)"').findall(link)[0]
 		addLink('Play '+name+ '(Full)','http://videos.engagemedia.org/'+vid,'','','')
-
 	except: pass
 
 	try:
-		vid=re.compile('clip_id=(.+?)&amp;server=vimeo').findall(link)[0]
-		code='http://www.flashvideodownloader.org/download2.php?u=http://vimeo.com/'+vid
-		print code
-		req = urllib2.Request(code)
-        	req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        	req.add_header('Referer', 'http://www.flashvideodownloader.org/')
-        	page = urllib2.urlopen(req);new=page.read();page.close()
-		dw=re.compile('http://av.vimeo.com/(.+?)\n').findall(new)[0]
-		addLink('Play '+name+ '(Full)','http://av.vimeo.com/'+dw,'','','')
-
+		swap=re.compile('clip_id=(.+?)&amp;server=vimeo').findall(link)
+		if not swap: swap=re.compile('"http://player.vimeo.com/video/(.+?)?title').findall(link)
+		for code in swap:
+			try:
+				url='http://www.flashvideodownloader.org/download2.php?u=http://vimeo.com/'+code.replace('?','')
+				req = urllib2.Request(url)
+        			req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        			req.add_header('Referer', 'http://www.flashvideodownloader.org/')
+        			page = urllib2.urlopen(req);new=page.read();page.close()
+				dw=re.compile('http://av.vimeo.com/(.+?)\n').findall(new)[0]
+				addLink('Play '+name+ '(Full)','http://av.vimeo.com/'+dw,'','','')
+			except: pass
 	except: pass
 
 	try:
