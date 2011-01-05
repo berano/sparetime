@@ -128,6 +128,49 @@ def VIDS(url,name):
 	link=response.read()
 	altcode=re.compile('href="http://www.youtube.com/view_play_list(.+?)"').findall(link)
 	coderaw=re.compile('value="http://www.youtube.com/p/(.+?)"').findall(link)
+	stagevu=re.compile('href="http://stagevu.com/(.+?)">StageVu</a>').findall(link)
+	for code in stagevu:
+		try:
+			req = urllib2.Request('http://stagevu.com/'+code)
+        		req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        		response = urllib2.urlopen(req)
+        		link=response.read()
+      			vid=re.compile('<param name="src" value="(.+?)"').findall(link)[0]
+			i=i+1
+			addLink('Play from Stagevu'+' -'+' Part '+ str(i),vid,'','','')
+		except:pass
+
+	veehd=re.compile('href="http://veehd.com/video/(.+?)">VeeHD</a>').findall(link)
+	for code in veehd:
+		try:
+			vhd = xbmcaddon.Addon(id='plugin.video.topdoc')
+			uname = vhd.getSetting('uname')
+			pwd   = vhd.getSetting('pwd')
+			if (not uname or uname == '') or (not pwd or pwd == ''):
+				d = xbmcgui.Dialog()
+				d.ok('Welcome to VeeHD.com', 'Please enter your username and password','registered at the website')
+				vhd.openSettings(sys.argv[ 0 ])
+
+			urlogin = 'http://veehd.com/login'
+			cookiejar = cookielib.LWPCookieJar()
+			cookiejar = urllib2.HTTPCookieProcessor(cookiejar) 
+			opener = urllib2.build_opener(cookiejar)
+			urllib2.install_opener(opener)
+ 			values = {'ref': 'http://veehd.com/','uname': uname, 'pword': pwd, 'submit':'Login', 'terms':'on'}
+			user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
+			headers = { 'User-Agent' : user_agent }
+			data = urllib.urlencode(values)
+			req = urllib2.Request(urlogin, data, headers)
+			response = urllib2.urlopen(req)
+
+			req = urllib2.Request('http://veehd.com/video/'+code)
+        		req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        		response = urllib2.urlopen(req)
+        		link=response.read()
+      			match=re.compile('href="(.+?)"><b><u>Download video</u>').findall(link)[0]
+			addLink('Play from VeeHD',match,'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png','','')
+		except: pass
+
 	for code in altcode:
 		req = urllib2.Request("http://gdata.youtube.com/feeds/api/playlists/"+code.replace('?p=','')+"?&v=2&max-results=50")
         	req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
@@ -246,7 +289,12 @@ def VIDS(url,name):
 		vid=re.compile('value="http://www.dailymotion.com/swf/video/(.+?)?additionalInfos=0"').findall(link)
 		for url in vid:
 			i=i+1
-			addDir(name +' -'+' Part '+ str(i),'http://www.dailymotion.com/video/'+url.replace('?','')+'#from=embed',7,'','')
+			req = urllib2.Request(url)
+			response = urllib2.urlopen(req)
+			link = response.read()
+			finalurl=re.compile('"video", "http://www.dailymotion.com/cdn/(.+?)"').findall(link)
+			for url in finalurl:
+				addLink('Play '+name,'http://www.dailymotion.com/cdn/'+url,'','','')
 	except: pass
 
 	try:
@@ -265,12 +313,42 @@ def VIDS(url,name):
 			except: pass
 	except: pass
 
-def PLAYDM(url):
-		req = urllib2.Request(url)
-		response = urllib2.urlopen(req)
-		link = response.read()
-		finalurl=re.compile('"video", "http://www.dailymotion.com/cdn/(.+?)"').findall(link)[0]
-		addLink('Play '+name,'http://www.dailymotion.com/cdn/'+finalurl,'','','')
+def VEEHD(url):
+	vhd = xbmcaddon.Addon(id='plugin.video.topdoc')
+
+	uname = vhd.getSetting('uname')
+	pwd   = vhd.getSetting('pwd')
+	if (not uname or uname == '') or (not pwd or pwd == ''):
+		d = xbmcgui.Dialog()
+		d.ok('Welcome to veehd.com', 'Please enter your username and password','registered at VeeHD.com')
+		vhd.openSettings(sys.argv[ 0 ])
+
+	urlogin = 'http://veehd.com/login'
+	cookiejar = cookielib.LWPCookieJar()
+	cookiejar = urllib2.HTTPCookieProcessor(cookiejar) 
+	opener = urllib2.build_opener(cookiejar)
+	urllib2.install_opener(opener)
+ 	values = {'ref': 'http://veehd.com/','uname': uname, 'pword': pwd, 'submit':'Login', 'terms':'on'}
+	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
+	headers = { 'User-Agent' : user_agent }
+	data = urllib.urlencode(values)
+	req = urllib2.Request(urlogin, data, headers)
+	response = urllib2.urlopen(req)
+
+	req = urllib2.Request(url)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        response = urllib2.urlopen(req)
+        link=response.read()
+      	match=re.compile('href="(.+?)"><b><u>Download video</u>').findall(link)[0]
+	addLink('Play',match,'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png','','')
+
+def STGVU(url):
+	req = urllib2.Request(url)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        response = urllib2.urlopen(req)
+        link=response.read()
+      	m=re.compile("'http://n64.stagevu.com/v/(.+?).avi';").findall(link)[0]
+	addLink('Play','http://n42.stagevu.com/v/'+m+'.avi','','','')
 
 def SEARCH():
         keyb = xbmc.Keyboard('', 'Search TopDocumentaryFilms')
@@ -359,12 +437,15 @@ elif mode==3:
 elif mode==4:
         print "PAGE"
         INDEX3(url)
+elif mode==5:
+        print "PAGE"
+        STGVU(url)
 elif mode==10:
         print "PAGE"
         INDEX4(url)
 elif mode==7:
         print "PAGE"
-        PLAYDM(url)
+        VEEHD(url)
 elif mode==8:
         print "LIST"
         LIST(url)
