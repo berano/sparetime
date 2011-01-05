@@ -1,9 +1,11 @@
-v1.0:
-  - initial release
-
-v1.1:
-  - supported Series (Youtube)
+v1.3:
+  - supported VeeHD & dailymotion videos
 
 v1.2:
   - supported Vimeo
 
+v1.1:
+  - supported Series (Youtube)
+
+v1.0:
+  - initial release
