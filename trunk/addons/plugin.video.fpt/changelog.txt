@@ -1,2 +1,5 @@
+v1.1:
+  - cleanup codes, remove unnecessary depth
+
 v1.0:
   - initial release

@@ -1,9 +1,28 @@
 import urllib,urllib2,re,sys,xbmcplugin,xbmcgui
-import cookielib,os,string,cookielib
+import cookielib,os,string,cookielib,StringIO
 import os,time,base64
 import xbmcaddon
 
 fpt=xbmcaddon.Addon(id='plugin.video.fpt')
+
+def xbmcpath(path,filename):
+     translatedpath = os.path.join(xbmc.translatePath( path ), ''+filename+'')
+     return translatedpath
+
+def openfile(filename):
+     fh = open(filename, 'r')
+     contents=fh.read()
+     fh.close()
+     return contents
+
+def save(filename,contents):  
+     fh = open(filename, 'w')
+     fh.write(contents)  
+     fh.close()
+
+fptpath = 'special://profile/addon_data/plugin.video.fpt'
+translatedfptpath = xbmcpath(fptpath,'')
+referer = xbmcpath(fptpath,'ref.txt')
 
 def CATS():
         addDir('Tv Shows','http://www.fastpasstv.com/tv',2,'')
@@ -75,45 +94,15 @@ def Y2(url,name):
 		addDir(name,'http://www.fastpasstv.com/movies/'+url2,6,'')
 
 def Y3MOV(url,name):
-
-        		req = urllib2.Request(url)
-        		req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        		response2 = urllib2.urlopen(req)
-        		ref=response2.geturl()
-        		link=response2.read()
-       			fv=re.compile('<b>.+?Flash.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-       			fv2=re.compile('<b>.+?FLV.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-      			dv=re.compile('<b>.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">Watch This Video!').findall(link)
-      			dv1=re.compile('<b>.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">1</a>&nbsp;<a href=".+?"').findall(link)
-      			dv2=re.compile('<b>.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href=".+?" target="_blank">1</a>&nbsp;<a href="(.+?)"').findall(link)
-      			ml=re.compile('<b>miloyski.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-      			vz=re.compile('<b>Voez</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-      			gb=re.compile('<b>.+?hosting.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-      			meta=re.compile('<b>metadivx.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-      			gbu=re.compile('<b>gigabyteupload.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-      			loom=re.compile('<b>loombo.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-      			dvxlnk=re.compile('<b>divxlink.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-      			wise=re.compile('<b>WiseVid</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-			for url in fv:
-				addDir('Play (flv) from DivxDen '+'--'+ref,'http://www.fastpasstv.com'+url,7,'','')
-			for url in fv2:
-				addDir('Play (flv) from DivxDen '+'--'+ref,'http://www.fastpasstv.com'+url,7,'','')
-			for url in dv1:
-				addDir('Play (avi) from DivxDen (Pt 1) '+'--'+ref,'http://www.fastpasstv.com'+url,8,'','')
-			for url in dv2:
-				addDir('Play (avi) from DivxDen (Pt 2) '+'--'+ref,'http://www.fastpasstv.com'+url,8,'','')
-			for url in dv:
-				addDir('Play (avi) from DivxDen '+'--'+ref,'http://www.fastpasstv.com'+url,8,'','')
-			for url in wise:
-				addDir('Play from wisevid '+ref,'http://www.fastpasstv.com'+url,19,'')
-
-def Y3TV(url,name):
+	i=0
         req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
         response2 = urllib2.urlopen(req)
         ref=response2.geturl()
+	save(referer,ref)
         link=response2.read()
        	fv=re.compile('<b>.+?Flash.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+       	fv2=re.compile('<b>.+?FLV.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
       	dv=re.compile('<b>.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">Watch This Video!').findall(link)
       	dv1=re.compile('<b>.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">1</a>&nbsp;<a href=".+?"').findall(link)
       	dv2=re.compile('<b>.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href=".+?" target="_blank">1</a>&nbsp;<a href="(.+?)"').findall(link)
@@ -126,15 +115,63 @@ def Y3TV(url,name):
       	dvxlnk=re.compile('<b>divxlink.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
       	wise=re.compile('<b>WiseVid</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
 	for url in fv:
-		addDir('Play (flv) from DivxDen '+'--'+ref,'http://www.fastpasstv.com'+url,7,'')
+		i=i+1
+		addDir('DivxDen (flv) #'+str(i),'http://www.fastpasstv.com'+url,7,'','')
+	for url in fv2:
+		i=i+1
+		addDir('DivxDen (flv) #'+str(i),'http://www.fastpasstv.com'+url,7,'','')
 	for url in dv1:
-		addDir('Play (avi) from DivxDen (Pt 1) '+'--'+ref,'http://www.fastpasstv.com'+url,8,'')
+		i=i+1
+		addDir('DivxDen (avi) Pt 1 #'+str(i),'http://www.fastpasstv.com'+url,8,'','')
 	for url in dv2:
-		addDir('Play (avi) from DivxDen (Pt 2) '+'--'+ref,'http://www.fastpasstv.com'+url,8,'')
+		i=i+1
+		addDir('DivxDen (avi) Pt 2 #'+str(i),'http://www.fastpasstv.com'+url,8,'','')
 	for url in dv:
-		addDir('Play (avi) from DivxDen '+'--'+ref,'http://www.fastpasstv.com'+url,8,'')
+		i=i+1
+		addDir('DivxDen (avi) #'+str(i),'http://www.fastpasstv.com'+url,8,'','')
 	for url in wise:
-		addDir('Play from wise '+ref,'http://www.fastpasstv.com'+url,19,'')
+		i=i+1
+		addDir('Wisevid #'+str(i),'http://www.fastpasstv.com'+url,19,'')
+
+def Y3TV(url,name):
+	i=0
+        req = urllib2.Request(url)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        response2 = urllib2.urlopen(req)
+        ref=response2.geturl()
+	save(referer,ref)
+        link=response2.read()
+       	fv=re.compile('<b>.+?Flash.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+       	fv2=re.compile('<b>.+?FLV.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+      	dv=re.compile('<b>.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">Watch This Video!').findall(link)
+      	dv1=re.compile('<b>.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">1</a>&nbsp;<a href=".+?"').findall(link)
+      	dv2=re.compile('<b>.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href=".+?" target="_blank">1</a>&nbsp;<a href="(.+?)"').findall(link)
+      	ml=re.compile('<b>miloyski.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+      	vz=re.compile('<b>Voez</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+      	gb=re.compile('<b>.+?hosting.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+      	meta=re.compile('<b>metadivx.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+      	gbu=re.compile('<b>gigabyteupload.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+      	loom=re.compile('<b>loombo.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+      	dvxlnk=re.compile('<b>divxlink.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+      	wise=re.compile('<b>WiseVid</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+	for url in fv:
+		i=i+1
+		addDir('DivxDen (flv) #'+str(i),'http://www.fastpasstv.com'+url,7,'')
+	for url in fv2:
+		i=i+1
+		addDir('DivxDen (flv) #'+str(i),'http://www.fastpasstv.com'+url,7,'','')
+	for url in dv1:
+		i=i+1
+		addDir('DivxDen (avi) Pt 1 #'+str(i),'http://www.fastpasstv.com'+url,8,'')
+	for url in dv2:
+		i=i+1
+		addDir('DivxDen (avi) Pt 2 #'+str(i),'http://www.fastpasstv.com'+url,8,'')
+	for url in dv:
+		i=i+1
+		addDir('DivxDen (avi) #'+str(i),'http://www.fastpasstv.com'+url,8,'')
+	for url in wise:
+		i=i+1
+		addDir('Wisevid #'+str(i),'http://www.fastpasstv.com'+url,19,'')
 
 def VIDSFLV(url,name):
 	urlogin = 'http://www.fastpasstv.com/register'
@@ -153,7 +190,6 @@ def VIDSFLV(url,name):
         req.add_header('User-Agent', user_agent)
         response = urllib2.urlopen(req)
         gurl=response.geturl()
-	refer=name.replace('Watch This Video @','')
 
     	req = urllib2.Request(gurl)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
@@ -161,6 +197,7 @@ def VIDSFLV(url,name):
 	link2=response.read()
 	fcodenm=re.compile('name="fname" type="hidden" value="(.+?)"').findall(link2)[0]
 	fcodeid=re.compile('name="id" type="hidden" value="(.+?)"').findall(link2)[0]
+	refer=openfile(referer)
 
 	values = {'op': 'download1','usr_login': ' ','id': fcodeid, 'fname': fcodenm,'referer' : refer, 'method_free':'Continue to Video'}
 	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
@@ -169,12 +206,15 @@ def VIDSFLV(url,name):
 	req = urllib2.Request(gurl, data, headers)
 	response = urllib2.urlopen(req)
 	link = response.read()
+	item = xbmcgui.ListItem(name)
+
 
 	file=re.compile("s(.+?)182|file").findall(link)[0]
 	cleanup=file.replace('|',' ').replace('||',' ')
 	hashlong = cleanup[-46:].replace(' ','')	
 	hashshort =  re.compile('divxden(.+?)file').findall(link)[0]
     	finalurl = 'http://'+hashshort.replace('the','').replace('you','').replace(' ','').replace('|','')+'.divxden.com:182/d/'+hashlong+'/'+ fcodenm
+        ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
 	addLink('Play',finalurl,'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png','','')
 
 def VIDSDIVX(url,name):
@@ -194,7 +234,6 @@ def VIDSDIVX(url,name):
         req.add_header('User-Agent', user_agent)
         response = urllib2.urlopen(req)
         gurl=response.geturl()
-	refer=name.replace('Watch This Video @','')
 
       	req = urllib2.Request(gurl)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
@@ -202,6 +241,7 @@ def VIDSDIVX(url,name):
 	link2=response.read()
 	fcodenm=re.compile('name="fname" type="hidden" value="(.+?)"').findall(link2)[0]
 	fcodeid=re.compile('name="id" type="hidden" value="(.+?)"').findall(link2)[0]
+	refer=openfile(referer)
 
 	values = {'op': 'download1','usr_login': ' ','id': fcodeid, 'fname': fcodenm,'referer' : refer, 'method_free':'Continue to Video'}
 	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
@@ -210,6 +250,8 @@ def VIDSDIVX(url,name):
 	req = urllib2.Request(gurl, data, headers)
 	response = urllib2.urlopen(req)
 	link = response.read()
+	item = xbmcgui.ListItem(name)
+
 
 	file=re.compile("custommode(.+?)182").findall(link)[0]
 	cleanup=file.replace('|',' ').replace('||',' ')
@@ -217,6 +259,7 @@ def VIDSDIVX(url,name):
 	rawhashshort = re.compile('divxden(.+?)np_vid').findall(link)[0]
 	hashshort =  re.compile('divxden(.+?)src').findall(link)[0]
    	finalurl = 'http://'+hashshort.replace('the','').replace('you','').replace(' ','').replace('|','')+'.divxden.com:182/d/'+hashlong+'/'+ fcodenm
+        ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
 	addLink('Play',finalurl,'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png','','')
 
 
@@ -281,9 +324,10 @@ def WISE(url,name):
 			response = urllib2.urlopen(req)
 			link = response.read()
 			match=re.compile("getF(\(.+?)'").findall(link)[0]
-			print match
 			clean= match.replace("('","")
 			finalurl=base64.decodestring(clean)
+			item = xbmcgui.ListItem(name)
+        		ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
 			addLink('Play',finalurl,'','','')
 	except: pass
 
@@ -301,6 +345,8 @@ def WISE(url,name):
 			match=re.compile("getF(\(.+?)'").findall(link)[0]
 			clean= match.replace("('","")
 			finalurl=base64.decodestring(clean)
+			item = xbmcgui.ListItem(name)
+        		ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
 			addLink('Play',finalurl,'','','')
 	except: pass
 
