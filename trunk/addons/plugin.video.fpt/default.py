@@ -5,6 +5,7 @@ import xbmcaddon
 
 fpt=xbmcaddon.Addon(id='plugin.video.fpt')
 
+
 def xbmcpath(path,filename):
      translatedpath = os.path.join(xbmc.translatePath( path ), ''+filename+'')
      return translatedpath
@@ -102,17 +103,10 @@ def Y3MOV(url,name):
 	save(referer,ref)
         link=response2.read()
        	fv=re.compile('<b>.+?Flash.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-       	fv2=re.compile('<b>.+?FLV.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-      	dv=re.compile('<b>.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">Watch This Video!').findall(link)
-      	dv1=re.compile('<b>.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">1</a>&nbsp;<a href=".+?"').findall(link)
-      	dv2=re.compile('<b>.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href=".+?" target="_blank">1</a>&nbsp;<a href="(.+?)"').findall(link)
-      	ml=re.compile('<b>miloyski.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-      	vz=re.compile('<b>Voez</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-      	gb=re.compile('<b>.+?hosting.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-      	meta=re.compile('<b>metadivx.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-      	gbu=re.compile('<b>gigabyteupload.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-      	loom=re.compile('<b>loombo.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-      	dvxlnk=re.compile('<b>divxlink.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+       	fv2=re.compile('<b>VidX.+?FLV.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+      	dv=re.compile('<b>VidX.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">Watch This Video!').findall(link)
+      	dv1=re.compile('<b>VidX.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">1</a>&nbsp;<a href=".+?"').findall(link)
+      	dv2=re.compile('<b>VidX.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href=".+?" target="_blank">1</a>&nbsp;<a href="(.+?)"').findall(link)
       	wise=re.compile('<b>WiseVid</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
 	for url in fv:
 		i=i+1
@@ -142,18 +136,11 @@ def Y3TV(url,name):
 	save(referer,ref)
         link=response2.read()
        	fv=re.compile('<b>.+?Flash.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-       	fv2=re.compile('<b>.+?FLV.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-      	dv=re.compile('<b>.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">Watch This Video!').findall(link)
-      	dv1=re.compile('<b>.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">1</a>&nbsp;<a href=".+?"').findall(link)
-      	dv2=re.compile('<b>.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href=".+?" target="_blank">1</a>&nbsp;<a href="(.+?)"').findall(link)
-      	ml=re.compile('<b>miloyski.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-      	vz=re.compile('<b>Voez</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-      	gb=re.compile('<b>.+?hosting.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-      	meta=re.compile('<b>metadivx.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-      	gbu=re.compile('<b>gigabyteupload.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-      	loom=re.compile('<b>loombo.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-      	dvxlnk=re.compile('<b>divxlink.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-      	wise=re.compile('<b>WiseVid</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+       	fv2=re.compile('<b>VidX.+?FLV.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+      	dv=re.compile('<b>VidX.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">Watch This Video!').findall(link)
+      	dv1=re.compile('<b>VidX.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">1</a>&nbsp;<a href=".+?"').findall(link)
+      	dv2=re.compile('<b>VidX.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href=".+?" target="_blank">1</a>&nbsp;<a href="(.+?)"').findall(link)
+       	wise=re.compile('<b>WiseVid</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
 	for url in fv:
 		i=i+1
 		addDir('DivxDen (flv) #'+str(i),'http://www.fastpasstv.com'+url,7,'')
@@ -208,14 +195,30 @@ def VIDSFLV(url,name):
 	link = response.read()
 	item = xbmcgui.ListItem(name)
 
-
 	file=re.compile("s(.+?)182|file").findall(link)[0]
 	cleanup=file.replace('|',' ').replace('||',' ')
 	hashlong = cleanup[-46:].replace(' ','')	
 	hashshort =  re.compile('divxden(.+?)file').findall(link)[0]
     	finalurl = 'http://'+hashshort.replace('the','').replace('you','').replace(' ','').replace('|','')+'.divxden.com:182/d/'+hashlong+'/'+ fcodenm
-        ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
-	addLink('Play',finalurl,'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png','','')
+       	if (fpt.getSetting('download') == '0'):
+                    dia = xbmcgui.Dialog()
+                    ret = dia.select('Streaming Options', ['Play','Download'])
+                    if (ret == 0):
+		            ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, name)
+		            addLink('Play',finalurl,'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png','','')
+                    elif (ret == 1):
+                            path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
+                            Download(finalurl,path+name+'.avi')
+                    else:
+                            return
+	elif (fpt.getSetting('download') == '1'):
+		ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, name)
+		addLink('Play',finalurl,'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png','','')
+        elif (fpt.getSetting('download') == '2'):
+                path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
+                Download(finalurl,path+name+'.avi')
+        else:
+        	return
 
 def VIDSDIVX(url,name):
 	urlogin = 'http://www.fastpasstv.com/register'
@@ -250,18 +253,32 @@ def VIDSDIVX(url,name):
 	req = urllib2.Request(gurl, data, headers)
 	response = urllib2.urlopen(req)
 	link = response.read()
-	item = xbmcgui.ListItem(name)
 
-
-	file=re.compile("custommode(.+?)182").findall(link)[0]
+	file=re.compile("pluginspage(.+?)video").findall(link)[0]
 	cleanup=file.replace('|',' ').replace('||',' ')
 	hashlong = cleanup[-46:].replace(' ','')
 	rawhashshort = re.compile('divxden(.+?)np_vid').findall(link)[0]
 	hashshort =  re.compile('divxden(.+?)src').findall(link)[0]
    	finalurl = 'http://'+hashshort.replace('the','').replace('you','').replace(' ','').replace('|','')+'.divxden.com:182/d/'+hashlong+'/'+ fcodenm
-        ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
-	addLink('Play',finalurl,'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png','','')
-
+        if (fpt.getSetting('download') == '0'):
+                    dia = xbmcgui.Dialog()
+                    ret = dia.select('Streaming Options', ['Play','Download'])
+                    if (ret == 0):
+		            ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, name)
+		            addLink('Play',finalurl,'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png','','')
+                    elif (ret == 1):
+                            path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
+                            Download(finalurl,path+name+'.avi')
+                    else:
+                            return
+	elif (fpt.getSetting('download') == '1'):
+		ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, name)
+		addLink('Play',finalurl,'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png','','')
+        elif (fpt.getSetting('download') == '2'):
+                path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
+                Download(finalurl,path+name+'.avi')
+        else:
+        	return
 
 def SEARCH():
         keyb = xbmc.Keyboard('', 'Search FASTPASSTV')
@@ -326,9 +343,25 @@ def WISE(url,name):
 			match=re.compile("getF(\(.+?)'").findall(link)[0]
 			clean= match.replace("('","")
 			finalurl=base64.decodestring(clean)
-			item = xbmcgui.ListItem(name)
-        		ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
-			addLink('Play',finalurl,'','','')
+       			if (fpt.getSetting('download') == '0'):
+                    		dia = xbmcgui.Dialog()
+                    		ret = dia.select('Streaming Options', ['Play','Download'])
+                    		if (ret == 0):
+		            		ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, name)
+		            		addLink('Play',finalurl,'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png','','')
+                    		elif (ret == 1):
+                            		path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
+                            		Download(finalurl,path+name+'.avi')
+                    		else:
+                            		return
+			elif (fpt.getSetting('download') == '1'):
+				ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, name)
+				addLink('Play',finalurl,'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png','','')
+        		elif (fpt.getSetting('download') == '2'):
+                		path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
+                		Download(finalurl,path+name+'.avi')
+        		else:
+        			return
 	except: pass
 
 	try:
@@ -345,9 +378,25 @@ def WISE(url,name):
 			match=re.compile("getF(\(.+?)'").findall(link)[0]
 			clean= match.replace("('","")
 			finalurl=base64.decodestring(clean)
-			item = xbmcgui.ListItem(name)
-        		ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
-			addLink('Play',finalurl,'','','')
+       			if (fpt.getSetting('download') == '0'):
+                    		dia = xbmcgui.Dialog()
+                    		ret = dia.select('Streaming Options', ['Play','Download'])
+                    		if (ret == 0):
+		            		ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, name)
+		            		addLink('Play',finalurl,'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png','','')
+                    		elif (ret == 1):
+                            		path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
+                            		Download(finalurl,path+name+'.avi')
+                    		else:
+                            		return
+			elif (fpt.getSetting('download') == '1'):
+				ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, name)
+				addLink('Play',finalurl,'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png','','')
+        		elif (fpt.getSetting('download') == '2'):
+                		path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
+                		Download(finalurl,path+name+'.avi')
+        		else:
+        			return
 	except: pass
 
 def get_params():
@@ -376,12 +425,69 @@ def addDir(name,url,mode,thumbnail,plot=''):
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
         return ok
 
+class StopDownloading(Exception): 
+        def __init__(self, value): 
+            self.value = value 
+        def __str__(self): 
+            return repr(self.value) 
+
+def Download(url, dest): 
+        dp = xbmcgui.DialogProgress() 
+        dp.create('Downloading', '', name) 
+        start_time = time.time() 
+        try: 
+            urllib.urlretrieve(url, dest, lambda nb, bs, fs: _pbhook(nb, bs, fs, dp, start_time)) 
+        except: 
+            #delete partially downloaded file 
+            while os.path.exists(dest): 
+                try: 
+                    print 'hello' 
+                    break 
+                except: 
+                     pass 
+            #only handle StopDownloading (from cancel), ContentTooShort (from urlretrieve), and OS (from the race condition); let other exceptions bubble 
+            if sys.exc_info()[0] in (urllib.ContentTooShortError, StopDownloading, OSError): 
+                return 'false' 
+            else: 
+                raise 
+        return 'downloaded' 
+         
+def _pbhook(numblocks, blocksize, filesize, dp, start_time): 
+        try: 
+            percent = min(numblocks * blocksize * 100 / filesize, 100) 
+            currently_downloaded = float(numblocks) * blocksize / (1024 * 1024) 
+            kbps_speed = numblocks * blocksize / (time.time() - start_time) 
+            if kbps_speed > 0: 
+                eta = (filesize - numblocks * blocksize) / kbps_speed 
+            else: 
+                eta = 0 
+            kbps_speed = kbps_speed / 1024 
+            total = float(filesize) / (1024 * 1024) 
+            # print ( 
+                # percent, 
+                # numblocks, 
+                # blocksize, 
+                # filesize, 
+                # currently_downloaded, 
+                # kbps_speed, 
+                # eta, 
+                # ) 
+            mbs = '%.02f MB of %.02f MB' % (currently_downloaded, total) 
+            e = 'Speed: %.02f Kb/s ' % kbps_speed 
+            e += 'ETA: %02d:%02d' % divmod(eta, 60) 
+            dp.update(percent, mbs, e) 
+            #print percent, mbs, e 
+        except: 
+            percent = 100 
+            dp.update(percent) 
+        if dp.iscanceled(): 
+            dp.close() 
+            raise StopDownloading('Stopped Downloading') 
+ 
 def addLink(name,url,iconimage,plot,date):
         ok=True
         liz=xbmcgui.ListItem(name, iconImage="DefaultVideo.png", thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name } )
-        liz.setInfo( type="Video", infoLabels={ "Plot": plot} )
-        liz.setInfo( type="Video", infoLabels={ "Date": date} )
 	liz.setProperty("IsPlayable","true");
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=url,listitem=liz,isFolder=False)
         return ok
