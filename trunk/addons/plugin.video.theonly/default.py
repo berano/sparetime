@@ -138,7 +138,7 @@ def divxden(url,name):
 		response = urllib2.urlopen(req)
 		link = response.read()
 
-		file=re.compile("custommode(.+?)182").findall(link)[0]
+		file=re.compile("pluginspage(.+?)video").findall(link)[0]
 		cleanup=file.replace('|',' ').replace('||',' ')
 		hashlong = cleanup[-46:].replace(' ','')
 		rawhashshort = re.compile('divxden(.+?)np_vid').findall(link)[0]

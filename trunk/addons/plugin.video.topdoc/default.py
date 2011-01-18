@@ -33,9 +33,9 @@ def LIST(url):
 			code9=re.sub('&#8212;','',code8)
     			code10=re.sub('&amp;','&',code9)
         		code11=re.sub("`",'',code10)
-                       	lexus=re.compile('href="(.+?)" rel="bookmark" title="(.+?)">.+?</a></ul><ul><a').findall(code11)
+                       	lexus=re.compile('href="http://topdocumentaryfilms.com/(.+?)" rel="bookmark" title="(.+?)"').findall(code11)
 			for url,name in lexus:
-				addDir(name,url,2,'','')
+				addDir(name,'http://topdocumentaryfilms.com/'+url,2,'','')
 	     
 def INDEX(url):
         		req=urllib2.Request(url)
