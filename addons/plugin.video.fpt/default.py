@@ -31,10 +31,20 @@ def CATS():
         addDir('Latest Added Tv Shows','http://www.fastpasstv.com/',4,'')
         addDir('Latest Added Movies','http://www.fastpasstv.com/',5,'')
 	addDir('Movies','http://www.fastpasstv.com/movies',1,'')
-	addDir('Documentaries','http://www.fastpasstv.com/documentaries',1,'')
-	addDir('Cartoons','http://www.fastpasstv.com/cartoons',1,'')
-	#addDir('ANIME','http://www.fastpasstv.com/anime',1,'')
+	#addDir('Documentaries','http://www.fastpasstv.com/documentaries',1,'')
+	addDir('Movies recently added in ICE','http://www.icefilms.info/movies/added/1',11,'')
+	addDir('Movies highy rated in ICE','http://www.icefilms.info/movies/rating/1',11,'')
+	addDir('Movies release in ICE','http://www.icefilms.info/movies/release/1',11,'')
 	addDir('Search','http://www.fastpasstv.com/',9,'')
+
+def ICE(url,name):
+        req = urllib2.Request(url)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        response = urllib2.urlopen(req)
+        link=response.read()
+        match=re.compile('<img class=star><a href=/.+?>(.+?)</a>').findall(link)
+	for name in match:
+		addDir(name,'http://www.fastpasstv.com'+url,4,'')
 
 def NEWEP(url,name):
         req = urllib2.Request(url)
@@ -43,7 +53,7 @@ def NEWEP(url,name):
         link=response.read()
      	listnew=re.compile('<li><a href="(.+?)">(.+?)<font class="newvid">New Episodes!').findall(link)
 	for url,name in listnew:
-		addDir(name+' (NEW EPISODE!)','http://www.fastpasstv.com'+url,4,'http://i42.tinypic.com/iqk4mq.jpg')
+		addDir(name+' (NEW EPISODE!)','http://www.fastpasstv.com'+url,4,'')
 
 def X1(url,name):
         req = urllib2.Request(url)
@@ -108,6 +118,8 @@ def Y3MOV(url,name):
       	dv1=re.compile('<b>VidX.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">1</a>&nbsp;<a href=".+?"').findall(link)
       	dv2=re.compile('<b>VidX.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href=".+?" target="_blank">1</a>&nbsp;<a href="(.+?)"').findall(link)
       	vidbx=re.compile('<b>VidBux.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">Watch This Video!').findall(link)
+      	vidbx1=re.compile('<b>VidBux.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">1</a>&nbsp;<a href=".+?"').findall(link)
+      	vidbx2=re.compile('<b>VidBux.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href=".+?" target="_blank">1</a>&nbsp;<a href="(.+?)"').findall(link)
       	wise=re.compile('<b>WiseVid</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
 	for url in fv:
 		i=i+1
@@ -127,6 +139,12 @@ def Y3MOV(url,name):
 	for url in vidbx:
 		i=i+1
 		addDir('VidBux (avi) #'+str(i),'http://www.fastpasstv.com'+url,10,'','')
+	for url in vidbx1:
+		i=i+1
+		addDir('VidBux (avi) Pt 1 #'+str(i),'http://www.fastpasstv.com'+url,10,'','')
+	for url in vidbx2:
+		i=i+1
+		addDir('VidBux (avi) Pt 2 #'+str(i),'http://www.fastpasstv.com'+url,10,'','')
 	for url in wise:
 		i=i+1
 		addDir('Wisevid #'+str(i),'http://www.fastpasstv.com'+url,19,'')
@@ -272,8 +290,7 @@ def VIDSDIVX(url,name):
                     dia = xbmcgui.Dialog()
                     ret = dia.select('Streaming Options', ['Play','Download'])
                     if (ret == 0):
-		            ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, name)
-		            addLink('Play',finalurl,'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png','','')
+		            return finalurl
                     elif (ret == 1):
                             path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
                             Download(finalurl,path+name+'.avi')
@@ -599,6 +616,9 @@ if mode==None or url==None or len(url)<1:
 elif mode==1:
         print "PAGE"
         X1(url,name)
+elif mode==11:
+        print "PAGE"
+        ICE(url,name)
 elif mode==2:
         print "PAGE"
         X2(url,name)
