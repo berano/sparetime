@@ -287,14 +287,30 @@ def VIDS(url,name):
 
 	try:
 		vid=re.compile('value="http://www.dailymotion.com/swf/video/(.+?)?additionalInfos=0"').findall(link)
+		vid2=re.compile('src="http://www.dailymotion.com/(.+?)"').findall(link)
 		for url in vid:
-			i=i+1
 			req = urllib2.Request(url)
 			response = urllib2.urlopen(req)
 			link = response.read()
 			finalurl=re.compile('"video", "http://www.dailymotion.com/cdn/(.+?)"').findall(link)
 			for url in finalurl:
 				addLink('Play '+name,'http://www.dailymotion.com/cdn/'+url,'','','')
+		for url in vid2:
+			req = urllib2.Request('http://www.dailymotion.com/'+url)
+			response = urllib2.urlopen(req)
+			link = response.read()
+			url2 = re.compile('"/widget/(.+?)"').findall(link)[0]
+			req = urllib2.Request('http://www.dailymotion.com/widget/'+url2)
+			response = urllib2.urlopen(req)
+			link = response.read()
+			url3 = re.compile('id="jukebox_nav_tabs"><li name="(.+?)"').findall(link)[0]
+			req = urllib2.Request('http://www.dailymotion.com/json/internal'+url3)
+			response = urllib2.urlopen(req)
+			link = response.read()
+			finalurl = re.compile('"stream_flv_mini_url":"(.+?)"').findall(link)
+			for url in finalurl:
+				i=i+1
+				addLink('Play '+name+' -'+' Part '+ str(i),url.replace('€','').replace('/',''),'','','')
 	except: pass
 
 	try:

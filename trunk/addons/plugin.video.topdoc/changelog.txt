@@ -1,5 +1,11 @@
+v1.3.2:
+  - supported Dailymotion videos (playlist)
+
+v1.3.1:
+  - fix supported VeeHD
+
 v1.3:
-  - supported VeeHD & dailymotion videos
+  - supported VeeHD & Dailymotion videos
 
 v1.2:
   - supported Vimeo
