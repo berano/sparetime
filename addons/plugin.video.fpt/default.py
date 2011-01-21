@@ -32,19 +32,7 @@ def CATS():
         addDir('Latest Added Movies','http://www.fastpasstv.com/',5,'')
 	addDir('Movies','http://www.fastpasstv.com/movies',1,'')
 	#addDir('Documentaries','http://www.fastpasstv.com/documentaries',1,'')
-	addDir('Movies recently added in ICE','http://www.icefilms.info/movies/added/1',11,'')
-	addDir('Movies highy rated in ICE','http://www.icefilms.info/movies/rating/1',11,'')
-	addDir('Movies release in ICE','http://www.icefilms.info/movies/release/1',11,'')
 	addDir('Search','http://www.fastpasstv.com/',9,'')
-
-def ICE(url,name):
-        req = urllib2.Request(url)
-        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        response = urllib2.urlopen(req)
-        link=response.read()
-        match=re.compile('<img class=star><a href=/.+?>(.+?)</a>').findall(link)
-	for name in match:
-		addDir(name,'http://www.fastpasstv.com'+url,4,'')
 
 def NEWEP(url,name):
         req = urllib2.Request(url)
