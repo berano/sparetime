@@ -144,6 +144,8 @@ def divxden(url,name):
 		rawhashshort = re.compile('divxden(.+?)np_vid').findall(link)[0]
 		hashshort =  re.compile('divxden(.+?)src').findall(link)[0]
    		finalurl = 'http://'+hashshort.replace('the','').replace('you','').replace(' ','').replace('|','')+'.divxden.com:182/d/'+hashlong+'/'+ fcodenm
+		item = xbmcgui.ListItem(name)
+        	ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
 		addLink('Play',finalurl,'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png')
 	except: pass
 
@@ -259,6 +261,8 @@ def wisevid(url,name):
 		match=re.compile("getF(\(.+?)'").findall(link)[0]
 		clean= match.replace("('","")
 		finalurl=base64.decodestring(clean)
+		item = xbmcgui.ListItem(name)
+        	ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
 		addLink('Play',finalurl,'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png')
 	except: pass
 	try:
@@ -275,6 +279,8 @@ def wisevid(url,name):
 		match=re.compile("getF(\(.+?)'").findall(link)[0]
 		clean= match.replace("('","")
 		finalurl=base64.decodestring(clean)
+		item = xbmcgui.ListItem(name)
+        	ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
 		addLink('Play',finalurl,'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png')
 	except: pass
 
