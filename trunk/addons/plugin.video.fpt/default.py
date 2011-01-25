@@ -278,7 +278,8 @@ def VIDSDIVX(url,name):
                     dia = xbmcgui.Dialog()
                     ret = dia.select('Streaming Options', ['Play','Download'])
                     if (ret == 0):
-		            return finalurl
+	            	    ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, name)
+		            addLink('Play',finalurl,'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png','','')
                     elif (ret == 1):
                             path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
                             Download(finalurl,path+name+'.avi')
