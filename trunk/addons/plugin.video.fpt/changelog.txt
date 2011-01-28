@@ -1,3 +1,6 @@
+v2.2.0:
+  - support Megavideo (free user) & Novamov
+
 v2.1.0:
   - cleanup codes
 
