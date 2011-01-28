@@ -2,6 +2,8 @@ import urllib,urllib2,re,sys,xbmcplugin,xbmcgui
 import cookielib,os,string,cookielib,xbmcaddon
 
 vhd = xbmcaddon.Addon(id='plugin.video.veehd')
+pluginhandle = int(sys.argv[1])
+
 
 def CATS():
         addDir('Channels','http',1,'')
@@ -46,7 +48,11 @@ def INDEX(url,name):
 	videos=[(thumbs[i],names[i],urls[i])for i in range (0,len(urls))]
 	nxt=re.compile('</a></li><li class="nextpage"><a rel="nofollow" href="(.+?)">&raquo;</a></li>			</ul>').findall(link)
 	for thumb,name,url in videos:
-		addDir(name,'http://veehd.com/video/'+url,3,thumb)
+	        u=sys.argv[0]+"?url="+urllib.quote_plus('http://veehd.com/video/'+url,name)+"&mode="+str(3)
+                item=xbmcgui.ListItem(name, iconImage=thumb)
+          	item.setInfo( type="Video", infoLabels={ "Title": name} )                
+		item.setProperty('IsPlayable', 'true')
+                xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
 	for url in nxt:
 		addDir('Next page','http://veehd.com'+url,2,'')
 
@@ -68,7 +74,8 @@ def VIDEO(url):
         response = urllib2.urlopen(req)
         link=response.read()
       	match=re.compile('href="(.+?)"><b><u>Download video</u>').findall(link)[0]
-	addLink(name,match,'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png','','')
+  	item = xbmcgui.ListItem(path=match)
+        xbmcplugin.setResolvedUrl(pluginhandle, True, item)
 
 def SEARCH():
         keyb = xbmc.Keyboard('', 'Search VEEHD')
@@ -125,15 +132,6 @@ def addLink(name,url,iconimage,plot,date):
 	liz.setProperty("IsPlayable","true");
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=url,listitem=liz,isFolder=False)
         return ok
-
-def resolveLink(url,name,thumb,plot):
-        li=xbmcgui.ListItem(name,
-                            path = url,
-			    thumbnailImage=thumb)
-        li.setInfo( type="Video", infoLabels={ "Title": name } )
-        li.setInfo( type="Video", infoLabels={ "Plot": plot} )
-        xbmcplugin.setResolvedUrl(int(sys.argv[1]), True, li)
-        return True
 
 def check_settings():
 		uname = vhd.getSetting('uname')
