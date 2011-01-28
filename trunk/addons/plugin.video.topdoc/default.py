@@ -1,4 +1,6 @@
 import urllib,urllib2,re,sys,xbmcplugin,xbmcgui,cookielib,xbmcaddon
+pluginhandle = int(sys.argv[1])
+
 
 def CATS():
 			addDir('Recently added','http://topdocumentaryfilms.com/all/',3,'')
@@ -179,28 +181,24 @@ def VIDS(url,name):
 		urlsingle = re.compile("part</media:keywords><media:player url='(.+?)'/><media:thumbnail").findall(link)
 		urlsingle2 = re.compile("</title><link rel='alternate' type='text/html' href='(.+?)'").findall(link)
 		for url in urlsingle:
-			try:
-				req = urllib2.Request(url)
-				response = urllib2.urlopen(req)
-				link = response.read()
-				finalurl=re.compile('fmt_url_map=.+?%7Chttp%3A%2F%2F(.+?)%2C.+?%7Chttp').findall(link)[0]
-				i=i+1
-				addLink('Play '+name.replace(' ','')+' -'+' Part '+ str(i),'http://'+finalurl.replace('%2F','/').replace('%3F','?').replace('%3D','=').replace('%25','%').replace('%2F','/').replace('%26','&'),'','','')
-			except: pass
+			i=i+1
+	        	u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(14)
+                	item=xbmcgui.ListItem('Play '+name.replace(' ','')+' -'+' Part '+ str(i))
+          		item.setInfo( type="Video", infoLabels={ "Title": name} )                
+			item.setProperty('IsPlayable', 'true')
+                	xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
 		for url in urlsingle2:
-			try:
-				req = urllib2.Request(url)
-				response = urllib2.urlopen(req)
-				link = response.read()
-				finalurl=re.compile('fmt_url_map=.+?%7Chttp%3A%2F%2F(.+?)%2C.+?%7Chttp').findall(link)[0]
-				i=i+1
-				addLink('Play '+name.replace(' ','')+' -'+' Part '+ str(i),'http://'+finalurl.replace('%2F','/').replace('%3F','?').replace('%3D','=').replace('%25','%').replace('%2F','/').replace('%26','&'),'','','')
-			except: pass
+			i=i+1
+			u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(14)
+                	item=xbmcgui.ListItem('Play '+name.replace(' ','')+' -'+' Part '+ str(i))
+          		item.setInfo( type="Video", infoLabels={ "Title": name} )                
+			item.setProperty('IsPlayable', 'true')
+                	xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
 
 	for code in coderaw:
-		try:
 			codeplist = code[:16]
 			match="http://gdata.youtube.com/feeds/api/playlists/"+codeplist+"?&v=2&max-results=50"
+			print match
 			req = urllib2.Request(match)
         		req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
         		response = urllib2.urlopen(req)
@@ -208,24 +206,20 @@ def VIDS(url,name):
 			urlsingle = re.compile("part</media:keywords><media:player url='(.+?)'/><media:thumbnail").findall(link)
 			urlsingle2 = re.compile("</title><link rel='alternate' type='text/html' href='(.+?)'").findall(link)
 			for url in urlsingle:
-				try:
-					req = urllib2.Request(url)
-					response = urllib2.urlopen(req)
-					link = response.read()
-					finalurl=re.compile('fmt_url_map=.+?%7Chttp%3A%2F%2F(.+?)%2C.+?%7Chttp').findall(link)[0]
-					i=i+1
-					addLink('Play '+name.replace(' ','')+' -'+' Part '+ str(i),'http://'+finalurl.replace('%2F','/').replace('%3F','?').replace('%3D','=').replace('%25','%').replace('%2F','/').replace('%26','&'),'','','')
-				except: pass
+				i=i+1
+	        		u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(14)
+                		item=xbmcgui.ListItem('Play '+name.replace(' ','')+' -'+' Part '+ str(i))
+          			item.setInfo( type="Video", infoLabels={ "Title": name} )                
+				item.setProperty('IsPlayable', 'true')
+                		xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
 			for url in urlsingle2:
-				try:
-					req = urllib2.Request(url)
-					response = urllib2.urlopen(req)
-					link = response.read()
-					finalurl=re.compile('fmt_url_map=.+?%7Chttp%3A%2F%2F(.+?)%2C.+?%7Chttp').findall(link)[0]
-					i=i+1
-					addLink('Play '+name.replace(' ','')+' -'+' Part '+ str(i),'http://'+finalurl.replace('%2F','/').replace('%3F','?').replace('%3D','=').replace('%25','%').replace('%2F','/').replace('%26','&'),'','','')
-				except: pass
-		except: pass
+				i=i+1
+	        		u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(14)
+                		item=xbmcgui.ListItem('Play '+name.replace(' ','')+' -'+' Part '+ str(i))
+          			item.setInfo( type="Video", infoLabels={ "Title": name} )                
+				item.setProperty('IsPlayable', 'true')
+                		xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
+
 
 	try:
 		coderaw2=re.compile('value="http://www.youtube.com/v/(.+?)"').findall(link)[0]
@@ -278,7 +272,7 @@ def VIDS(url,name):
 
 	try:
 		vid=re.compile('"http://videos.engagemedia.org/(.+?)"').findall(link)[0]
-		addLink('Play '+name+ '(Full)','http://videos.engagemedia.org/'+vid,'','','')
+		addLink('Play '+name+ ' (Full)','http://videos.engagemedia.org/'+vid,'','','')
 	except: pass
 
 	try:
@@ -292,7 +286,7 @@ def VIDS(url,name):
         			req.add_header('Referer', 'http://www.flashvideodownloader.org/')
         			page = urllib2.urlopen(req);new=page.read();page.close()
 				dw=re.compile('http://av.vimeo.com/(.+?)\n').findall(new)[0]
-				addLink('Play '+name+ '(Full)','http://av.vimeo.com/'+dw,'','','')
+				addLink('Play '+name+ ' (Full)','http://av.vimeo.com/'+dw,'','','')
 			except: pass
 	except: pass
 
@@ -339,6 +333,15 @@ def VIDS(url,name):
 				addLink('Play '+name,dw.replace('amp;',''),'','','')
 			except: pass
 	except: pass
+
+def Youtube(url,name):
+	req = urllib2.Request(url)
+	response = urllib2.urlopen(req)
+	link = response.read()
+	code=re.compile('fmt_url_map=.+?%7Chttp%3A%2F%2F(.+?)%2C.+?%7Chttp').findall(link)[0]
+	finalurl='http://'+code.replace('%2F','/').replace('%3F','?').replace('%3D','=').replace('%25','%').replace('%2F','/').replace('%26','&')
+ 	item = xbmcgui.ListItem(path=finalurl)
+        xbmcplugin.setResolvedUrl(pluginhandle, True, item)
 
 def VEEHD(url):
 	vhd = xbmcaddon.Addon(id='plugin.video.topdoc')
@@ -482,5 +485,8 @@ elif mode==9:
 elif mode==13:
         print "PAGE"
         GENRE(url)
+elif mode==14:
+        print "PAGE"
+        Youtube(url,name)
         
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
