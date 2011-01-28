@@ -1,3 +1,6 @@
+v1.4.0:
+  - reduce loading time Youtube playlist, cleanup codes
+
 v1.3.3:
   - fix regex Youtube
 
