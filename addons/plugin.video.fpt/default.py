@@ -1,6 +1,6 @@
 import urllib,urllib2,re,sys,xbmcplugin,xbmcgui
 import cookielib,os,string,cookielib,StringIO
-import os,time,base64
+import os,time,base64,logging
 import xbmcaddon
 
 fpt=xbmcaddon.Addon(id='plugin.video.fpt')
@@ -102,6 +102,7 @@ def Y3MOV(url,name):
 	save(referer,ref)
         link=response2.read()
 	nova=re.compile('<b>Novamov</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+	mega=re.compile('<b>Megavideo</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
        	fv=re.compile('<b>.+?Flash.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
        	fv2=re.compile('<b>VidX.+?FLV.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
       	dv=re.compile('<b>VidX.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">Watch This Video!').findall(link)
@@ -167,6 +168,13 @@ def Y3MOV(url,name):
           	item.setInfo( type="Video", infoLabels={ "Title": name} )                
 		item.setProperty('IsPlayable', 'true')
                 xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
+	for url in mega:
+		i=i+1
+            	u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.fastpasstv.com'+url,name)+"&mode="+str(15)
+                item=xbmcgui.ListItem('Megavideo (flv) #'+str(i))
+          	item.setInfo( type="Video", infoLabels={ "Title": name} )                
+		item.setProperty('IsPlayable', 'true')
+                xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
 
 def Y3TV(url,name):
 	i=0
@@ -176,6 +184,7 @@ def Y3TV(url,name):
         ref=response2.geturl()
 	save(referer,ref)
         link=response2.read()
+	mega=re.compile('<b>Megavideo</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
        	fv=re.compile('<b>.+?Flash.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
        	fv2=re.compile('<b>VidX.+?FLV.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
       	dv=re.compile('<b>VidX.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">Watch This Video!').findall(link)
@@ -183,6 +192,13 @@ def Y3TV(url,name):
       	dv2=re.compile('<b>VidX.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href=".+?" target="_blank">1</a>&nbsp;<a href="(.+?)"').findall(link)
       	vidbx=re.compile('<b>VidBux.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">Watch This Video!').findall(link)
        	wise=re.compile('<b>WiseVid</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+	for url in mega:
+		i=i+1
+            	u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.fastpasstv.com'+url,name)+"&mode="+str(15)
+                item=xbmcgui.ListItem('Megavideo (flv) #'+str(i))
+          	item.setInfo( type="Video", infoLabels={ "Title": name} )                
+		item.setProperty('IsPlayable', 'true')
+                xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
 	for url in dv1:
 		i=i+1
             	u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.fastpasstv.com'+url,name)+"&mode="+str(8)
@@ -412,6 +428,169 @@ def Nova(url,name):
 	finalurl=re.compile('file="(.+?)"').findall(link)[0]
      	item = xbmcgui.ListItem(path=finalurl)
         xbmcplugin.setResolvedUrl(pluginhandle, True, item)
+
+def Mega(url,name):
+	urlogin = 'http://www.fastpasstv.com/register'
+	cookiejar = cookielib.LWPCookieJar()
+	cookiejar = urllib2.HTTPCookieProcessor(cookiejar) 
+	opener = urllib2.build_opener(cookiejar)
+	urllib2.install_opener(opener)
+ 	values = {'login': uname,'password': pwd}
+	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
+	headers = { 'User-Agent' : user_agent }
+	data = urllib.urlencode(values)
+	req = urllib2.Request(urlogin, data, headers)
+	response = urllib2.urlopen(req)
+
+        req = urllib2.Request(url)
+        req.add_header('User-Agent', user_agent)
+        response = urllib2.urlopen(req)
+        gurl=response.geturl() #code is here
+	code = gurl[-8:]
+        try:
+                req = urllib2.Request("http://www.megavideo.com/xml/videolink.php?v="+code)
+                req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.8.1.14) Gecko/20080404 Firefox/2.0.0.14')
+                req.add_header('Referer', 'http://www.megavideo.com/')
+                lemon = urllib2.urlopen(req);response=lemon.read();lemon.close()
+                errort = re.compile(' errortext="(.+?)"').findall(response)
+                if len(errort) > 0: addLink(errort[0],'http://novid.com','')
+                else:
+                        s = re.compile(' s="(.+?)"').findall(response)
+                        k1 = re.compile(' k1="(.+?)"').findall(response)
+                        k2 = re.compile(' k2="(.+?)"').findall(response)
+                        un = re.compile(' un="(.+?)"').findall(response)
+                        movielink = "http://www" + s[0] + ".megavideo.com/files/" + __calculateFileHash(un[0], k1[0], k2[0]) + "/?.flv"
+			item = xbmcgui.ListItem(path=movielink)
+        		xbmcplugin.setResolvedUrl(pluginhandle, True, item)
+        except: pass
+
+def __calcDecriptionMix(hash, keyMix):
+  """Mixes the decription keys into the hash and returns the updated hash
+  @param hash: the hash to merge the keys into
+  @param keyMix: the array of keys to mix"""
+  for i in range(128):
+    hash[i] = str(int(hash[i]) ^ int(keyMix[i + 256]) & 1)
+  return "".join(hash)
+
+def __toHexDecriptionString(binaryChunks):
+  """Converts an array of binary strings into a string of the corresponding hex chunks merged
+  This method will first loop through the binary strings converting each one into it's correspondent
+  hexadecimal string and then merge the resulting array into a string
+  @param binaryChunks: an array of binary strings
+  @return: a string of the corresponding hexadecimal strings, merged"""
+  hexChunks = []
+  for binChunk in binaryChunks:
+    hexChunks.append("%x" % int(binChunk, 2))    
+  return "".join(hexChunks)
+
+def __doDecriptionChunks(binaryMergedString):
+  """Break a string of 0's and 1's in pieces of 4 chars
+  @param binaryMergedString: a string of 0's and 1's to break in 4-part pieces
+  @return: an array of 4 character parts of the original string"""
+  binaryChunks = []
+  for index in range(0, len(binaryMergedString), 4):
+    binaryChunk = binaryMergedString[index:index + 4]
+    binaryChunks.append(binaryChunk)
+  return binaryChunks
+
+def __doDecriptionSwaps(hash, keys):
+  """Swap the first 256 indices from keys on the hash with the last 128 elements from the hash
+  @param hash: the hash to do swaps on
+  @param keys: the generated keys to use as indices for the swaps
+  @return: hash after swaps"""
+  for index in range(256, 0, -1):
+    key = keys[index]
+    swapTarget = index % 128
+    oldHashKey = hash[key]
+    hash[key] = hash[swapTarget]
+    hash[swapTarget] = oldHashKey
+  return hash
+
+def __computeIndices(key1, key2):
+  """Generate an array of 384 indices with values 0-127
+  @param key1: first seed to generate indices from
+  @param key2: second seed to generate indices from
+  @return: an array of 384 indices with values between 0 and 127"""
+  indices = []
+  for i in range(384):
+    key1 = (int(key1) * 11 + 77213) % 81371
+    key2 = (int(key2) * 17 + 92717) % 192811
+    indices.append((int(key1) + int(key2)) % 128)
+  return indices
+
+def __explodeBin(str1):
+  # explode each char in str1 into it;s binary representation
+  # and collect the result into __reg1
+  __reg1 = []
+  __reg3 = 0
+  while (__reg3 < len(str1)):
+    __reg0 = str1[__reg3]
+    holder = __reg0
+    if (holder == "0"):
+      __reg1.append("0000")
+    else:
+      if (__reg0 == "1"):
+        __reg1.append("0001")
+      else:
+        if (__reg0 == "2"): 
+          __reg1.append("0010")
+        else: 
+          if (__reg0 == "3"):
+            __reg1.append("0011")
+          else: 
+            if (__reg0 == "4"):
+              __reg1.append("0100")
+            else: 
+              if (__reg0 == "5"):
+                __reg1.append("0101")
+              else: 
+                if (__reg0 == "6"):
+                  __reg1.append("0110")
+                else: 
+                  if (__reg0 == "7"):
+                    __reg1.append("0111")
+                  else: 
+                    if (__reg0 == "8"):
+                      __reg1.append("1000")
+                    else: 
+                      if (__reg0 == "9"):
+                        __reg1.append("1001")
+                      else: 
+                        if (__reg0 == "a"):
+                          __reg1.append("1010")
+                        else: 
+                          if (__reg0 == "b"):
+                            __reg1.append("1011")
+                          else: 
+                            if (__reg0 == "c"):
+                              __reg1.append("1100")
+                            else: 
+                              if (__reg0 == "d"):
+                                __reg1.append("1101")
+                              else: 
+                                if (__reg0 == "e"):
+                                  __reg1.append("1110")
+                                else: 
+                                  if (__reg0 == "f"):
+                                    __reg1.append("1111")
+
+    __reg3 = __reg3 + 1
+  return list("".join(__reg1))
+
+def __calculateFileHash(str1, key1, key2):
+  # explode hex to bin strings, collapse to a string and return char array
+  hash = __explodeBin(str1)
+  # based on the keys, generate an array of 384 (256 + 128) values
+  decriptIndices = __computeIndices(key1, key2)
+  # from 256 to 0, swap hash[decriptIndices[x]] with hash[__reg3 % 128]
+  hash = __doDecriptionSwaps(hash, decriptIndices)
+  # replace the first 128 chars in hash with the formula:
+  #  hash[x] = hash[x] * decriptIndices[x+256] & 1
+  hash = __calcDecriptionMix(hash, decriptIndices)
+  # split __reg12 in chunks of 4 chars
+  chunks = __doDecriptionChunks(hash)  
+  # convert each binary chunk to a hex string for the final hash
+  return __toHexDecriptionString(chunks)
 
 def SEARCH():
         keyb = xbmc.Keyboard('', 'Search FASTPASSTV')
@@ -706,5 +885,8 @@ elif mode==10:
 elif mode==12:
         print "PAGE"
         Nova(url,name)
+elif mode==15:
+        print "PAGE"
+        Mega(url,name)
 
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
