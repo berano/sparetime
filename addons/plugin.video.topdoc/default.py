@@ -238,6 +238,17 @@ def VIDS(url,name):
 	except: pass
 
 	try:
+		coderaw2=re.compile('"http://www.youtube.com/embed/(.+?)"').findall(link)[0]
+		codeplist2 = coderaw2.replace('?rel=0','')
+		req = urllib2.Request('http://www.youtube.com/watch?v='+codeplist2)
+		response = urllib2.urlopen(req)
+		link = response.read()
+		finalurl=re.compile('fmt_url_map=.+?%7Chttp%3A%2F%2F(.+?)%2C.+?%7Chttp').findall(link)[0]
+		addLink('Play '+name,'http://'+finalurl.replace('%2F','/').replace('%3F','?').replace('%3D','=').replace('%25','%').replace('%2F','/').replace('%26','&'),'','','')
+	except: pass
+
+
+	try:
       		gubacode=re.compile("src='http://www.guba.com/.+?bid=(.+?)' quality='.+?'").findall(link)[0]
 		flvpath="http://www.guba.com/playerConfig?isEmbeddedPlayer=true&bid="+gubacode
 		req = urllib2.Request(flvpath)
