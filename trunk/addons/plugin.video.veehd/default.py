@@ -10,8 +10,6 @@ def CATS():
         addDir('Recent','http://veehd.com/recent',2,'')
         addDir('Popular','http://veehd.com/popular',2,'')
         addDir('Search','http://veehd.com/',4,'')
-        addDir('1080p','http://veehd.com/search?res=1080p',2,'')
-        addDir('720p','http://veehd.com/search?res=720p',2,'')
 
 def CHN(url):
         addDir('Animation','http://veehd.com/search?tag=animation',2,'')
@@ -92,7 +90,11 @@ def SEARCH():
 		videos=[(thumbs[i],names[i],urls[i])for i in range (0,len(urls))]
 		nxt=re.compile('href="(.+?)&page=2">&raquo;</a></li>').findall(link)
 		for thumb,name,url in videos:
-			addDir(name,'http://veehd.com/video/'+url,3,thumb)
+	        	u=sys.argv[0]+"?url="+urllib.quote_plus('http://veehd.com/video/'+url,name)+"&mode="+str(3)
+                	item=xbmcgui.ListItem(name, iconImage=thumb)
+          		item.setInfo( type="Video", infoLabels={ "Title": name} )                
+			item.setProperty('IsPlayable', 'true')
+                	xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
 		for url in nxt:
 			addDir('Next page','http://veehd.com'+url+'&page=2',2,'')
 

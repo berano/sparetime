@@ -1,3 +1,6 @@
+v1.2:
+  - cleanup codes
+
 v1.1:
   - cleanup codes
 
