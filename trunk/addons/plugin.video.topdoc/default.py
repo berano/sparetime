@@ -129,6 +129,8 @@ def VIDS(url,name):
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
         response = urllib2.urlopen(req)
 	link=response.read()
+	gurl=response.geturl()
+	codemega=gurl[-8:]
 	altcode=re.compile('href="http://www.youtube.com/view_play_list(.+?)"').findall(link)
 	coderaw=re.compile('value="http://www.youtube.com/p/(.+?)"').findall(link)
 	stagevu=re.compile('href="http://stagevu.com/(.+?)">StageVu</a>').findall(link)
@@ -328,7 +330,7 @@ def VIDS(url,name):
 
 	try:
 		swap=re.compile('src=".+?docId=(.+?)"').findall(link)
-		if not swap: swap=re.compile('<embed style=".+?" id=".+?" type="application/x-shockwave-flash" src=".+?docId=(.+?)" allowFullScreen="true"').findall(link)
+		if not swap: swap=re.compile('type="application/x-shockwave-flash" src=".+?docId=(.+?)"').findall(link)
 		if not swap: swap=re.compile('src=".+?docid=(.+?)&#038;hl=un"').findall(link)
 		if not swap: swap=re.compile('src=".+?docid=(.+?)&#038;hl=en"').findall(link)
 		if not swap: swap=re.compile('src=.+?docid=(.+?)&#038;hl=en&#038;fs=true').findall(link)
@@ -340,14 +342,12 @@ def VIDS(url,name):
 				link2 = response.read()
         			dw=re.compile('content url="(.+?)" type="video/x-flv"').findall(link2)[0]
 				finalurl=dw.replace('amp;','')
- 				item = xbmcgui.ListItem(path=finalurl)
-        			xbmcplugin.setResolvedUrl(pluginhandle, True, item)
+ 				addLink('Play '+name+ ' (Full)',finalurl,'','','')
 			except: pass
 	except: pass
 
         try:
 		code=re.compile('flashvars.v = "(.+?)"').findall(link)[0]
-		code=re.compile('"http://www.megavideo.com/v/(.+?)"').findall(link)[0]
                 req = urllib2.Request("http://www.megavideo.com/xml/videolink.php?v="+code)
                 req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.8.1.14) Gecko/20080404 Firefox/2.0.0.14')
                 req.add_header('Referer', 'http://www.megavideo.com/')
@@ -366,13 +366,23 @@ def VIDS(url,name):
 	
 	code=re.compile('value="http://www.megavideo.com/v/(.+?)"').findall(link)
 	for url in code:
-		try:
-	        	u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.megavideo.com/v/'+url)+"&mode="+str(2)
-        		item=xbmcgui.ListItem('Play '+name)
-          		item.setInfo( type="Video", infoLabels={ "Title": name} )                
-			item.setProperty('IsPlayable', 'true')
-                	xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
-		except: pass
+		req = urllib2.Request("http://www.megavideo.com/v/"+url)
+		response = urllib2.urlopen(req)
+		gurl=response.geturl()
+		codemega=gurl[-8:]
+                req = urllib2.Request("http://www.megavideo.com/xml/videolink.php?v="+codemega)
+                req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.8.1.14) Gecko/20080404 Firefox/2.0.0.14')
+                req.add_header('Referer', 'http://www.megavideo.com/')
+                lemon = urllib2.urlopen(req);response=lemon.read();lemon.close()
+                errort = re.compile(' errortext="(.+?)"').findall(response)
+                if len(errort) > 0: addLink(errort[0],'http://novid.com','')
+                else:
+                        s = re.compile(' s="(.+?)"').findall(response)
+                        k1 = re.compile(' k1="(.+?)"').findall(response)
+                        k2 = re.compile(' k2="(.+?)"').findall(response)
+                        un = re.compile(' un="(.+?)"').findall(response)
+                        movielink = "http://www" + s[0] + ".megavideo.com/files/" + __calculateFileHash(un[0], k1[0], k2[0]) + "/?.flv"
+ 			addLink('Play '+name+ ' (Full)',movielink,'','','')
 		
 def Youtube(url,name):
 	req = urllib2.Request(url)
