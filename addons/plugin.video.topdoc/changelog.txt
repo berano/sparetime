@@ -1,3 +1,6 @@
+v1.4.2:
+  - speedup loading video urls
+
 v1.4.1:
   - added Megavideo, cleanup codes
 
