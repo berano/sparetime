@@ -1,3 +1,6 @@
+v1.4.1:
+  - added Megavideo, cleanup codes
+
 v1.4.0:
   - reduce loading time Youtube playlist, cleanup codes
 

@@ -122,6 +122,7 @@ def INDEX4(url):
                         for url,name in lexus:
 				addDir(name,url,2,'','')
 
+
 def VIDS(url,name):
 	i=0
 	req = urllib2.Request(url)
@@ -131,6 +132,7 @@ def VIDS(url,name):
 	altcode=re.compile('href="http://www.youtube.com/view_play_list(.+?)"').findall(link)
 	coderaw=re.compile('value="http://www.youtube.com/p/(.+?)"').findall(link)
 	stagevu=re.compile('href="http://stagevu.com/(.+?)">StageVu</a>').findall(link)
+        smalltitle=re.compile('target="_blank" href="(.+?)">(.+?)</a></strong>').findall(link)
 	for code in stagevu:
 		try:
 			req = urllib2.Request('http://stagevu.com/'+code)
@@ -141,6 +143,12 @@ def VIDS(url,name):
 			i=i+1
 			addLink('Play from Stagevu'+' -'+' Part '+ str(i),vid,'','','')
 		except:pass
+	for url,name in smalltitle:
+	        	u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(2)
+                	item=xbmcgui.ListItem('Play '+name)
+          		item.setInfo( type="Video", infoLabels={ "Title": name} )                
+			item.setProperty('IsPlayable', 'true')
+                	xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
 
 	veehd=re.compile('href="http://veehd.com/video/(.+?)">VeeHD</a>').findall(link)
 	for code in veehd:
@@ -324,16 +332,48 @@ def VIDS(url,name):
 		if not swap: swap=re.compile('src=".+?docid=(.+?)&#038;hl=un"').findall(link)
 		if not swap: swap=re.compile('src=".+?docid=(.+?)&#038;hl=en"').findall(link)
 		if not swap: swap=re.compile('src=.+?docid=(.+?)&#038;hl=en&#038;fs=true').findall(link)
+		if not swap: swap=re.compile("docid:'(.+?)'").findall(link)
 		for code in swap:
 			try:
 				req = urllib2.Request('http://video.google.com/videofeed?fgvns=1&fai=1&docid='+code+'&hl=undefined')
 				response = urllib2.urlopen(req)
 				link2 = response.read()
         			dw=re.compile('content url="(.+?)" type="video/x-flv"').findall(link2)[0]
-				addLink('Play '+name,dw.replace('amp;',''),'','','')
+				finalurl=dw.replace('amp;','')
+ 				item = xbmcgui.ListItem(path=finalurl)
+        			xbmcplugin.setResolvedUrl(pluginhandle, True, item)
 			except: pass
 	except: pass
 
+        try:
+		code=re.compile('flashvars.v = "(.+?)"').findall(link)[0]
+		code=re.compile('"http://www.megavideo.com/v/(.+?)"').findall(link)[0]
+                req = urllib2.Request("http://www.megavideo.com/xml/videolink.php?v="+code)
+                req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.8.1.14) Gecko/20080404 Firefox/2.0.0.14')
+                req.add_header('Referer', 'http://www.megavideo.com/')
+                lemon = urllib2.urlopen(req);response=lemon.read();lemon.close()
+                errort = re.compile(' errortext="(.+?)"').findall(response)
+                if len(errort) > 0: addLink(errort[0],'http://novid.com','')
+                else:
+                        s = re.compile(' s="(.+?)"').findall(response)
+                        k1 = re.compile(' k1="(.+?)"').findall(response)
+                        k2 = re.compile(' k2="(.+?)"').findall(response)
+                        un = re.compile(' un="(.+?)"').findall(response)
+                        movielink = "http://www" + s[0] + ".megavideo.com/files/" + __calculateFileHash(un[0], k1[0], k2[0]) + "/?.flv"
+			item = xbmcgui.ListItem(path=movielink)
+        		xbmcplugin.setResolvedUrl(pluginhandle, True, item)
+        except: pass
+	
+	code=re.compile('value="http://www.megavideo.com/v/(.+?)"').findall(link)
+	for url in code:
+		try:
+	        	u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.megavideo.com/v/'+url)+"&mode="+str(2)
+        		item=xbmcgui.ListItem('Play '+name)
+          		item.setInfo( type="Video", infoLabels={ "Title": name} )                
+			item.setProperty('IsPlayable', 'true')
+                	xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
+		except: pass
+		
 def Youtube(url,name):
 	req = urllib2.Request(url)
 	response = urllib2.urlopen(req)
@@ -379,6 +419,134 @@ def STGVU(url):
         link=response.read()
       	m=re.compile("'http://n64.stagevu.com/v/(.+?).avi';").findall(link)[0]
 	addLink('Play','http://n42.stagevu.com/v/'+m+'.avi','','','')
+
+def __calcDecriptionMix(hash, keyMix):
+  """Mixes the decription keys into the hash and returns the updated hash
+  @param hash: the hash to merge the keys into
+  @param keyMix: the array of keys to mix"""
+  for i in range(128):
+    hash[i] = str(int(hash[i]) ^ int(keyMix[i + 256]) & 1)
+  return "".join(hash)
+
+def __toHexDecriptionString(binaryChunks):
+  """Converts an array of binary strings into a string of the corresponding hex chunks merged
+  This method will first loop through the binary strings converting each one into it's correspondent
+  hexadecimal string and then merge the resulting array into a string
+  @param binaryChunks: an array of binary strings
+  @return: a string of the corresponding hexadecimal strings, merged"""
+  hexChunks = []
+  for binChunk in binaryChunks:
+    hexChunks.append("%x" % int(binChunk, 2))    
+  return "".join(hexChunks)
+
+def __doDecriptionChunks(binaryMergedString):
+  """Break a string of 0's and 1's in pieces of 4 chars
+  @param binaryMergedString: a string of 0's and 1's to break in 4-part pieces
+  @return: an array of 4 character parts of the original string"""
+  binaryChunks = []
+  for index in range(0, len(binaryMergedString), 4):
+    binaryChunk = binaryMergedString[index:index + 4]
+    binaryChunks.append(binaryChunk)
+  return binaryChunks
+
+def __doDecriptionSwaps(hash, keys):
+  """Swap the first 256 indices from keys on the hash with the last 128 elements from the hash
+  @param hash: the hash to do swaps on
+  @param keys: the generated keys to use as indices for the swaps
+  @return: hash after swaps"""
+  for index in range(256, 0, -1):
+    key = keys[index]
+    swapTarget = index % 128
+    oldHashKey = hash[key]
+    hash[key] = hash[swapTarget]
+    hash[swapTarget] = oldHashKey
+  return hash
+
+def __computeIndices(key1, key2):
+  """Generate an array of 384 indices with values 0-127
+  @param key1: first seed to generate indices from
+  @param key2: second seed to generate indices from
+  @return: an array of 384 indices with values between 0 and 127"""
+  indices = []
+  for i in range(384):
+    key1 = (int(key1) * 11 + 77213) % 81371
+    key2 = (int(key2) * 17 + 92717) % 192811
+    indices.append((int(key1) + int(key2)) % 128)
+  return indices
+
+def __explodeBin(str1):
+  # explode each char in str1 into it;s binary representation
+  # and collect the result into __reg1
+  __reg1 = []
+  __reg3 = 0
+  while (__reg3 < len(str1)):
+    __reg0 = str1[__reg3]
+    holder = __reg0
+    if (holder == "0"):
+      __reg1.append("0000")
+    else:
+      if (__reg0 == "1"):
+        __reg1.append("0001")
+      else:
+        if (__reg0 == "2"): 
+          __reg1.append("0010")
+        else: 
+          if (__reg0 == "3"):
+            __reg1.append("0011")
+          else: 
+            if (__reg0 == "4"):
+              __reg1.append("0100")
+            else: 
+              if (__reg0 == "5"):
+                __reg1.append("0101")
+              else: 
+                if (__reg0 == "6"):
+                  __reg1.append("0110")
+                else: 
+                  if (__reg0 == "7"):
+                    __reg1.append("0111")
+                  else: 
+                    if (__reg0 == "8"):
+                      __reg1.append("1000")
+                    else: 
+                      if (__reg0 == "9"):
+                        __reg1.append("1001")
+                      else: 
+                        if (__reg0 == "a"):
+                          __reg1.append("1010")
+                        else: 
+                          if (__reg0 == "b"):
+                            __reg1.append("1011")
+                          else: 
+                            if (__reg0 == "c"):
+                              __reg1.append("1100")
+                            else: 
+                              if (__reg0 == "d"):
+                                __reg1.append("1101")
+                              else: 
+                                if (__reg0 == "e"):
+                                  __reg1.append("1110")
+                                else: 
+                                  if (__reg0 == "f"):
+                                    __reg1.append("1111")
+
+    __reg3 = __reg3 + 1
+  return list("".join(__reg1))
+
+def __calculateFileHash(str1, key1, key2):
+  # explode hex to bin strings, collapse to a string and return char array
+  hash = __explodeBin(str1)
+  # based on the keys, generate an array of 384 (256 + 128) values
+  decriptIndices = __computeIndices(key1, key2)
+  # from 256 to 0, swap hash[decriptIndices[x]] with hash[__reg3 % 128]
+  hash = __doDecriptionSwaps(hash, decriptIndices)
+  # replace the first 128 chars in hash with the formula:
+  #  hash[x] = hash[x] * decriptIndices[x+256] & 1
+  hash = __calcDecriptionMix(hash, decriptIndices)
+  # split __reg12 in chunks of 4 chars
+  chunks = __doDecriptionChunks(hash)  
+  # convert each binary chunk to a hex string for the final hash
+  return __toHexDecriptionString(chunks)
 
 def SEARCH():
         keyb = xbmc.Keyboard('', 'Search TopDocumentaryFilms')
