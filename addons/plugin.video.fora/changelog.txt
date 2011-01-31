@@ -1,2 +1,5 @@
+v1.1:
+  - cleanup codes
+
 v1.0:
   - initial release
