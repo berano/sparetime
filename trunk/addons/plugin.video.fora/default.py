@@ -53,7 +53,11 @@ def FEAT1(url):
 	link=page.read()
 	match=re.compile('href="(.+?)"><img src="(.+?)" width=.+? height=.+? alt="(.+?)"').findall(link)
 	for url,thumb,name in match:
-		addDir(name,"http://fora.tv"+url,12,"http://fora.tv"+thumb,'')
+	        u=sys.argv[0]+"?url="+urllib.quote_plus("http://fora.tv"+url,name)+"&mode="+str(12)
+                item=xbmcgui.ListItem(name, iconImage="http://fora.tv"+thumb)
+          	item.setInfo( type="Video", infoLabels={ "Title": name} )                
+		item.setProperty('IsPlayable', 'true')
+                xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
 def MOSTW(url):
         req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
@@ -61,7 +65,11 @@ def MOSTW(url):
 	link=page.read()
 	match=re.compile('<dt>.+?</dt><dd><a href="(.+?)">(.+?)</a></dd>').findall(link)
 	for url,name in match:
-		addDir(name,"http://fora.tv"+url,12,'','')
+	        u=sys.argv[0]+"?url="+urllib.quote_plus("http://fora.tv"+url,name)+"&mode="+str(12)
+                item=xbmcgui.ListItem(name, iconImage="http://fora.tv")
+          	item.setInfo( type="Video", infoLabels={ "Title": name} )                
+		item.setProperty('IsPlayable', 'true')
+                xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
 def RECC(url):
         req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
@@ -69,7 +77,11 @@ def RECC(url):
 	link=page.read()
 	match=re.compile('<a class="cropped_thumb" href="(.+?)"><img src="(.+?)" width=.+? height=.+? alt="(.+?)"').findall(link)
 	for url,thumb,name in match:
-		addDir(name,"http://fora.tv"+url,12,"http://fora.tv"+thumb,'')
+	        u=sys.argv[0]+"?url="+urllib.quote_plus("http://fora.tv"+url,name)+"&mode="+str(12)
+                item=xbmcgui.ListItem(name, iconImage="http://fora.tv"+thumb)
+          	item.setInfo( type="Video", infoLabels={ "Title": name} )                
+		item.setProperty('IsPlayable', 'true')
+                xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
 def FEAT(url):
         req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
@@ -85,9 +97,19 @@ def FEAT(url):
 	for url in nxt:
 		addDir(' Next',"http://fora.tv"+code+url,10,'','')
 	for name,url,thumb in videos:
-		addDir(name,"http://fora.tv"+url,12,"http://fora.tv"+thumb.replace('(','').replace(')','').replace(';',''),'')
+	        u=sys.argv[0]+"?url="+urllib.quote_plus("http://fora.tv"+url,name)+"&mode="+str(12)
+                item=xbmcgui.ListItem(name, iconImage="http://fora.tv"+thumb.replace('(','').replace(')','').replace(';',''))
+          	item.setInfo( type="Video", infoLabels={ "Title": name} )                
+		item.setProperty('IsPlayable', 'true')
+                xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
+
 	for url,thumb,name in matchsearch:
-		addDir(name,"http://fora.tv"+url,12,"http://fora.tv"+thumb,'')
+	        u=sys.argv[0]+"?url="+urllib.quote_plus("http://fora.tv"+url,name)+"&mode="+str(12)
+                item=xbmcgui.ListItem(name, iconImage="http://fora.tv"+thumb)
+          	item.setInfo( type="Video", infoLabels={ "Title": name} )                
+		item.setProperty('IsPlayable', 'true')
+                xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
+
 def LIST(url):
         req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
@@ -95,38 +117,35 @@ def LIST(url):
 	link=page.read()
 	match=re.compile('            <a class="cropped_image" href="(.+?)"><img src="(.+?)" width=.+? height=.+? alt="(.+?)" /></a>\n            <div class="featured_content">').findall(link)
 	for url,thumb,name in match:
-		addDir(name,"http://fora.tv"+url,12,"http://fora.tv"+thumb,'')
-def PLAY(url):
-            req = urllib2.Request(url)
-            req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-            page = urllib2.urlopen(req)
-	    link=page.read()
-	    cid=re.compile('var full_program_clipid = (.+?);').findall(link)
-	    codecid = cid[0]
-            req = urllib2.Request("http://fora.tv/fora/fora_player_full?cid="+codecid+"&h=0&b=0&p=FORA_Player_5&r=Other/Unrecognized")
-            req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-            page = urllib2.urlopen(req)
-	    link2=page.read()
-	    match=re.compile('<encode_url>(.+?).flv</encode_url>').findall(link2)
-	    code=match[0]
-            item=xbmcgui.ListItem(name, iconImage='', thumbnailImage='')
-            item.setInfo( type="Video",
-                         infoLabels={ "Title": name,
-                                      #"Season": season,
-                                      #"Episode": episode,
-                                      #"Duration": duration,
-                                      #"Plot": plot,
-                                       }
-                         )
-	    finalurl = "rtmp://foratv.fcod.llnwd.net/a953/o10/"+code
-	    swfUrl = "http://fora.tv/FORA_Player_5.ver_1_51.swf"
-	    tcUrl = "rtmp://foratv.fcod.llnwd.net/a953/o10"
-            playPath = code
-            item.setProperty("SWFPlayer", swfUrl)
-            item.setProperty("PlayPath", playPath)
-	    item.setProperty("tcUrl", tcUrl)
-            #ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
-	    addLink('Play',finalurl,'','','')
+	        u=sys.argv[0]+"?url="+urllib.quote_plus("http://fora.tv"+url,name)+"&mode="+str(12)
+                item=xbmcgui.ListItem(name, iconImage="http://fora.tv"+thumb)
+          	item.setInfo( type="Video", infoLabels={ "Title": name} )                
+		item.setProperty('IsPlayable', 'true')
+                xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
+
+def PLAY(url,name):
+	req = urllib2.Request(url)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        page = urllib2.urlopen(req)
+	link=page.read()
+	cid=re.compile('var full_program_clipid = (.+?);').findall(link)
+	codecid = cid[0]
+        req = urllib2.Request("http://fora.tv/fora/fora_player_full?cid="+codecid+"&h=0&b=0&p=FORA_Player_5&r=Other/Unrecognized")
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        page = urllib2.urlopen(req)
+	link2=page.read()
+	cod=re.compile('<encode_url>(.+?)</encode_url>').findall(link2)[0]
+	if ".flv" in cod:
+		code= cod.replace('.flv','')
+	    	finalurl = "rtmp://foratv.fcod.llnwd.net/a953/o10/"+code
+            	item = xbmcgui.ListItem(path=finalurl)
+            	xbmcplugin.setResolvedUrl(pluginhandle, True, item)
+		return
+	dialog = xbmcgui.Dialog()
+	ok = dialog.ok('FORA.tv', 'Error: Video unsupported')
+	return ok
+
+pluginhandle = int (sys.argv[1])
 
 def get_params():
         param=[]
@@ -239,7 +258,7 @@ elif mode==11:
         LIST(url)
 elif mode==12:
         print "PAGE"
-        PLAY(url)
+        PLAY(url,name)
 elif mode==13:
         print "SEARCH  :"+url
         SEARCH()
