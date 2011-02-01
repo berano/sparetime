@@ -145,12 +145,26 @@ def PLAYLIST(url):
         xbmcplugin.setResolvedUrl(pluginhandle, True, item)
 
 def PLAYLISTPARENT(url):
+	if url.find('grief')>0:
+			req = urllib2.Request('http://www.sesameworkshop.org/cms_services/services?action=player&type=VIDEOLISTObject&groupId=10174&uid=5333601')
+        		req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        		page = urllib2.urlopen(req)
+			link2=page.read()
+        		stacked_url = 'stack://'
+			code2=re.compile('<filename><.+?CDATA.+?rtmp(.+?)]]></filename>').findall(link2)
+			for url in code2:
+				stacked_url += 'rtmp'+ url +' , '
+        		stacked_url2 = stacked_url[:-3]
+     			item = xbmcgui.ListItem(path=stacked_url2)
+        		xbmcplugin.setResolvedUrl(pluginhandle, True, item)
+			return
+
         req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
         page = urllib2.urlopen(req)
 	link=page.read()
 	code=re.compile('configURL="/cms_services/services.+?action=player&type=VIDEOLISTObject&groupId=(.+?)"').findall(link)
-	match=re.compile('"DESCRIPTIVE_VIDEO_LIST_PLAYER","(.+?)","(.+?)"').findall(link)
+	match=re.compile('".+?_PLAYER","(.+?)","(.+?)"').findall(link)
 	for code1,code2 in match:
         		req = urllib2.Request('http://www.sesamestreet.org/cms_services/services?action=player&type=VIDEOLISTObject&groupId='+code1+'&uid='+code2)
         		req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
