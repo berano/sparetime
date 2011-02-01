@@ -3,9 +3,9 @@ pluginhandle = int(sys.argv[1])
 
 
 def CATS():
-			addDir('Recently added','http://topdocumentaryfilms.com/all/',3,'')
-			addDir('Featured documentaries','http://topdocumentaryfilms.com/',4,'')
-			addDir('Most commented documentaries','http://topdocumentaryfilms.com/most-commented-documentaries/',10,'')
+			addDir('Recently Added','http://topdocumentaryfilms.com/all/',3,'')
+			addDir('Featured Documentaries','http://topdocumentaryfilms.com/',4,'')
+			addDir('Recommended Documentaries','http://topdocumentaryfilms.com/most-commented-documentaries/',10,'')
 			addDir('Genres','http://topdocumentaryfilms.com/',13,'')
 			addDir('Search','http://topdocumentaryfilms.com/',9,'')
 			addDir('List All','http://topdocumentaryfilms.com/watch-online/',8,'')
@@ -98,9 +98,10 @@ def INDEX3(url):
 			code9=re.sub('&#8212;','',code8)
     			code10=re.sub('&amp;','&',code9)
         		code11=re.sub("`",'',code10)
-                       	lexus=re.compile('href="(.+?)" title="(.+?)"><img').findall(code11)
-                        for url,name in lexus:
-				addDir(name,url,2,'','')
+			match=re.compile('class="blackborder">.+?>ESSENCE</div><div', re.DOTALL).findall(code11)
+                       	lexus=re.compile('href="(.+?)" title="(.+?)"><img\nsrc="(.+?)"').findall(match[0])
+                        for url,name,thumb in lexus:
+				addDir(name,url,2,thumb,'')
 
 def INDEX4(url):
                         req=urllib2.Request(url)
@@ -118,7 +119,8 @@ def INDEX4(url):
 			code9=re.sub('&#8212;','',code8)
     			code10=re.sub('&amp;','&',code9)
         		code11=re.sub("`",'',code10)
-                       	lexus=re.compile('href="(.+?)" title="(.+?)"><img').findall(code11)
+			match=re.compile('<li>Recommended Documentaries</li>.+?<li>Recently Added Documentaries', re.DOTALL).findall(code11)
+                       	lexus=re.compile('href="(.+?)">(.+?)</a>').findall(match[0])
                         for url,name in lexus:
 				addDir(name,url,2,'','')
 
