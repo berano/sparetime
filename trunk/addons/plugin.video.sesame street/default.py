@@ -4,6 +4,7 @@ pluginhandle = int(sys.argv[1])
 def CATS():
         addDir('Videos','http://www.sesamestreet.org/browseallvideos',1,'','')
         addDir('Sesame Playlists','http://www.sesamestreet.org/browseallplaylists',2,'','')
+        addDir('Sesame Parents','http://www.sesamestreet.org/parents/topics',11,'','')
         addDir('Search','http://www.sesamestreet.org/',8,'','')
 
 def VIDS(url):
@@ -74,6 +75,20 @@ def SCRAP4(url):
 	for url in nxt:
 		addDir('More',url,10,'','')
 
+def SCRAP5(url):
+        req = urllib2.Request(url)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        page = urllib2.urlopen(req)
+	link=page.read()
+        all=re.compile('"Parents Topics".+?id="kidtivities"', re.DOTALL).findall(link)
+	match=re.compile('<a href="(.+?)">(.+?)</a>').findall(all[0])
+	for url,name in match:
+	        u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.sesamestreet.org'+url,name)+"&mode="+str(12)
+                item=xbmcgui.ListItem(name.replace('&amp;','&'))
+          	item.setInfo( type="Video", infoLabels={ "Title": name} )                
+		item.setProperty('IsPlayable', 'true')
+                xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
+
 def SEARCHURL(url):
         req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
@@ -129,6 +144,37 @@ def PLAYLIST(url):
      	item = xbmcgui.ListItem(path=stacked_url2)
         xbmcplugin.setResolvedUrl(pluginhandle, True, item)
 
+def PLAYLISTPARENT(url):
+        req = urllib2.Request(url)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        page = urllib2.urlopen(req)
+	link=page.read()
+	code=re.compile('configURL="/cms_services/services.+?action=player&type=VIDEOLISTObject&groupId=(.+?)"').findall(link)
+	match=re.compile('"DESCRIPTIVE_VIDEO_LIST_PLAYER","(.+?)","(.+?)"').findall(link)
+	for code1,code2 in match:
+        		req = urllib2.Request('http://www.sesamestreet.org/cms_services/services?action=player&type=VIDEOLISTObject&groupId='+code1+'&uid='+code2)
+        		req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        		page = urllib2.urlopen(req)
+			link2=page.read()
+        		stacked_url = 'stack://'
+			code2=re.compile('<filename><.+?CDATA.+?rtmp(.+?)]]></filename>').findall(link2)
+			for url in code2:
+	        		stacked_url += 'rtmp'+ url +' , '
+        		stacked_url2 = stacked_url[:-3]
+     			item = xbmcgui.ListItem(path=stacked_url2)
+        		xbmcplugin.setResolvedUrl(pluginhandle, True, item)
+			return
+	req = urllib2.Request('http://www.sesamestreet.org/cms_services/services?action=player&type=VIDEOLISTObject&groupId='+code[0])
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        page = urllib2.urlopen(req)
+	link2=page.read()
+        stacked_url = 'stack://'
+	code2=re.compile('<filename><.+?CDATA.+?rtmp(.+?)]]></filename>').findall(link2)
+	for url in code2:
+		stacked_url += 'rtmp'+ url +' , '
+        stacked_url2 = stacked_url[:-3]
+     	item = xbmcgui.ListItem(path=stacked_url2)
+        xbmcplugin.setResolvedUrl(pluginhandle, True, item)
 		
 def get_params():
         param=[]
@@ -228,12 +274,18 @@ elif mode==9:
 elif mode==10:
         print "PAGE"
         SCRAP4(url)
+elif mode==11:
+        print "PAGE"
+        SCRAP5(url)
 elif mode==5:
         print "PAGE"
         PLAYSINGLE(url)
 elif mode==6:
         print "PAGE"
         PLAYLIST(url)
+elif mode==12:
+        print "PAGE"
+        PLAYLISTPARENT(url)
 elif mode==7:
         print "PAGE"
         SEARCHURL(url)
