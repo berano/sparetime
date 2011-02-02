@@ -426,8 +426,25 @@ def Nova(url,name):
         response = urllib2.urlopen(req)
 	link=response.read()
 	finalurl=re.compile('file="(.+?)"').findall(link)[0]
-     	item = xbmcgui.ListItem(path=finalurl)
-        xbmcplugin.setResolvedUrl(pluginhandle, True, item)
+       	if (fpt.getSetting('download') == '0'):
+                dia = xbmcgui.Dialog()
+                ret = dia.select('Streaming Options', ['Play','Download'])
+                if (ret == 0):
+			item = xbmcgui.ListItem(path=finalurl)
+        		xbmcplugin.setResolvedUrl(pluginhandle, True, item)
+                elif (ret == 1):
+                        path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
+                        Download(finalurl,path+name+'.flv')
+                else:
+                        return
+	elif (fpt.getSetting('download') == '1'):
+		item = xbmcgui.ListItem(path=finalurl)
+        	xbmcplugin.setResolvedUrl(pluginhandle, True, item)
+        elif (fpt.getSetting('download') == '2'):
+                path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
+                Download(finalurl,path+name+'.flv')
+        else:
+        	return
 
 def Mega(url,name):
 	urlogin = 'http://www.fastpasstv.com/register'
@@ -640,7 +657,6 @@ def WISE(url,name):
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
         response = urllib2.urlopen(req)
 	link2=response.read()
-
 	try:
 			rawcode=re.compile("javascript:location.href='(.+?)'").findall(link2)[1]
 			code=rawcode.replace('http://www.wisevid.com/play?v=','')
@@ -659,19 +675,19 @@ def WISE(url,name):
                     		dia = xbmcgui.Dialog()
                     		ret = dia.select('Streaming Options', ['Play','Download'])
                     		if (ret == 0):
-		            		ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, name)
-		            		addLink('Play',finalurl,'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png','','')
+					item = xbmcgui.ListItem(path=finalurl)
+        				xbmcplugin.setResolvedUrl(pluginhandle, True, item)
                     		elif (ret == 1):
                             		path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
-                            		Download(finalurl,path+name+'.avi')
+                            		Download(finalurl,path+name+'.flv')
                     		else:
                             		return
 			elif (fpt.getSetting('download') == '1'):
-				ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, name)
-				addLink('Play',finalurl,'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png','','')
+				item = xbmcgui.ListItem(path=finalurl)
+        			xbmcplugin.setResolvedUrl(pluginhandle, True, item)
         		elif (fpt.getSetting('download') == '2'):
                 		path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
-                		Download(finalurl,path+name+'.avi')
+                		Download(finalurl,path+name+'.flv')
         		else:
         			return
 	except: pass
@@ -694,19 +710,19 @@ def WISE(url,name):
                     		dia = xbmcgui.Dialog()
                     		ret = dia.select('Streaming Options', ['Play','Download'])
                     		if (ret == 0):
-		            		ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, name)
-		            		addLink('Play',finalurl,'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png','','')
+					item = xbmcgui.ListItem(path=finalurl)
+        				xbmcplugin.setResolvedUrl(pluginhandle, True, item)
                     		elif (ret == 1):
                             		path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
-                            		Download(finalurl,path+name+'.avi')
+                            		Download(finalurl,path+name+'.flv')
                     		else:
                             		return
 			elif (fpt.getSetting('download') == '1'):
-				ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, name)
-				addLink('Play',finalurl,'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png','','')
+				item = xbmcgui.ListItem(path=finalurl)
+        			xbmcplugin.setResolvedUrl(pluginhandle, True, item)
         		elif (fpt.getSetting('download') == '2'):
                 		path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
-                		Download(finalurl,path+name+'.avi')
+                		Download(finalurl,path+name+'.flv')
         		else:
         			return
 	except: pass
