@@ -11,8 +11,8 @@
         <provides>video</provides>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <summary lang="en">Watch shows from nickjr.com</summary>
-    <description lang="en">Find preschool activities and preschool kids videos featuring Dora, Diego and more Nick Jr.</description>
+    <summary lang="en">Watch shows from nick.com</summary>
+    <description lang="en">Favorite characters from Nickelodeon shows like iCarly, The Penguins of Madagascar and The Fairly OddParents.</description>
      <platform>all</platform>
   </extension>
 </addon>
