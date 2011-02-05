@@ -251,7 +251,7 @@ def EPISODES(url):
 		addDir(name.replace('&amp;','&'),'http://www.nick.com/dynamo/video/data/mrssGen.jhtml?type=network&hub=home&loc=default&mode=episode&dartSite=nick.nol&mgid=mgid:cms:episode:spongebob.com:'+ url +'&demo=null&block=false',5,thumb,'')
 
 
-def SUBNSPONGE(url):
+def SUBSPONGE(url):
         req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
         response = urllib2.urlopen(req).read()
@@ -324,7 +324,7 @@ def SUB(url):
         code11=re.sub("`",'',code10)
         names = re.compile('<media:title>(.+?)</media:title>').findall(code11)
         thumbs = re.compile('url="(.+?)jpg"').findall(code11)
-        urls = re.compile('<media:player url="http://media.nick.com/mgid:cms:video:nick.com:(.+?)"/>').findall(code11)
+        urls = re.compile('<media:player url="http://media.nick.com/mgid:cms:video:spongebob.com:(.+?)"/>').findall(code11)
 	videos = [(names[i],thumbs[i],urls[i])for i in range (0,len(thumbs))]
 	for name,thumb,url in videos:
 	        u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.nick.com/dynamo/video/data/mediaGen.jhtml?mgid=mgid:cms:video:spongebob.com:'+url+'&block=false&type=network',name)+"&mode="+str(6)
@@ -332,6 +332,7 @@ def SUB(url):
           	item.setInfo( type="Video", infoLabels={ "Title": name} )                
 		item.setProperty('IsPlayable', 'true')
                 xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
+
 
 def PLAY(url):
         req = urllib2.Request(url)

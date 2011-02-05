@@ -38,7 +38,7 @@
 
 <addon id="plugin.video.nickelodeon"
        name="Nickelodeon"
-       version="1.0.3"
+       version="1.0.4"
        provider-name="nixa">
   <requires>
     <import addon="xbmc.python" version="1.0"/>
