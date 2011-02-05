@@ -1,3 +1,6 @@
+v1.0.4:
+  - clumsy errors
+
 v1.0.3:
   - clips fixes
 
