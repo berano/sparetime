@@ -1,5 +1,5 @@
-import urllib,urllib2,re,sys,xbmcplugin,xbmcgui,
-import xbmcaddon,os,
+import urllib,urllib2,re,sys,xbmcplugin,xbmcgui
+import xbmcaddon,os
 import StringIO
 pluginhandle = int(sys.argv[1])
 
@@ -23,7 +23,7 @@ def save(filename,contents):
      fh.write(contents)  
      fh.close()
 
-fptpath = 'special://profile/addon_data/plugin.video.nickelodeon'
+fptpath = 'special://profile/addon_data/'
 translatedfptpath = xbmcpath(fptpath,'')
 referer = xbmcpath(fptpath,'ref.txt')
 
