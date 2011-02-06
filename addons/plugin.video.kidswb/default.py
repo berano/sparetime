@@ -2,16 +2,16 @@ import urllib,urllib2,re,sys,xbmcplugin,xbmcgui,xbmcaddon
 pluginhandle = int(sys.argv[1])
 
 def CATS():
-        addDir('Looney Tunes','http://staticswf.kidswb.com/kidswb/xml/videofeedlight.xml',1,'','')
-        addDir('The Flintstones','http://staticswf.kidswb.com/kidswb/xml/videofeedlight.xml',2,'','')
-        addDir('The Jetsons','http://staticswf.kidswb.com/kidswb/xml/videofeedlight.xml',3,'','')
-        addDir('The New Scoobydoo Mysteries','http://staticswf.kidswb.com/kidswb/xml/videofeedlight.xml',4,'','')
-        addDir('Shaggy and Scoobydoo Get A Clue','http://staticswf.kidswb.com/kidswb/xml/videofeedlight.xml',5,'','')
-        addDir('The Smurfs','http://staticswf.kidswb.com/kidswb/xml/videofeedlight.xml',6,'','')
-        addDir('Thundercats','http://staticswf.kidswb.com/kidswb/xml/videofeedlight.xml',7,'','')
-        addDir('Tom and Jerry Tales','http://staticswf.kidswb.com/kidswb/xml/videofeedlight.xml',8,'','')
-        addDir('Ozzy and Drix','http://staticswf.kidswb.com/kidswb/xml/videofeedlight.xml',9,'','')
-        addDir('Xiaolin Showdown','http://staticswf.kidswb.com/kidswb/xml/videofeedlight.xml',10,'','')
+        addDir('Looney Tunes','http://staticswf.kidswb.com/kidswb/xml/videofeedlight.xml',1,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/LooneyTunes_video.jpg','')
+        addDir('The Flintstones','http://staticswf.kidswb.com/kidswb/xml/videofeedlight.xml',2,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/Flintstones_video.jpg','')
+        addDir('The Jetsons','http://staticswf.kidswb.com/kidswb/xml/videofeedlight.xml',3,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/Jetsons_video.jpg','')
+        addDir('The New Scoobydoo Mysteries','http://staticswf.kidswb.com/kidswb/xml/videofeedlight.xml',4,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/ScoobyDooMysteries_video.jpg','')
+        addDir('Shaggy and Scoobydoo Get A Clue','http://staticswf.kidswb.com/kidswb/xml/videofeedlight.xml',5,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/ShaggyScoobyGetAClue_video.jpg','')
+        addDir('The Smurfs','http://staticswf.kidswb.com/kidswb/xml/videofeedlight.xml',6,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/smurf_video.jpg','')
+        addDir('Thundercats','http://staticswf.kidswb.com/kidswb/xml/videofeedlight.xml',7,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/Thundercats.jpg','')
+        addDir('Tom and Jerry Tales','http://staticswf.kidswb.com/kidswb/xml/videofeedlight.xml',8,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/TomJerryTales_video.jpg','')
+        addDir('Ozzy and Drix','http://staticswf.kidswb.com/kidswb/xml/videofeedlight.xml',9,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/OzzieDrix_video.jpg','')
+        addDir('Xiaolin Showdown','http://staticswf.kidswb.com/kidswb/xml/videofeedlight.xml',10,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/XiaolinShowdown_video.jpg','')
 
 
 def LOON(url):
