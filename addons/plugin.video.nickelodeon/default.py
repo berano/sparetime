@@ -30,10 +30,106 @@ referer = xbmcpath(fptpath,'ref.txt')
 def CATS():
         addDir('nick.com','http://www.nick.com/videos/',1,'','')
         addDir('nickjr.com','http://www.nickjr.com/video/index.jhtml',14,'','')
+        addDir('nicktoons.com','http://nicktoons.nick.com/videos',16,'','')
 
 def CATSJR():
         addDir('Videos','http://www.nickjr.com/common/data/kids/get-kids-config-data.jhtml?fsd=/dynaboss&urlAlias=kids-video-landing',10,'','')
         addDir('Channels','http://www.nickjr.com/video/index.jhtml',11,'','')
+
+
+def SHOWSTOON(url):
+        req = urllib2.Request(url)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        page = urllib2.urlopen(req)
+	link = page.read()
+        all=re.compile('href="/overlay/login.html">Log in</a>.+?<span>Neopets</span>', re.DOTALL).findall(link)
+	match1=re.compile('<a href="/shows/(.+?)" style="background-image.+?http://nick.mtvnimages.com/nicktoons-assets/navigation/shownav/(.+?).jpg.+?".+?title="(.+?)"').findall(all[0])
+	for url,thumb,name in match1:
+		addDir(name.replace('&amp;','&'),'http://nicktoons.nick.com/shows/'+url,17,'http://nick.mtvnimages.com/nicktoons-assets/navigation/shownav/'+thumb+'.jpg','')
+
+def CATALLTOON(url):
+ 	req = urllib2.Request(url)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        page = urllib2.urlopen(req)
+	link = page.read()
+	ref = re.compile('class=""><a href="/videos/(.+?)"').findall(link)[0]
+	save(referer,ref)
+        addDir('Full Episodes','http://nicktoons.nick.com/ajax/videos/'+ref+'?_&sort=date+desc&start=0&page=1&type=fullEpisodeItem',19,'','')
+        addDir('Clips','http://nicktoons.nick.com/ajax/videos/'+ref+'?_&sort=date+desc&start=0&page=1&type=videoItem',18,'','')
+
+
+def CLIPSTOON(url):
+        	req = urllib2.Request(url)
+        	req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        	response = urllib2.urlopen(req).read()
+		code=re.sub('&quot;','',response)
+		code1=re.sub('&#039;','',code)
+		code2=re.sub('&#215;','',code1)
+		code3=re.sub('&#038;','',code2)
+		code4=re.sub('&#8216;','',code3)
+		code5=re.sub('&#8217;','',code4)
+		code6=re.sub('&#8211;','',code5)
+		code7=re.sub('&#8220;','',code6)
+		code8=re.sub('&#8221;','',code7)
+		code9=re.sub('&#8212;','',code8)
+    		code10=re.sub('&amp;','&',code9)
+        	code11=re.sub("`",'',code10)
+		match=re.compile('"cmsid">(.+?)</div><div style="display:none;" class="item-type">video</div><div style="display:none;" class="screenshot">.+?</div><a title="(.+?)" href=".+?".+?<img alt=".+?" border=".+?" height=".+?" width=".+?" src="(.+?)"').findall(code11)
+		for url,name,thumb in match:
+			addDir(name.replace('&amp;','&'),'http://www.nick.com/dynamo/video/data/mrssGen.jhtml?type=network&hub=home&loc=default&mode=clip&dartSite=nick.nol&mgid=mgid:cms:video:nicktoons.com:'+ url +'&demo=null&block=false',20,thumb,'')
+		i=0
+		for i in range (i+19):
+			refer=openfile(referer)
+			pagenumber = str(21*i+21)
+			addDir('Page '+str(i+2),'http://nicktoons.nick.com/ajax/videos/'+refer+'-videos?_&sort=date+desc&start='+pagenumber+'&page=0&type=videoItem',18,'','')
+
+def EPISODESTOON(url):
+        req = urllib2.Request(url)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        response = urllib2.urlopen(req).read()
+	code=re.sub('&quot;','',response)
+	code1=re.sub('&#039;','',code)
+	code2=re.sub('&#215;','',code1)
+	code3=re.sub('&#038;','',code2)
+	code4=re.sub('&#8216;','',code3)
+	code5=re.sub('&#8217;','',code4)
+	code6=re.sub('&#8211;','',code5)
+	code7=re.sub('&#8220;','',code6)
+	code8=re.sub('&#8221;','',code7)
+	code9=re.sub('&#8212;','',code8)
+    	code10=re.sub('&amp;','&',code9)
+        code11=re.sub("`",'',code10)
+	match=re.compile('"cmsid">(.+?)</div><div style="display:none;" class="item-type">video</div><div style="display:none;" class="screenshot">.+?</div><a title="(.+?)" href=".+?".+?<img alt=".+?" border=".+?" height=".+?" width=".+?" src="(.+?)"').findall(code11)
+	for url,name,thumb in match:
+		addDir(name.replace('&amp;','&'),'http://www.nick.com/dynamo/video/data/mrssGen.jhtml?type=network&hub=home&loc=default&mode=episode&dartSite=nick.nol&mgid=mgid:cms:episode:nicktoons.com:'+ url +'&demo=null&block=false',20,thumb,'')
+
+
+def SUBTOON(url):
+        req = urllib2.Request(url)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        response = urllib2.urlopen(req).read()
+	code=re.sub('&quot;','',response)
+	code1=re.sub('&#039;','',code)
+	code2=re.sub('&#215;','',code1)
+	code3=re.sub('&#038;','',code2)
+	code4=re.sub('&#8216;','',code3)
+	code5=re.sub('&#8217;','',code4)
+	code6=re.sub('&#8211;','',code5)
+	code7=re.sub('&#8220;','',code6)
+	code8=re.sub('&#8221;','',code7)
+	code9=re.sub('&#8212;','',code8)
+    	code10=re.sub('&amp;','&',code9)
+        code11=re.sub("`",'',code10)
+        names = re.compile('<media:title>(.+?)</media:title>').findall(code11)
+        thumbs = re.compile('url="(.+?)jpg"').findall(code11)
+        urls = re.compile('<media:player url="http://media.nick.com/mgid:cms:video:nicktoons.com:(.+?)"/>').findall(code11)
+	videos = [(names[i],thumbs[i],urls[i])for i in range (0,len(thumbs))]
+	for name,thumb,url in videos:
+	        u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.nick.com/dynamo/video/data/mediaGen.jhtml?mgid=mgid:cms:video:spongebob.com:'+url+'&block=false&type=network',name)+"&mode="+str(6)
+                item=xbmcgui.ListItem(name.replace('&amp;','&'), thumbnailImage=thumb+'.jpg')
+          	item.setInfo( type="Video", infoLabels={ "Title": name} )                
+		item.setProperty('IsPlayable', 'true')
+                xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
 
 
 def SHOWSJR(url):
@@ -179,7 +275,7 @@ def CLIPS(url):
         	code11=re.sub("`",'',code10)
 		match=re.compile('"cmsid">(.+?)</div><div style="display:none;" class="item-type">video</div><div style="display:none;" class="screenshot">.+?</div><a title="(.+?)" href=".+?".+?<img alt=".+?" border=".+?" height=".+?" width=".+?" src="(.+?)"').findall(code11)
 		for url,name,thumb in match:
-			addDir(name.replace('&amp;','&'),'http://www.nick.com/dynamo/video/data/mrssGen.jhtml?type=network&hub=home&loc=default&mode=episode&dartSite=nick.nol&mgid=mgid:cms:episode:spongebob.com:'+ url +'&demo=null&block=true',16,thumb,'')
+			addDir(name.replace('&amp;','&'),'http://www.nick.com/dynamo/video/data/mrssGen.jhtml?type=network&hub=home&loc=default&mode=episode&dartSite=nick.nol&mgid=mgid:cms:episode:spongebob.com:'+ url +'&demo=null&block=true',15,thumb,'')
 		i=0
 		for i in range (i+19):
 			pagenumber = str(21*i+21)
@@ -444,7 +540,7 @@ elif mode==8:
 elif mode==9:
         print "PAGE"
         SUBNEWS(url)
-elif mode==16:
+elif mode==15:
         print "PAGE"
         SUBSPONGE(url)
 elif mode==10:
@@ -462,8 +558,20 @@ elif mode==13:
 elif mode==14:
         print "PAGE"
         CATSJR()
-elif mode==15:
+elif mode==16: 
         print "PAGE"
-        PLAYJR(url)
+        SHOWSTOON(url)
+elif mode==17:
+        print "PAGE"
+        CATALLTOON(url)
+elif mode==18:
+        print "PAGE"
+        CLIPSTOON(url)
+elif mode==19:
+        print "PAGE"
+        EPISODESTOON(url)
+elif mode==20:
+        print "PAGE"
+        SUBTOON(url)
         
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
