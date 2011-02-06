@@ -1,8 +1,11 @@
 v1.0.4:
+  - added Nicktoons
+
+v1.0.4:
   - clumsy errors
 
 v1.0.3:
-  - clips fixes
+  - added Nick.com
 
 v1.0.2:
   - fixes
