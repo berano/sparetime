@@ -114,67 +114,31 @@ def Y3MOV(url,name):
       	wise=re.compile('<b>WiseVid</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
 	for url in nova:
 		i=i+1
-	        u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.fastpasstv.com'+url,name)+"&mode="+str(12)
-                item=xbmcgui.ListItem('Novamov (flv) #'+str(i))
-          	item.setInfo( type="Video", infoLabels={ "Title": name} )                
-		item.setProperty('IsPlayable', 'true')
-                xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)	
+		addDir('Novamov (flv) #'+str(i)+str(i),'http://www.fastpasstv.com'+url,12,'')
 	for url in dv1:
 		i=i+1
-	        u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.fastpasstv.com'+url,name)+"&mode="+str(8)
-                item=xbmcgui.ListItem('DivxDen (avi) Pt 1 #'+str(i))
-          	item.setInfo( type="Video", infoLabels={ "Title": name} )                
-		item.setProperty('IsPlayable', 'true')
-                xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
+		addDir('DivxDen (avi) Pt 1 #'+str(i),'http://www.fastpasstv.com'+url,8,'')
 	for url in dv2:
 		i=i+1
-	        u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.fastpasstv.com'+url,name)+"&mode="+str(8)
-                item=xbmcgui.ListItem('DivxDen (avi) Pt 2 #'+str(i))
-          	item.setInfo( type="Video", infoLabels={ "Title": name} )                
-		item.setProperty('IsPlayable', 'true')
-                xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
+		addDir('DivxDen (avi) Pt 2 #'+str(i),'http://www.fastpasstv.com'+url,8,'')
 	for url in dv:
 		i=i+1
-            	u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.fastpasstv.com'+url,name)+"&mode="+str(8)
-                item=xbmcgui.ListItem('DivxDen (avi) #'+str(i))
-          	item.setInfo( type="Video", infoLabels={ "Title": name} )                
-		item.setProperty('IsPlayable', 'true')
-                xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
+		addDir('DivxDen (avi) #'+str(i),'http://www.fastpasstv.com'+url,8,'')
 	for url in vidbx:
 		i=i+1
-            	u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.fastpasstv.com'+url,name)+"&mode="+str(10)
-                item=xbmcgui.ListItem('VidBux (avi) #'+str(i))
-          	item.setInfo( type="Video", infoLabels={ "Title": name} )                
-		item.setProperty('IsPlayable', 'true')
-                xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
+		addDir('VidBux (avi) #'+str(i),'http://www.fastpasstv.com'+url,10,'')
 	for url in vidbx1:
 		i=i+1
-            	u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.fastpasstv.com'+url,name)+"&mode="+str(10)
-                item=xbmcgui.ListItem('VidBux (avi) Pt 1 #'+str(i))
-          	item.setInfo( type="Video", infoLabels={ "Title": name} )                
-		item.setProperty('IsPlayable', 'true')
-                xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
+		addDir('VidBux (avi) Pt 1 #'+str(i),'http://www.fastpasstv.com'+url,10,'')
 	for url in vidbx2:
 		i=i+1
-            	u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.fastpasstv.com'+url,name)+"&mode="+str(10)
-                item=xbmcgui.ListItem('VidBux (avi) Pt 2 #'+str(i))
-          	item.setInfo( type="Video", infoLabels={ "Title": name} )                
-		item.setProperty('IsPlayable', 'true')
-                xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
+		addDir('VidBux (avi) Pt 2 #'+str(i),'http://www.fastpasstv.com'+url,10,'')
 	for url in wise:
 		i=i+1
-            	u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.fastpasstv.com'+url,name)+"&mode="+str(19)
-                item=xbmcgui.ListItem('Wisevid (flv) #'+str(i))
-          	item.setInfo( type="Video", infoLabels={ "Title": name} )                
-		item.setProperty('IsPlayable', 'true')
-                xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
+		addDir('Wisevid (flv) #'+str(i),'http://www.fastpasstv.com'+url,19,'')
 	for url in mega:
 		i=i+1
-            	u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.fastpasstv.com'+url,name)+"&mode="+str(15)
-                item=xbmcgui.ListItem('Megavideo (flv) #'+str(i))
-          	item.setInfo( type="Video", infoLabels={ "Title": name} )                
-		item.setProperty('IsPlayable', 'true')
-                xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
+		addDir('Megavideo (flv) #'+str(i),'http://www.fastpasstv.com'+url,15,'')
 
 def Y3TV(url,name):
 	i=0
@@ -194,46 +158,22 @@ def Y3TV(url,name):
        	wise=re.compile('<b>WiseVid</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
 	for url in mega:
 		i=i+1
-            	u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.fastpasstv.com'+url,name)+"&mode="+str(15)
-                item=xbmcgui.ListItem('Megavideo (flv) #'+str(i))
-          	item.setInfo( type="Video", infoLabels={ "Title": name} )                
-		item.setProperty('IsPlayable', 'true')
-                xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
+		addDir('Megavideo (flv) #'+str(i),'http://www.fastpasstv.com'+url,15,'')
 	for url in dv1:
 		i=i+1
-            	u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.fastpasstv.com'+url,name)+"&mode="+str(8)
-                item=xbmcgui.ListItem('DivxDen (avi) Pt 1 #'+str(i))
-          	item.setInfo( type="Video", infoLabels={ "Title": name} )                
-		item.setProperty('IsPlayable', 'true')
-                xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
+		addDir('DivxDen (avi) Pt 1 #'+str(i),'http://www.fastpasstv.com'+url,8,'')
 	for url in dv2:
 		i=i+1
-            	u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.fastpasstv.com'+url,name)+"&mode="+str(8)
-                item=xbmcgui.ListItem('DivxDen (avi) Pt 2 #'+str(i))
-          	item.setInfo( type="Video", infoLabels={ "Title": name} )                
-		item.setProperty('IsPlayable', 'true')
-                xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
+		addDir('DivxDen (avi) Pt 2 #'+str(i),'http://www.fastpasstv.com'+url,8,'')
 	for url in dv:
 		i=i+1
-            	u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.fastpasstv.com'+url,name)+"&mode="+str(8)
-                item=xbmcgui.ListItem('DivxDen (avi) #'+str(i))
-          	item.setInfo( type="Video", infoLabels={ "Title": name} )                
-		item.setProperty('IsPlayable', 'true')
-                xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
+		addDir('DivxDen (avi) #'+str(i),'http://www.fastpasstv.com'+url,8,'')
 	for url in vidbx:
 		i=i+1
-            	u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.fastpasstv.com'+url,name)+"&mode="+str(10)
-                item=xbmcgui.ListItem('VidBux (avi) #'+str(i))
-          	item.setInfo( type="Video", infoLabels={ "Title": name} )                
-		item.setProperty('IsPlayable', 'true')
-                xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
+		addDir('VidBux (avi) #'+str(i),'http://www.fastpasstv.com'+url,10,'')
 	for url in wise:
 		i=i+1
-            	u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.fastpasstv.com'+url,name)+"&mode="+str(19)
-                item=xbmcgui.ListItem('Wisevid (flv) #'+str(i))
-          	item.setInfo( type="Video", infoLabels={ "Title": name} )                
-		item.setProperty('IsPlayable', 'true')
-                xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
+		addDir('Wisevid (flv) #'+str(i),'http://www.fastpasstv.com'+url,19,'')
 
 def VIDSFLV(url,name):
 	urlogin = 'http://www.fastpasstv.com/register'
@@ -340,16 +280,18 @@ def VIDSDIVX(url,name):
                     dia = xbmcgui.Dialog()
                     ret = dia.select('Streaming Options', ['Play','Download'])
                     if (ret == 0):
-	   		    item = xbmcgui.ListItem(path=finalurl)
-        	            xbmcplugin.setResolvedUrl(pluginhandle, True, item)
+			    addLink('Play',finalurl,'','','')
+			    item = xbmcgui.ListItem(name)
+          		    ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
                     elif (ret == 1):
                             path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
                             Download(finalurl,path+name+'.avi')
                     else:
                             return
 	elif (fpt.getSetting('download') == '1'):
-  		item = xbmcgui.ListItem(path=finalurl)
-        	xbmcplugin.setResolvedUrl(pluginhandle, True, item)
+		addLink('Play',finalurl,'','','')
+		item = xbmcgui.ListItem(name)
+         	ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
         elif (fpt.getSetting('download') == '2'):
                 path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
                 Download(finalurl,path+name+'.avi')
@@ -395,20 +337,22 @@ def VIDBUX(url,name):
 	hashlong = cleanup[-41:].replace(' ','')
 	hashshort =  re.compile('</div><!-- <img src="http://(.+?).vidbux.com').findall(link)[0]
    	finalurl = 'http://'+hashshort+'.vidbux.com:182/d/'+hashlong+'/'+ fcodenm
-        if (fpt.getSetting('download') == '0'):
+       	if (fpt.getSetting('download') == '0'):
                     dia = xbmcgui.Dialog()
                     ret = dia.select('Streaming Options', ['Play','Download'])
                     if (ret == 0):
-  			    item = xbmcgui.ListItem(path=finalurl)
-        		    xbmcplugin.setResolvedUrl(pluginhandle, True, item)
+			    addLink('Play',finalurl,'','','')
+			    item = xbmcgui.ListItem(name)
+          		    ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
                     elif (ret == 1):
                             path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
                             Download(finalurl,path+name+'.avi')
                     else:
                             return
 	elif (fpt.getSetting('download') == '1'):
-      		item = xbmcgui.ListItem(path=finalurl)
-        	xbmcplugin.setResolvedUrl(pluginhandle, True, item)
+		addLink('Play',finalurl,'','','')
+		item = xbmcgui.ListItem(name)
+         	ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
         elif (fpt.getSetting('download') == '2'):
                 path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
                 Download(finalurl,path+name+'.avi')
@@ -426,20 +370,22 @@ def Nova(url,name):
         response = urllib2.urlopen(req)
 	link=response.read()
 	finalurl=re.compile('file="(.+?)"').findall(link)[0]
-       	if (fpt.getSetting('download') == '0'):
-                dia = xbmcgui.Dialog()
-                ret = dia.select('Streaming Options', ['Play','Download'])
-                if (ret == 0):
-			item = xbmcgui.ListItem(path=finalurl)
-        		xbmcplugin.setResolvedUrl(pluginhandle, True, item)
-                elif (ret == 1):
-                        path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
-                        Download(finalurl,path+name+'.flv')
-                else:
-                        return
+        if (fpt.getSetting('download') == '0'):
+                    dia = xbmcgui.Dialog()
+                    ret = dia.select('Streaming Options', ['Play','Download'])
+                    if (ret == 0):
+			    addLink('Play',finalurl,'','','')
+			    item = xbmcgui.ListItem(name)
+          		    ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
+                    elif (ret == 1):
+                            path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
+                            Download(finalurl,path+name+'.flv')
+                    else:
+                            return
 	elif (fpt.getSetting('download') == '1'):
-		item = xbmcgui.ListItem(path=finalurl)
-        	xbmcplugin.setResolvedUrl(pluginhandle, True, item)
+		addLink('Play',finalurl,'','','')
+		item = xbmcgui.ListItem(name)
+         	ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
         elif (fpt.getSetting('download') == '2'):
                 path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
                 Download(finalurl,path+name+'.flv')
@@ -476,9 +422,28 @@ def Mega(url,name):
                         k1 = re.compile(' k1="(.+?)"').findall(response)
                         k2 = re.compile(' k2="(.+?)"').findall(response)
                         un = re.compile(' un="(.+?)"').findall(response)
-                        movielink = "http://www" + s[0] + ".megavideo.com/files/" + __calculateFileHash(un[0], k1[0], k2[0]) + "/?.flv"
-			item = xbmcgui.ListItem(path=movielink)
-        		xbmcplugin.setResolvedUrl(pluginhandle, True, item)
+                        finalurl = "http://www" + s[0] + ".megavideo.com/files/" + __calculateFileHash(un[0], k1[0], k2[0]) + "/?.flv"
+         		if (fpt.getSetting('download') == '0'):
+                    		dia = xbmcgui.Dialog()
+                    		ret = dia.select('Streaming Options', ['Play','Download'])
+                    		if (ret == 0):
+			    		addLink('Play',finalurl,'','','')
+			    		item = xbmcgui.ListItem(name)
+          		    		ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
+                    		elif (ret == 1):
+                            		path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
+                            		Download(finalurl,path+name+'.flv')
+                    		else:
+                            		return
+			elif (fpt.getSetting('download') == '1'):
+				addLink('Play',finalurl,'','','')
+ 				item = xbmcgui.ListItem(name)
+         			ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
+        		elif (fpt.getSetting('download') == '2'):
+                		path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
+                		Download(finalurl,path+name+'.flv')
+        		else:
+        			return
         except: pass
 
 def __calcDecriptionMix(hash, keyMix):
@@ -671,23 +636,25 @@ def WISE(url,name):
 			match=re.compile("getF(\(.+?)'").findall(link)[0]
 			clean= match.replace("('","")
 			finalurl=base64.decodestring(clean)
-       			if (fpt.getSetting('download') == '0'):
+         		if (fpt.getSetting('download') == '0'):
                     		dia = xbmcgui.Dialog()
                     		ret = dia.select('Streaming Options', ['Play','Download'])
                     		if (ret == 0):
-					item = xbmcgui.ListItem(path=finalurl)
-        				xbmcplugin.setResolvedUrl(pluginhandle, True, item)
+			    		addLink('Play',finalurl,'','','')
+			    		item = xbmcgui.ListItem(name)
+          		    		ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
                     		elif (ret == 1):
                             		path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
-                            		Download(finalurl,path+name+'.flv')
+                            		Download(finalurl,path+name+'.avi')
                     		else:
                             		return
 			elif (fpt.getSetting('download') == '1'):
-				item = xbmcgui.ListItem(path=finalurl)
-        			xbmcplugin.setResolvedUrl(pluginhandle, True, item)
+				addLink('Play',finalurl,'','','')
+ 				item = xbmcgui.ListItem(name)
+         			ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
         		elif (fpt.getSetting('download') == '2'):
                 		path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
-                		Download(finalurl,path+name+'.flv')
+                		Download(finalurl,path+name+'.avi')
         		else:
         			return
 	except: pass
@@ -706,23 +673,25 @@ def WISE(url,name):
 			match=re.compile("getF(\(.+?)'").findall(link)[0]
 			clean= match.replace("('","")
 			finalurl=base64.decodestring(clean)
-       			if (fpt.getSetting('download') == '0'):
+         		if (fpt.getSetting('download') == '0'):
                     		dia = xbmcgui.Dialog()
                     		ret = dia.select('Streaming Options', ['Play','Download'])
                     		if (ret == 0):
-					item = xbmcgui.ListItem(path=finalurl)
-        				xbmcplugin.setResolvedUrl(pluginhandle, True, item)
+			    		addLink('Play',finalurl,'','','')
+			    		item = xbmcgui.ListItem(name)
+          		    		ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
                     		elif (ret == 1):
                             		path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
-                            		Download(finalurl,path+name+'.flv')
+                            		Download(finalurl,path+name+'.avi')
                     		else:
                             		return
 			elif (fpt.getSetting('download') == '1'):
-				item = xbmcgui.ListItem(path=finalurl)
-        			xbmcplugin.setResolvedUrl(pluginhandle, True, item)
+			    	addLink('Play',finalurl,'','','')
+ 				item = xbmcgui.ListItem(name)
+         			ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
         		elif (fpt.getSetting('download') == '2'):
                 		path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
-                		Download(finalurl,path+name+'.flv')
+                		Download(finalurl,path+name+'.avi')
         		else:
         			return
 	except: pass
