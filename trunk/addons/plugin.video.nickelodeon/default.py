@@ -205,7 +205,7 @@ def SHOWS(url):
 def CATSPONGE(url):
 	if url.find('spongebob')>0:
 		save(referer,'dummy')
-        	addDir('Full Episodes','http://spongebob.nick.com/ajax/videos/full-episodes/?_&sort=date+desc&start=0&page=1&type=fullEpisodeItem&viewType=fullEpisodesVideosCarousel',4,'','')
+        	addDir('Full Episodes','http://spongebob.nick.com/ajax/videos/full-episodes/?_&sort=date+desc&start=0&page=1&type=fullEpisodeItem&viewType=fullEpisodesVideosCarousel',21,'','')
         	addDir('Clips','http://spongebob.nick.com/ajax/videos?_&sort=date+desc&start=0&page=1&type=videoItem&updateDropdown=true&viewType=collectionAll&rows=21',3,'','')
 	elif url.find('news.nick')>0:
 		save(referer,'dummy')
@@ -326,6 +326,26 @@ def EPISODESNEWS(url):
 	for url,name,thumb in match:
 		addDir(name.replace('&amp;','&'),'http://www.nick.com/dynamo/video/data/mrssGen.jhtml?type=network&hub=home&loc=default&mode=episode&dartSite=nick.nol&mgid=mgid:cms:video:nick.com:'+ url +'&demo=null&block=false',9,thumb,'')
 
+def EPISODESSPONGE(url):
+        req = urllib2.Request(url)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        response = urllib2.urlopen(req).read()
+	code=re.sub('&quot;','',response)
+	code1=re.sub('&#039;','',code)
+	code2=re.sub('&#215;','',code1)
+	code3=re.sub('&#038;','',code2)
+	code4=re.sub('&#8216;','',code3)
+	code5=re.sub('&#8217;','',code4)
+	code6=re.sub('&#8211;','',code5)
+	code7=re.sub('&#8220;','',code6)
+	code8=re.sub('&#8221;','',code7)
+	code9=re.sub('&#8212;','',code8)
+    	code10=re.sub('&amp;','&',code9)
+        code11=re.sub("`",'',code10)
+	match=re.compile('"cmsid">(.+?)</div><div style="display:none;" class="item-type">video</div><div style="display:none;" class="screenshot">.+?</div><a title="(.+?)" href=".+?".+?<img alt=".+?" border=".+?" height=".+?" width=".+?" src="(.+?)"').findall(code11)
+	for url,name,thumb in match:
+		addDir(name.replace('&amp;','&'),'http://www.nick.com/dynamo/video/data/mrssGen.jhtml?type=network&hub=home&loc=default&mode=episode&dartSite=nick.nol&mgid=mgid:cms:episode:spongebob.com:'+ url +'&demo=null&block=false',15,thumb,'')
+
 def EPISODES(url):
         req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
@@ -344,7 +364,7 @@ def EPISODES(url):
         code11=re.sub("`",'',code10)
 	match=re.compile('"cmsid">(.+?)</div><div style="display:none;" class="item-type">video</div><div style="display:none;" class="screenshot">.+?</div><a title="(.+?)" href=".+?".+?<img alt=".+?" border=".+?" height=".+?" width=".+?" src="(.+?)"').findall(code11)
 	for url,name,thumb in match:
-		addDir(name.replace('&amp;','&'),'http://www.nick.com/dynamo/video/data/mrssGen.jhtml?type=network&hub=home&loc=default&mode=episode&dartSite=nick.nol&mgid=mgid:cms:episode:spongebob.com:'+ url +'&demo=null&block=false',5,thumb,'')
+		addDir(name.replace('&amp;','&'),'http://www.nick.com/dynamo/video/data/mrssGen.jhtml?type=network&hub=home&loc=default&mode=episode&dartSite=nick.nol&mgid=mgid:cms:episode:spongebob.com:'+ url +'&demo=null&block=false',22,thumb,'')
 
 
 def SUBSPONGE(url):
@@ -401,7 +421,6 @@ def SUBNEWS(url):
 		item.setProperty('IsPlayable', 'true')
                 xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
 
-
 def SUB(url):
         req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
@@ -428,6 +447,34 @@ def SUB(url):
           	item.setInfo( type="Video", infoLabels={ "Title": name} )                
 		item.setProperty('IsPlayable', 'true')
                 xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
+
+def SUBALLSHOWS(url):
+        req = urllib2.Request(url)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        response = urllib2.urlopen(req).read()
+	code=re.sub('&quot;','',response)
+	code1=re.sub('&#039;','',code)
+	code2=re.sub('&#215;','',code1)
+	code3=re.sub('&#038;','',code2)
+	code4=re.sub('&#8216;','',code3)
+	code5=re.sub('&#8217;','',code4)
+	code6=re.sub('&#8211;','',code5)
+	code7=re.sub('&#8220;','',code6)
+	code8=re.sub('&#8221;','',code7)
+	code9=re.sub('&#8212;','',code8)
+    	code10=re.sub('&amp;','&',code9)
+        code11=re.sub("`",'',code10)
+        names = re.compile('<media:title>(.+?)</media:title>').findall(code11)
+        thumbs = re.compile('url="(.+?)jpg"').findall(code11)
+        urls = re.compile('<media:player url="http://media.nick.com/mgid:cms:video:spongebob.com:(.+?)"/>').findall(code11)
+	videos = [(names[i],thumbs[i],urls[i])for i in range (0,len(thumbs))]
+	for name,thumb,url in videos:
+	        u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.nick.com/dynamo/video/data/mediaGen.jhtml?mgid=mgid:cms:video:spongebob.com:'+url+'&block=false&type=network',name)+"&mode="+str(6)
+                item=xbmcgui.ListItem(name.replace('&amp;','&'), thumbnailImage=thumb+'.jpg')
+          	item.setInfo( type="Video", infoLabels={ "Title": name} )                
+		item.setProperty('IsPlayable', 'true')
+                xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
+
 
 
 def PLAY(url):
@@ -537,6 +584,9 @@ elif mode==7:
 elif mode==8:
         print "PAGE"
         EPISODESNEWS(url)
+elif mode==21:
+        print "PAGE"
+        EPISODESSPONGE(url)
 elif mode==9:
         print "PAGE"
         SUBNEWS(url)
@@ -573,5 +623,8 @@ elif mode==19:
 elif mode==20:
         print "PAGE"
         SUBTOON(url)
+elif mode==22:
+        print "PAGE"
+        SUBALLSHOWS(url)
         
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
