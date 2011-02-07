@@ -169,7 +169,7 @@ def SUBSHOWS(url):
         urls = re.compile('"id":"(.+?)"').findall(link)
 	videos = [(names[i],thumbs[i],urls[i])for i in range (0,len(thumbs))]
 	for name,thumb,url in videos:
-	        u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.nickjr.com/dynamo/video/data/mediaGen.jhtml?mgid=mgid:cms:item:nickjr.com:'+url+'&block=false',name)+"&mode="+str(15)
+	        u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.nickjr.com/dynamo/video/data/mediaGen.jhtml?mgid=mgid:cms:item:nickjr.com:'+url+'&block=false',name)+"&mode="+str(23)
                 item=xbmcgui.ListItem(name.replace('&amp;','&'), thumbnailImage=thumb)
           	item.setInfo( type="Video", infoLabels={ "Title": name} )                
 		item.setProperty('IsPlayable', 'true')
@@ -184,7 +184,7 @@ def SUBCHANNELS(url):
         urls = re.compile('<media:player url="http://media.mtvnservices.com/mgid:cms:item:nickjr.com:(.+?)"/>').findall(link)
 	videos = [(names[i],urls[i])for i in range (0,len(names))]
 	for name,url in videos:
-	        u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.nickjr.com/dynamo/video/data/mediaGen.jhtml?mgid=mgid:cms:item:nickjr.com:'+url+'&block=false',name)+"&mode="+str(15)
+	        u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.nickjr.com/dynamo/video/data/mediaGen.jhtml?mgid=mgid:cms:item:nickjr.com:'+url+'&block=false',name)+"&mode="+str(23)
                 item=xbmcgui.ListItem(name.replace('&amp;','&'))
           	item.setInfo( type="Video", infoLabels={ "Title": name} )                
 		item.setProperty('IsPlayable', 'true')
@@ -578,6 +578,9 @@ elif mode==5:
 elif mode==6:
         print "PAGE"
         PLAY(url)
+elif mode==23:
+        print "PAGE"
+        PLAYJR(url)
 elif mode==7:
         print "PAGE"
         CLIPSNEWS(url)
