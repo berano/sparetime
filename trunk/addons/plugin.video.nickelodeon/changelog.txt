@@ -1,3 +1,6 @@
+v1.2.1:
+  - fix thumbnails in nicktoons
+
 v1.2.0:
   - add duration, thumbnail for each episode & clip
 
