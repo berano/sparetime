@@ -57,7 +57,6 @@ def CATALLTOON(url):
         addDir('Full Episodes','http://nicktoons.nick.com/ajax/videos/'+ref+'?_&sort=date+desc&start=0&page=1&type=fullEpisodeItem',19,'','')
         addDir('Clips','http://nicktoons.nick.com/ajax/videos/'+ref+'?_&sort=date+desc&start=0&page=1&type=videoItem',18,'','')
 
-
 def CLIPSTOON(url):
         req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
@@ -128,7 +127,7 @@ def SUBTOON(url):
 	videos = [(names[i],duration[i],thumbs[i],urls[i])for i in range (0,len(thumbs))]
 	for name,duration,thumb,url in videos:
 	        u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.nick.com/dynamo/video/data/mediaGen.jhtml?mgid=mgid:cms:video:spongebob.com:'+url+'&block=false&type=network',name)+"&mode="+str(6)
-                item=xbmcgui.ListItem(name.replace('&amp;','&'), thumbnailImage=thumb+'.jpg')
+                item=xbmcgui.ListItem(name.replace('&amp;','&'), thumbnailImage=thumb+'jpg')
           	item.setInfo( type="Video", infoLabels={ "Title": name, "Duration": duration} )                
 		item.setProperty('IsPlayable', 'true')
                 xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
@@ -297,7 +296,7 @@ def CLIPS(url):
 			videos = [(names[i],duration[i],thumbs[i],urls[i])for i in range (0,len(thumbs))]
 			for name,duration,thumb,url in videos:
 	        		u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.nick.com/dynamo/video/data/mediaGen.jhtml?mgid=mgid:cms:video:spongebob.com:'+url+'&block=false&type=network',name)+"&mode="+str(6)
-                		item=xbmcgui.ListItem(name.replace('&amp;','&'), thumbnailImage=thumb+'.jpg')
+                		item=xbmcgui.ListItem(name.replace('&amp;','&'), thumbnailImage=thumb+'jpg')
           			item.setInfo( type="Video", infoLabels={ "Title": name, "Duration": duration} )                
 				item.setProperty('IsPlayable', 'true')
                 		xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
@@ -344,7 +343,7 @@ def EPISODESSPONGE(url):
 		videos = [(names[i],duration[i],thumbs[i],urls[i])for i in range (0,len(thumbs))]
 		for name,duration,thumb,url in videos:
 	        	u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.nick.com/dynamo/video/data/mediaGen.jhtml?mgid=mgid:cms:video:nick.com:'+url+'&block=false&type=network',name)+"&mode="+str(6)
-                	item=xbmcgui.ListItem(name.replace('&amp;','&'), thumbnailImage=thumb+'.jpg')
+                	item=xbmcgui.ListItem(name.replace('&amp;','&'), thumbnailImage=thumb+'jpg')
           		item.setInfo( type="Video", infoLabels={ "Title": name, "Duration": duration} )                
 			item.setProperty('IsPlayable', 'true')
                 	xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
@@ -365,7 +364,7 @@ def EPISODESALLSHOW(url):
 		videos = [(names[i],duration[i],thumbs[i],urls[i])for i in range (0,len(thumbs))]
 		for name,duration,thumb,url in videos:
 	        	u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.nick.com/dynamo/video/data/mediaGen.jhtml?mgid=mgid:cms:video:spongebob.com:'+url+'&block=false&type=network',name)+"&mode="+str(6)
-                	item=xbmcgui.ListItem(name.replace('&amp;','&'), thumbnailImage=thumb+'.jpg')
+                	item=xbmcgui.ListItem(name.replace('&amp;','&'), thumbnailImage=thumb+'jpg')
           		item.setInfo( type="Video", infoLabels={ "Title": name, "Duration": duration} )                
 			item.setProperty('IsPlayable', 'true')
                 	xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
