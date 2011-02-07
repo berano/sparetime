@@ -275,7 +275,7 @@ def CLIPS(url):
         	code11=re.sub("`",'',code10)
 		match=re.compile('"cmsid">(.+?)</div><div style="display:none;" class="item-type">video</div><div style="display:none;" class="screenshot">.+?</div><a title="(.+?)" href=".+?".+?<img alt=".+?" border=".+?" height=".+?" width=".+?" src="(.+?)"').findall(code11)
 		for url,name,thumb in match:
-			addDir(name.replace('&amp;','&'),'http://www.nick.com/dynamo/video/data/mrssGen.jhtml?type=network&hub=home&loc=default&mode=episode&dartSite=nick.nol&mgid=mgid:cms:episode:spongebob.com:'+ url +'&demo=null&block=true',15,thumb,'')
+			addDir(name.replace('&amp;','&'),'http://www.nick.com/dynamo/video/data/mrssGen.jhtml?type=network&hub=home&loc=default&mode=episode&dartSite=nick.nol&mgid=mgid:cms:episode:spongebob.com:'+ url +'&demo=null&block=false',15,thumb,'')
 		i=0
 		for i in range (i+19):
 			pagenumber = str(21*i+21)
@@ -298,7 +298,7 @@ def CLIPS(url):
         	code11=re.sub("`",'',code10)
 		match=re.compile('"cmsid">(.+?)</div><div style="display:none;" class="item-type">video</div><div style="display:none;" class="screenshot">.+?</div><a title="(.+?)" href=".+?".+?<img alt=".+?" border=".+?" height=".+?" width=".+?" src="(.+?)"').findall(code11)
 		for url,name,thumb in match:
-			addDir(name.replace('&amp;','&'),'http://www.nick.com/dynamo/video/data/mrssGen.jhtml?type=network&hub=home&loc=default&mode=episode&dartSite=nick.nol&mgid=mgid:cms:video:nick.com:'+ url +'&demo=null&block=true',5,thumb,'')
+			addDir(name.replace('&amp;','&'),'http://www.nick.com/dynamo/video/data/mrssGen.jhtml?type=network&hub=home&loc=default&mode=episode&dartSite=nick.nol&mgid=mgid:cms:video:nick.com:'+ url +'&demo=null&block=false',5,thumb,'')
 
 		i=0
 		for i in range (i+19):
@@ -420,7 +420,7 @@ def SUB(url):
         code11=re.sub("`",'',code10)
         names = re.compile('<media:title>(.+?)</media:title>').findall(code11)
         thumbs = re.compile('url="(.+?)jpg"').findall(code11)
-        urls = re.compile('<media:player url="http://media.nick.com/mgid:cms:video:spongebob.com:(.+?)"/>').findall(code11)
+        urls = re.compile('<media:player url="http://media.nick.com/mgid:cms:video:nick.com:(.+?)"/>').findall(code11)
 	videos = [(names[i],thumbs[i],urls[i])for i in range (0,len(thumbs))]
 	for name,thumb,url in videos:
 	        u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.nick.com/dynamo/video/data/mediaGen.jhtml?mgid=mgid:cms:video:spongebob.com:'+url+'&block=false&type=network',name)+"&mode="+str(6)

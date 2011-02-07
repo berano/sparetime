@@ -1,4 +1,10 @@
+v1.0.6:
+  - fix clips on nick.com
+
 v1.0.5:
+  - fix bugs
+
+v1.0.4:
   - added Nicktoons
 
 v1.0.4:
