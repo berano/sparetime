@@ -72,7 +72,7 @@ def CLIPSTOON(url):
         	urls = re.compile('<media:player url="http://media.nick.com/mgid:cms:video:nicktoons.com:(.+?)"/>').findall(code11)
 		videos = [(names[i],duration[i],thumbs[i],urls[i])for i in range (0,len(thumbs))]
 		for name,duration,thumb,url in videos:
-	        	u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.nick.com/dynamo/video/data/mediaGen.jhtml?mgid=mgid:cms:video:spongebob.com:'+url+'&block=false&type=network',name)+"&mode="+str(6)
+	        	u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.nick.com/dynamo/video/data/mediaGen.jhtml?mgid=mgid:cms:video:nicktoons.com:'+url+'&block=false&type=network')+"&mode="+str(6)
                 	item=xbmcgui.ListItem(name.replace('&amp;','&'), thumbnailImage=thumb+'jpg')
           		item.setInfo( type="Video", infoLabels={ "Title": name, "Duration": duration} )                
 			item.setProperty('IsPlayable', 'true')
@@ -99,7 +99,7 @@ def EPISODESTOON(url):
 		videos = [(names[i],duration[i],thumbs[i],urls[i])for i in range (0,len(thumbs))]
 		for name,duration,thumb,url in videos:
 	        	u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.nick.com/dynamo/video/data/mediaGen.jhtml?mgid=mgid:cms:video:spongebob.com:'+url+'&block=false&type=network',name)+"&mode="+str(6)
-                	item=xbmcgui.ListItem(name.replace('&amp;','&'), thumbnailImage=thumb+'jpg')
+                	item=xbmcgui.ListItem(name, thumbnailImage=thumb+'jpg')
           		item.setInfo( type="Video", infoLabels={ "Title": name, "Duration": duration} )                
 			item.setProperty('IsPlayable', 'true')
                 	xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
@@ -178,7 +178,7 @@ def SUBSHOWS(url):
 		videos = [(names[i],duration[i],urls[i],thumbs[i])for i in range (0,len(names))]
 		for name,duration,url,thumb in videos:
 	        	u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.nickjr.com/dynamo/video/data/mediaGen.jhtml?mgid=mgid:cms:item:nickjr.com:'+url+'&block=false',name)+"&mode="+str(23)
-                	item=xbmcgui.ListItem(name.replace('&amp;','&'), thumbnailImage=thumb+'jpg')
+                	item=xbmcgui.ListItem(name, thumbnailImage=thumb+'jpg')
           		item.setInfo( type="Video", infoLabels={ "Title": name, "Duration": duration} )                
 			item.setProperty('IsPlayable', 'true')
                 	xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
@@ -195,7 +195,7 @@ def SUBCHANNELS(url):
 	videos = [(names[i],duration[i],urls[i],thumbs[i])for i in range (0,len(names))]
 	for name,duration,url,thumb in videos:
 	        u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.nickjr.com/dynamo/video/data/mediaGen.jhtml?mgid=mgid:cms:item:nickjr.com:'+url+'&block=false',name)+"&mode="+str(23)
-                item=xbmcgui.ListItem(name.replace('&amp;','&'), thumbnailImage=thumb+'jpg')
+                item=xbmcgui.ListItem(name, thumbnailImage=thumb+'jpg')
           	item.setInfo( type="Video", infoLabels={ "Title": name, "Duration": duration} )                
 		item.setProperty('IsPlayable', 'true')
                 xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
@@ -245,8 +245,8 @@ def CLIPS(url):
         		urls = re.compile('<media:player url="http://media.nick.com/mgid:cms:video:nick.com:(.+?)"/>').findall(code11)
 			videos = [(names[i],duration[i],thumbs[i],urls[i])for i in range (0,len(thumbs))]
 			for name,duration,thumb,url in videos:
-	        		u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.nick.com/dynamo/video/data/mediaGen.jhtml?mgid=mgid:cms:video:nick.com:'+url+'&block=false&type=network',name)+"&mode="+str(6)
-                		item=xbmcgui.ListItem(name.replace('&amp;','&'), thumbnailImage=thumb+'jpg')
+	        		u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.nick.com/dynamo/video/data/mediaGen.jhtml?mgid=mgid:cms:video:nick.com:'+url+'&block=false&type=network')+"&mode="+str(6)
+                		item=xbmcgui.ListItem(name, thumbnailImage=thumb+'jpg')
           			item.setInfo( type="Video", infoLabels={ "Title": name, "Duration": duration} )                
 				item.setProperty('IsPlayable', 'true')
                 		xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
@@ -271,8 +271,8 @@ def CLIPS(url):
         		urls = re.compile('<media:player url="http://media.nick.com/mgid:cms:video:spongebob.com:(.+?)"/>').findall(code11)
 			videos = [(names[i],duration[i],thumbs[i],urls[i])for i in range (0,len(thumbs))]
 			for name,duration,thumb,url in videos:
-	        		u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.nick.com/dynamo/video/data/mediaGen.jhtml?mgid=mgid:cms:video:nick.com:'+url+'&block=false&type=network',name)+"&mode="+str(6)
-                		item=xbmcgui.ListItem(name.replace('&amp;','&'), thumbnailImage=thumb+'jpg')
+	        		u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.nick.com/dynamo/video/data/mediaGen.jhtml?mgid=mgid:cms:video:nick.com:'+url+'&block=false&type=network')+"&mode="+str(6)
+                		item=xbmcgui.ListItem(name, thumbnailImage=thumb+'jpg')
           			item.setInfo( type="Video", infoLabels={ "Title": name, "Duration": duration} )                
 				item.setProperty('IsPlayable', 'true')
                 		xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
@@ -295,8 +295,8 @@ def CLIPS(url):
         		urls = re.compile('<media:player url="http://media.nick.com/mgid:cms:video:nick.com:(.+?)"/>').findall(code11)
 			videos = [(names[i],duration[i],thumbs[i],urls[i])for i in range (0,len(thumbs))]
 			for name,duration,thumb,url in videos:
-	        		u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.nick.com/dynamo/video/data/mediaGen.jhtml?mgid=mgid:cms:video:spongebob.com:'+url+'&block=false&type=network',name)+"&mode="+str(6)
-                		item=xbmcgui.ListItem(name.replace('&amp;','&'), thumbnailImage=thumb+'jpg')
+	        		u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.nick.com/dynamo/video/data/mediaGen.jhtml?mgid=mgid:cms:video:spongebob.com:'+url+'&block=false&type=network')+"&mode="+str(6)
+                		item=xbmcgui.ListItem(name, thumbnailImage=thumb+'jpg')
           			item.setInfo( type="Video", infoLabels={ "Title": name, "Duration": duration} )                
 				item.setProperty('IsPlayable', 'true')
                 		xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
@@ -315,15 +315,16 @@ def EPISODESNEWS(url):
         	req = urllib2.Request('http://www.nick.com/dynamo/video/data/mrssGen.jhtml?type=network&hub=home&loc=default&mode=episode&dartSite=nick.nol&mgid=mgid:cms:video:nick.com:'+ url +'&demo=null&block=false')
         	req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
         	code11 = urllib2.urlopen(req).read()
+		showtitle = re.compile('urn:mtvn:display:source">(.+?)</media:category>').findall(code11)[0]
         	duration = re.compile('duration="(.+?)"').findall(code11)
         	names = re.compile('<media:title>(.+?)</media:title>').findall(code11)
         	thumbs = re.compile('url="(.+?)jpg"').findall(code11)
         	urls = re.compile('<media:player url="http://media.nick.com/mgid:cms:video:nick.com:(.+?)"/>').findall(code11)
 		videos = [(names[i],duration[i],thumbs[i],urls[i])for i in range (0,len(thumbs))]
 		for name,duration,thumb,url in videos:
-	        	u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.nick.com/dynamo/video/data/mediaGen.jhtml?mgid=mgid:cms:video:nick.com:'+url+'&block=false&type=network',name)+"&mode="+str(6)
-                	item=xbmcgui.ListItem(name.replace('&amp;','&'), thumbnailImage=thumb+'jpg')
-          		item.setInfo( type="Video", infoLabels={ "Title": name, "Duration": duration} )                
+	        	u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.nick.com/dynamo/video/data/mediaGen.jhtml?mgid=mgid:cms:video:nick.com:'+url+'&block=false&type=network')+"&mode="+str(6)
+                	item=xbmcgui.ListItem(name, thumbnailImage=thumb+'jpg')
+          		item.setInfo( type="Video", infoLabels={ "Title": name, "TVShowTitle":showtitle, "Duration": duration} )                
 			item.setProperty('IsPlayable', 'true')
                 	xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
 
@@ -337,14 +338,15 @@ def EPISODESSPONGE(url):
         	req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
         	code11 = urllib2.urlopen(req).read()
 	        duration = re.compile('duration="(.+?)"').findall(code11)
+		showtitle = re.compile('urn:mtvn:display:source">(.+?)</media:category>').findall(code11)[0]
         	names = re.compile('<media:title>(.+?)</media:title>').findall(code11)
         	thumbs = re.compile('url="(.+?)jpg"').findall(code11)
         	urls = re.compile('<media:player url="http://media.nick.com/mgid:cms:video:spongebob.com:(.+?)"/>').findall(code11)
 		videos = [(names[i],duration[i],thumbs[i],urls[i])for i in range (0,len(thumbs))]
 		for name,duration,thumb,url in videos:
 	        	u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.nick.com/dynamo/video/data/mediaGen.jhtml?mgid=mgid:cms:video:nick.com:'+url+'&block=false&type=network',name)+"&mode="+str(6)
-                	item=xbmcgui.ListItem(name.replace('&amp;','&'), thumbnailImage=thumb+'jpg')
-          		item.setInfo( type="Video", infoLabels={ "Title": name, "Duration": duration} )                
+                	item=xbmcgui.ListItem(name, thumbnailImage=thumb+'jpg')
+          		item.setInfo( type="Video", infoLabels={ "Title": name, "TVShowTitle":showtitle, "Duration": duration} )                
 			item.setProperty('IsPlayable', 'true')
                 	xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
 
@@ -357,16 +359,17 @@ def EPISODESALLSHOW(url):
         	req = urllib2.Request('http://www.nick.com/dynamo/video/data/mrssGen.jhtml?type=network&hub=home&loc=default&mode=episode&dartSite=nick.nol&mgid=mgid:cms:episode:spongebob.com:'+ url +'&demo=null&block=false')
         	req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
         	code11 = urllib2.urlopen(req).read()
+		showtitle = re.compile('urn:mtvn:display:source">(.+?)</media:category>').findall(code11)[0]
         	duration = re.compile('duration="(.+?)"').findall(code11)
         	names = re.compile('<media:title>(.+?)</media:title>').findall(code11)
         	thumbs = re.compile('url="(.+?)jpg"').findall(code11)
         	urls = re.compile('<media:player url="http://media.nick.com/mgid:cms:video:spongebob.com:(.+?)"/>').findall(code11)
 		videos = [(names[i],duration[i],thumbs[i],urls[i])for i in range (0,len(thumbs))]
 		for name,duration,thumb,url in videos:
-	        	u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.nick.com/dynamo/video/data/mediaGen.jhtml?mgid=mgid:cms:video:spongebob.com:'+url+'&block=false&type=network',name)+"&mode="+str(6)
-                	item=xbmcgui.ListItem(name.replace('&amp;','&'), thumbnailImage=thumb+'jpg')
-          		item.setInfo( type="Video", infoLabels={ "Title": name, "Duration": duration} )                
-			item.setProperty('IsPlayable', 'true')
+	        	u=sys.argv[0]+"?url="+urllib.quote_plus('http://www.nick.com/dynamo/video/data/mediaGen.jhtml?mgid=mgid:cms:video:spongebob.com:'+url+'&block=false&type=network')+"&mode="+str(6)
+                	item=xbmcgui.ListItem(name, thumbnailImage=thumb+'jpg')
+          		item.setInfo( type="Video", infoLabels={ "Title": name, "TVShowTitle":showtitle, "Duration": duration} )                
+			item.setProperty('IsPlayable', 'true');
                 	xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
 
 def PLAY(url):
@@ -376,6 +379,7 @@ def PLAY(url):
 	link = page.read()
 	if link.find('video/x-flv')<0:
 		finalurl=re.compile('<src>(.+?)</src>\n</rendition>\n<rendition cdn=".+?" duration=".+?" bitrate=".+?" width=".+?" height=".+?"\ntype="video/mp4">').findall(link)[-1]
+		print finalurl
      		item = xbmcgui.ListItem(path=finalurl)
         	xbmcplugin.setResolvedUrl(pluginhandle, True, item)
 	else:
