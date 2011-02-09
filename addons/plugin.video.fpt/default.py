@@ -27,11 +27,12 @@ translatedfptpath = xbmcpath(fptpath,'')
 referer = xbmcpath(fptpath,'ref.txt')
 
 def CATS():
-        addDir('Tv Shows','http://www.fastpasstv.com/tv',2,'')
-        addDir('New Episodes Added','http://www.fastpasstv.com/tv',14,'')
-        addDir('Latest Added Tv Shows','http://www.fastpasstv.com/',4,'')
-        addDir('Latest Added Movies','http://www.fastpasstv.com/',5,'')
-	addDir('Movies','http://www.fastpasstv.com/movies',1,'')
+        addDir('Most Popular TV Shows Today','http://www.fastpasstv.com/',14,'')
+        addDir('Most Popular Movies Today','http://www.fastpasstv.com/',5,'')
+        addDir('Latest Added Tv Shows','http://www.fastpasstv.com/tv',4,'')
+        addDir('Latest Added Movies','http://www.fastpasstv.com/movies',20,'')
+        addDir('All Tv Shows','http://www.fastpasstv.com/tv',2,'')
+	addDir('All Movies','http://www.fastpasstv.com/movies',1,'')
 	#addDir('Documentaries','http://www.fastpasstv.com/documentaries',1,'')
 	addDir('Search','http://www.fastpasstv.com/',9,'')
 
@@ -40,11 +41,11 @@ def NEWEP(url,name):
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
         response = urllib2.urlopen(req)
         link=response.read()
-     	listnew=re.compile('<li><a href="(.+?)">(.+?)<font class="newvid">New Episodes!').findall(link)
-	for url,name in listnew:
-		addDir(name+' (NEW EPISODE!)','http://www.fastpasstv.com'+url,4,'')
+      	tvs=re.compile('<li><a href="/tv/(.+?)">(.+?)</a></li>').findall(link)
+	for url2,name in tvs:
+		addDir(name,'http://www.fastpasstv.com/tv/'+url2,18,'')
 
-def X1(url,name):
+def MOVALL(url,name):
         req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
         response = urllib2.urlopen(req)
@@ -52,6 +53,17 @@ def X1(url,name):
      	mvs=re.compile('<li><a href="(.+?)">(.+?)<span class="epnum">.+?</span></a></li>').findall(link)
 	for url,name in mvs:
 		addDir(name.replace('<font class="newvid">New Episodes!</font>','(NEW EPISODE)'),'http://www.fastpasstv.com'+url,6,'')
+
+def MOVLAT(url,name):
+        req = urllib2.Request(url)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        response = urllib2.urlopen(req)
+        link=response.read()
+	all = re.compile('<p><b>Latest additions</b>.+?<ul class="pagination">', re.DOTALL).findall(link)
+      	tvs=re.compile('<a href="/movies/(.+?)">(.+?)</a>').findall(all[0])
+      	#crt=re.compile('<li><a href="/cartoons/(.+?)">(.+?)</a></li>').findall(link)
+	for url2,name in tvs:
+		addDir(name,'http://www.fastpasstv.com/movies/'+url2,6,'')
 
 def X2(url,name): 
         req = urllib2.Request(url)
@@ -77,12 +89,11 @@ def Y1(url,name):
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
         response = urllib2.urlopen(req)
         link=response.read()
-      	tvs=re.compile('<li><a href="/tv/(.+?)">(.+?)</a></li>').findall(link)
-      	crt=re.compile('<li><a href="/cartoons/(.+?)">(.+?)</a></li>').findall(link)
+	all = re.compile('<p><b>Latest additions</b>.+?<ul class="pagination">', re.DOTALL).findall(link)
+      	tvs=re.compile('<a href="/tv/(.+?)">(.+?)</a>').findall(all[0])
+      	#crt=re.compile('<li><a href="/cartoons/(.+?)">(.+?)</a></li>').findall(link)
 	for url2,name in tvs:
 		addDir(name,'http://www.fastpasstv.com/tv/'+url2,18,'')
-	for url2,name in crt:
-		addDir(name,'http://www.fastpasstv.com/cartoons/'+url2,18,'')
 
 def Y2(url,name):
         req = urllib2.Request(url)
@@ -114,7 +125,7 @@ def Y3MOV(url,name):
       	wise=re.compile('<b>WiseVid</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
 	for url in nova:
 		i=i+1
-		addDir('Novamov (flv) #'+str(i)+str(i),'http://www.fastpasstv.com'+url,12,'')
+		addDir('Novamov (flv) #'+str(i),'http://www.fastpasstv.com'+url,12,'')
 	for url in dv1:
 		i=i+1
 		addDir('DivxDen (avi) Pt 1 #'+str(i),'http://www.fastpasstv.com'+url,8,'')
@@ -827,7 +838,7 @@ if mode==None or url==None or len(url)<1:
         CATS()
 elif mode==1:
         print "PAGE"
-        X1(url,name)
+        MOVALL(url,name)
 elif mode==11:
         print "PAGE"
         ICE(url,name)
@@ -873,5 +884,8 @@ elif mode==12:
 elif mode==15:
         print "PAGE"
         Mega(url,name)
+elif mode==20:
+        print "PAGE"
+        MOVLAT(url,name)
 
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
