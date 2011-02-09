@@ -72,7 +72,7 @@ def X2(url,name):
         link=response.read()
      	list=re.compile('<li><a href="(.+?)">(.+?)<span class="epnum">.+?</span></a></li>').findall(link)
 	for url,name in list:
-		addDir(name.replace('<font class="newvid">New Episodes!</font>','(NEW EPISODE)'),'http://www.fastpasstv.com'+url,4,'')
+		addDir(name.replace('<font class="newvid">New Episodes!</font>','(NEW EPISODE)'),'http://www.fastpasstv.com'+url,21,'')
 
 def X3(url,name):
         req = urllib2.Request(url)
@@ -103,6 +103,15 @@ def Y2(url,name):
       	mvs=re.compile('<li><a href="/movies/(.+?)">(.+?)</a></li>').findall(link)
 	for url2,name in mvs:
 		addDir(name,'http://www.fastpasstv.com/movies/'+url2,6,'')
+
+def Y3(url,name):
+        req = urllib2.Request(url)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        response = urllib2.urlopen(req)
+        link=response.read()
+      	mvs=re.compile('<li><a href="/tv/(.+?)">(.+?)</a></li>').findall(link)
+	for url2,name in mvs:
+		addDir(name,'http://www.fastpasstv.com/tv/'+url2,18,'')
 
 def Y3MOV(url,name):
 	i=0
@@ -603,9 +612,9 @@ def SEARCH():
      		ctn=re.compile('<li><a href="/cartoons/(.+?)">(.+?)<span class="epnum">.+?</span></a>').findall(response)
      		mvs=re.compile('<li><a href="/movies/(.+?)">(.+?)<span class="epnum">.+?</span></a>').findall(response)
 		for url,name in tvs:
-			addDir(name.replace('<font class="newvid">New Episodes!</font>','(NEW EPISODE)'),'http://www.fastpasstv.com/tv/'+url,4,'')
+			addDir(name.replace('<font class="newvid">New Episodes!</font>','(NEW EPISODE)'),'http://www.fastpasstv.com/tv/'+url,21,'')
 		for url,name in ctn:
-			addDir(name.replace('<font class="newvid">New Episodes!</font>','(NEW EPISODE)'),'http://www.fastpasstv.com/cartoons/'+url,4,'')
+			addDir(name.replace('<font class="newvid">New Episodes!</font>','(NEW EPISODE)'),'http://www.fastpasstv.com/cartoons/'+url,21,'')
 		for url,name in mvs:
 			addDir(name,'http://www.fastpasstv.com/movies/'+url,6,'')
 		for url,name in docs:
@@ -854,6 +863,9 @@ elif mode==4:
 elif mode==5:
         print "PAGE"
         Y2(url,name)
+elif mode==21:
+        print "PAGE"
+        Y3(url,name)
 elif mode==6:
         print "PAGE"
         Y3MOV(url,name)
