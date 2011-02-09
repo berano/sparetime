@@ -1,3 +1,6 @@
+v2.2.5:
+  - fix tv shows
+
 v2.2.4:
   - regrouping based on website structure
 
