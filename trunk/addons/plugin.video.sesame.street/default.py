@@ -8,28 +8,33 @@ def CATS():
         addDir('Search','http://www.sesamestreet.org/',8,'','')
 
 def VIDS(url):
-        addDir('Browse All','http://www.sesamestreet.org/browseallvideos',4,'','')
+        addDir('By Character','http://www.sesamestreet.org/browsevideosbycharacter',3,'','')
         addDir('By Subject','http://www.sesamestreet.org/browsevideosbysubject',3,'','')
         addDir('By Theme','http://www.sesamestreet.org/browsevideosbytheme',3,'','')
-        addDir('By Character','http://www.sesamestreet.org/browsevideosbycharacter',3,'','')
         addDir('Songs','http://www.sesamestreet.org/browseallvideos?p_p_id=browsegpv_WAR_browsegpvportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_browsegpv_WAR_browsegpvportlet_assetType=SONG',4,'','')
 	addDir('Classic Clips','http://www.sesamestreet.org/browseallvideos?p_p_id=browsegpv_WAR_browsegpvportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_browsegpv_WAR_browsegpvportlet_assetType=CLASSIC',4,'','')
+        addDir('Browse All','http://www.sesamestreet.org/browseallvideos',4,'','')
+
 
 def PLISTS(url):
-        addDir('Browse All','http://www.sesamestreet.org/browseallplaylists',10,'','')
+        addDir('By Character','http://www.sesamestreet.org/browseplaylistsbycharacter',9,'','')
         addDir('By Subject','http://www.sesamestreet.org/browseplaylistsbysubject',9,'','')
         addDir('By Theme','http://www.sesamestreet.org/browseplaylistsbytheme',9,'','')
-        addDir('By Character','http://www.sesamestreet.org/browseplaylistsbycharacter',9,'','')
+        addDir('Browse All','http://www.sesamestreet.org/browseallplaylists',10,'','')
 
 def SCRAP1(url):
-        req = urllib2.Request(url)
-        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        page = urllib2.urlopen(req)
-	link=page.read()
-        all=re.compile('<!-- Start Rounded Container Here -->.+?<!-- End Rounded Container Here -->', re.DOTALL).findall(link)
-	match=re.compile('href="(.+?)" class=".+?"><span>(.+?)</span></a>').findall(all[0])
-	for url,name in match:
-		addDir(name,url,4,'','')
+	addDir('Abby Cadabby','http://www.sesamestreet.org/browseallvideos?p_p_id=browsegpv_WAR_browsegpvportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_browsegpv_WAR_browsegpvportlet_elementType=character&_browsegpv_WAR_browsegpvportlet_character=Abby+Cadabby',4,'http://t3.gstatic.com/images?q=tbn:ANd9GcTY6lshVvhKhevQmQ-f9aYANFMp7D6IvoV33r_gYQKuU48XeB7Vdw','')
+	addDir('Bert','http://www.sesamestreet.org/browseallvideos?p_p_id=browsegpv_WAR_browsegpvportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_browsegpv_WAR_browsegpvportlet_elementType=character&_browsegpv_WAR_browsegpvportlet_character=Bert',4,'http://t1.gstatic.com/images?q=tbn:ANd9GcRzLcotJCIkxvi8sVwu9GBs_J_8JGMeqTCHOISvNYoUSZRC8IHt','')
+	addDir('Big Bird','http://www.sesamestreet.org/browseallvideos?p_p_id=browsegpv_WAR_browsegpvportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_browsegpv_WAR_browsegpvportlet_elementType=character&_browsegpv_WAR_browsegpvportlet_character=Big+Bird',4,'http://t1.gstatic.com/images?q=tbn:ANd9GcTYFMF9T3fZq2lpoL8l7c-MLckx-DmV6JXeEB2LIL5PhDbqIxcbTg','')
+	addDir('Cookie Monster','http://www.sesamestreet.org/browseallvideos?p_p_id=browsegpv_WAR_browsegpvportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_browsegpv_WAR_browsegpvportlet_elementType=character&_browsegpv_WAR_browsegpvportlet_character=Cookie+Monster',4,'http://t0.gstatic.com/images?q=tbn:ANd9GcSE0LcH4HzacYlQJ3FGkf-Ry_-gaHmERo_3jG-voLUMQ0ZlkHZBfg','')
+	addDir('Count Von Count','http://www.sesamestreet.org/browseallvideos?p_p_id=browsegpv_WAR_browsegpvportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_browsegpv_WAR_browsegpvportlet_elementType=character&_browsegpv_WAR_browsegpvportlet_character=Count+Von+Count',4,'http://t1.gstatic.com/images?q=tbn:ANd9GcSz2HZmLrr9OcUmhsX0bud5L46vagSw_kquCGzl4GCDjnPxGjiUjQ','')
+	addDir('Elmo','http://www.sesamestreet.org/browseallvideos?p_p_id=browsegpv_WAR_browsegpvportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_browsegpv_WAR_browsegpvportlet_elementType=character&_browsegpv_WAR_browsegpvportlet_character=Elmo',4,'http://t1.gstatic.com/images?q=tbn:ANd9GcRoT1Kv4YOgLfRiDMcSBZoIHic6GZWjg_vC0QtzYOgQysePmd-9jg','')
+	addDir('Ernie','http://www.sesamestreet.org/browseallvideos?p_p_id=browsegpv_WAR_browsegpvportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_browsegpv_WAR_browsegpvportlet_elementType=character&_browsegpv_WAR_browsegpvportlet_character=Ernie',4,'http://t1.gstatic.com/images?q=tbn:ANd9GcQMLI3HKP7yXYofA381tVwXspPVikHaWY5GM1647Md9eaYGtNKI7Q','')
+	addDir('Grover','http://www.sesamestreet.org/browseallvideos?p_p_id=browsegpv_WAR_browsegpvportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_browsegpv_WAR_browsegpvportlet_elementType=character&_browsegpv_WAR_browsegpvportlet_character=Grover',4,'http://t2.gstatic.com/images?q=tbn:ANd9GcTNV8I_gDBV_gqCw5a89goDenLONFjJgdEx-d0gAigbYNDunUKc','')
+	addDir('Oscar','http://www.sesamestreet.org/browseallvideos?p_p_id=browsegpv_WAR_browsegpvportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_browsegpv_WAR_browsegpvportlet_elementType=character&_browsegpv_WAR_browsegpvportlet_character=Oscar',4,'http://t0.gstatic.com/images?q=tbn:ANd9GcQVMVF4TE5hnS3GXZyQAMsTS2Iau1CAogAUJgEjivXZCC5IP7RSNQ','')
+	addDir('Rosita','http://www.sesamestreet.org/browseallvideos?p_p_id=browsegpv_WAR_browsegpvportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_browsegpv_WAR_browsegpvportlet_elementType=character&_browsegpv_WAR_browsegpvportlet_character=Rosita',4,'http://t0.gstatic.com/images?q=tbn:ANd9GcSgnops4tqWDtPtzfT8a1uA5Xj0Nt-d9qeNYACFWd-rG1Kgz1H1','')
+	addDir('Telly Monster','http://www.sesamestreet.org/browseallvideos?p_p_id=browsegpv_WAR_browsegpvportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_browsegpv_WAR_browsegpvportlet_elementType=character&_browsegpv_WAR_browsegpvportlet_character=Telly+Monster',4,'http://t0.gstatic.com/images?q=tbn:ANd9GcR2alJTdXicA3OQ4SqRVylR6hdWO3eLpe0oGNhoFvS4s6GgeO_h','')
+	addDir('Zoe','http://www.sesamestreet.org/browseallvideos?p_p_id=browsegpv_WAR_browsegpvportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_browsegpv_WAR_browsegpvportlet_elementType=character&_browsegpv_WAR_browsegpvportlet_character=Zoe',4,'http://t3.gstatic.com/images?q=tbn:ANd9GcQbetCE3OoBl0XEYsOrnlvTrLx_6iOr2PSgmLZjflyGIsYL_P4K','')
 
 def SCRAP2(url):
         req = urllib2.Request(url)
@@ -49,14 +54,19 @@ def SCRAP2(url):
 		addDir('More',url,4,'','')
 
 def SCRAP3(url):
-        req = urllib2.Request(url)
-        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        page = urllib2.urlopen(req)
-	link=page.read()
-        all=re.compile('<!-- Start Rounded Container Here -->.+?<!-- End Rounded Container Here -->', re.DOTALL).findall(link)
-	match=re.compile('href="(.+?)" class=".+?"><span>(.+?)</span></a>').findall(all[0])
-	for url,name in match:
-		addDir(name,url,10,'','')
+	addDir('Abby Cadabby','http://www.sesamestreet.org/browseallplaylists?p_p_id=browsegpv_WAR_browsegpvportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_browsegpv_WAR_browsegpvportlet_elementType=character&_browsegpv_WAR_browsegpvportlet_character=Abby+Cadabby',10,'http://t3.gstatic.com/images?q=tbn:ANd9GcTY6lshVvhKhevQmQ-f9aYANFMp7D6IvoV33r_gYQKuU48XeB7Vdw','')
+	addDir('Bert','http://www.sesamestreet.org/browseallplaylists?p_p_id=browsegpv_WAR_browsegpvportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_browsegpv_WAR_browsegpvportlet_elementType=character&_browsegpv_WAR_browsegpvportlet_character=Bert',10,'http://t1.gstatic.com/images?q=tbn:ANd9GcRzLcotJCIkxvi8sVwu9GBs_J_8JGMeqTCHOISvNYoUSZRC8IHt','')
+	addDir('Big Bird','http://www.sesamestreet.org/browseallplaylists?p_p_id=browsegpv_WAR_browsegpvportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_browsegpv_WAR_browsegpvportlet_elementType=character&_browsegpv_WAR_browsegpvportlet_character=Big+Bird',10,'http://t1.gstatic.com/images?q=tbn:ANd9GcTYFMF9T3fZq2lpoL8l7c-MLckx-DmV6JXeEB2LIL5PhDbqIxcbTg','')
+	addDir('Cookie Monster','http://www.sesamestreet.org/browseallplaylists?p_p_id=browsegpv_WAR_browsegpvportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_browsegpv_WAR_browsegpvportlet_elementType=character&_browsegpv_WAR_browsegpvportlet_character=Cookie+Monster',10,'http://t0.gstatic.com/images?q=tbn:ANd9GcSE0LcH4HzacYlQJ3FGkf-Ry_-gaHmERo_3jG-voLUMQ0ZlkHZBfg','')
+	addDir('Count Von Count','http://www.sesamestreet.org/browseallplaylists?p_p_id=browsegpv_WAR_browsegpvportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_browsegpv_WAR_browsegpvportlet_elementType=character&_browsegpv_WAR_browsegpvportlet_character=Count+Von+Count',10,'http://t1.gstatic.com/images?q=tbn:ANd9GcSz2HZmLrr9OcUmhsX0bud5L46vagSw_kquCGzl4GCDjnPxGjiUjQ','')
+	addDir('Elmo','http://www.sesamestreet.org/browseallplaylists?p_p_id=browsegpv_WAR_browsegpvportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_browsegpv_WAR_browsegpvportlet_elementType=character&_browsegpv_WAR_browsegpvportlet_character=Elmo',10,'http://t1.gstatic.com/images?q=tbn:ANd9GcRoT1Kv4YOgLfRiDMcSBZoIHic6GZWjg_vC0QtzYOgQysePmd-9jg','')
+	addDir('Ernie','http://www.sesamestreet.org/browseallplaylists?p_p_id=browsegpv_WAR_browsegpvportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_browsegpv_WAR_browsegpvportlet_elementType=character&_browsegpv_WAR_browsegpvportlet_character=Ernie',10,'http://t1.gstatic.com/images?q=tbn:ANd9GcQMLI3HKP7yXYofA381tVwXspPVikHaWY5GM1647Md9eaYGtNKI7Q','')
+	addDir('Grover','http://www.sesamestreet.org/browseallplaylists?p_p_id=browsegpv_WAR_browsegpvportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_browsegpv_WAR_browsegpvportlet_elementType=character&_browsegpv_WAR_browsegpvportlet_character=Grover',10,'http://t2.gstatic.com/images?q=tbn:ANd9GcTNV8I_gDBV_gqCw5a89goDenLONFjJgdEx-d0gAigbYNDunUKc','')
+	addDir('Oscar','http://www.sesamestreet.org/browseallplaylists?p_p_id=browsegpv_WAR_browsegpvportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_browsegpv_WAR_browsegpvportlet_elementType=character&_browsegpv_WAR_browsegpvportlet_character=Oscar',10,'http://t0.gstatic.com/images?q=tbn:ANd9GcQVMVF4TE5hnS3GXZyQAMsTS2Iau1CAogAUJgEjivXZCC5IP7RSNQ','')
+	addDir('Rosita','http://www.sesamestreet.org/browseallplaylists?p_p_id=browsegpv_WAR_browsegpvportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_browsegpv_WAR_browsegpvportlet_elementType=character&_browsegpv_WAR_browsegpvportlet_character=Rosita',10,'http://t0.gstatic.com/images?q=tbn:ANd9GcSgnops4tqWDtPtzfT8a1uA5Xj0Nt-d9qeNYACFWd-rG1Kgz1H1','')
+	addDir('Telly Monster','http://www.sesamestreet.org/browseallplaylists?p_p_id=browsegpv_WAR_browsegpvportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_browsegpv_WAR_browsegpvportlet_elementType=character&_browsegpv_WAR_browsegpvportlet_character=Telly+Monster',10,'http://t0.gstatic.com/images?q=tbn:ANd9GcR2alJTdXicA3OQ4SqRVylR6hdWO3eLpe0oGNhoFvS4s6GgeO_h','')
+	addDir('Zoe','http://www.sesamestreet.org/browseallplaylists?p_p_id=browsegpv_WAR_browsegpvportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_browsegpv_WAR_browsegpvportlet_elementType=character&_browsegpv_WAR_browsegpvportlet_character=Zoe',10,'http://t3.gstatic.com/images?q=tbn:ANd9GcQbetCE3OoBl0XEYsOrnlvTrLx_6iOr2PSgmLZjflyGIsYL_P4K','')
+
 
 def SCRAP4(url):
         req = urllib2.Request(url)
