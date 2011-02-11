@@ -29,11 +29,12 @@ referer = xbmcpath(fptpath,'ref.txt')
 def CATS():
         addDir('Most Popular TV Shows Today','http://www.fastpasstv.com/',14,'')
         addDir('Most Popular Movies Today','http://www.fastpasstv.com/',5,'')
-        addDir('Latest Added Tv Shows','http://www.fastpasstv.com/tv',4,'')
+        addDir('Latest Added TV Shows','http://www.fastpasstv.com/tv',4,'')
         addDir('Latest Added Movies','http://www.fastpasstv.com/movies',20,'')
-        addDir('All Tv Shows','http://www.fastpasstv.com/tv',2,'')
+        addDir('Latest Added Documentaries','http://www.fastpasstv.com/documentaries',22,'')
+        addDir('All TV Shows','http://www.fastpasstv.com/tv',2,'')
 	addDir('All Movies','http://www.fastpasstv.com/movies',1,'')
-	#addDir('Documentaries','http://www.fastpasstv.com/documentaries',1,'')
+	addDir('All Documentaries','http://www.fastpasstv.com/documentaries',1,'')
 	addDir('Search','http://www.fastpasstv.com/',9,'')
 
 def NEWEP(url,name):
@@ -61,9 +62,18 @@ def MOVLAT(url,name):
         link=response.read()
 	all = re.compile('<p><b>Latest additions</b>.+?<ul class="pagination">', re.DOTALL).findall(link)
       	tvs=re.compile('<a href="/movies/(.+?)">(.+?)</a>').findall(all[0])
-      	#crt=re.compile('<li><a href="/cartoons/(.+?)">(.+?)</a></li>').findall(link)
 	for url2,name in tvs:
 		addDir(name,'http://www.fastpasstv.com/movies/'+url2,6,'')
+
+def DOCLAT(url,name):
+        req = urllib2.Request(url)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        response = urllib2.urlopen(req)
+        link=response.read()
+	all = re.compile('<p><b>Latest additions</b>.+?<ul class="pagination">', re.DOTALL).findall(link)
+      	docs=re.compile('<a href="/documentaries/(.+?)">(.+?)</a>').findall(all[0])
+	for url2,name in docs:
+		addDir(name,'http://www.fastpasstv.com/documentaries/'+url2,6,'')
 
 def X2(url,name): 
         req = urllib2.Request(url)
@@ -278,7 +288,13 @@ def VIDSDIVX(url,name):
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
         response = urllib2.urlopen(req)
 	link2=response.read()
-	fcodenm=re.compile('name="fname" type="hidden" value="(.+?)"').findall(link2)[0]
+	try:
+		fcodenm=re.compile('name="fname" type="hidden" value="(.+?)"').findall(link2)[0]
+	except:
+		dialog = xbmcgui.Dialog()
+		ok = dialog.ok("FastPassTv",'The link is dead or site changed, report this to me')
+		return
+
 	fcodeid=re.compile('name="id" type="hidden" value="(.+?)"').findall(link2)[0]
 	refer=openfile(referer)
 
@@ -340,7 +356,13 @@ def VIDBUX(url,name):
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
         response = urllib2.urlopen(req)
 	link2=response.read()
-	fcodenm=re.compile('name="fname" type="hidden" value="(.+?)"').findall(link2)[0]
+	try:
+		fcodenm=re.compile('name="fname" type="hidden" value="(.+?)"').findall(link2)[0]
+	except:
+		dialog = xbmcgui.Dialog()
+		ok = dialog.ok("FastPassTv",'The link is dead or site changed, report this to me')
+		return
+
 	fcodeid=re.compile('name="id" type="hidden" value="(.+?)"').findall(link2)[0]
 	refer=openfile(referer)
 
@@ -390,6 +412,7 @@ def Nova(url,name):
         response = urllib2.urlopen(req)
 	link=response.read()
 	finalurl=re.compile('file="(.+?)"').findall(link)[0]
+
         if (fpt.getSetting('download') == '0'):
                     dia = xbmcgui.Dialog()
                     ret = dia.select('Streaming Options', ['Play','Download'])
@@ -899,5 +922,8 @@ elif mode==15:
 elif mode==20:
         print "PAGE"
         MOVLAT(url,name)
+elif mode==22:
+        print "PAGE"
+        DOCLAT(url,name)
 
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
