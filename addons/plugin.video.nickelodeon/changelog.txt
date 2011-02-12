@@ -1,3 +1,6 @@
+v1.3.1:
+  - remove bugs
+
 v1.3.0:
   - Detect videos in full episodes or clips, add proxy support
 

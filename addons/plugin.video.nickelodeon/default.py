@@ -205,12 +205,12 @@ def NICKSHOWS(url):
                 link= getURL(url)
         all=re.compile('href="/overlay/login.html">Log in</a>.+?<a href="/thebighelp"', re.DOTALL).findall(link)
 	match1=re.compile('<a href="/shows/(.+?)" style="background-image.+?http://nick.mtvnimages.com/nick-assets/navigation/shownav/(.+?).jpg.+?".+?title="(.+?)"').findall(all[0])
-	addDir('Spongebob Squarepants','http://spongebob.nick.com/',2,'http://nick.mtvnimages.com/nick-assets/navigation/shownav/menu_icon_spongebob.jpg','')
-	addDir('NickNews','http://news.nick.com/',2,'http://nick.mtvnimages.com/nick-assets/navigation/shownav/menu_icon_nicknews.jpg','')		
+	addDir('Spongebob Squarepants','http://spongebob.nick.com/',24,'http://nick.mtvnimages.com/nick-assets/navigation/shownav/menu_icon_spongebob.jpg','')
+	addDir('NickNews','http://news.nick.com/',24,'http://nick.mtvnimages.com/nick-assets/navigation/shownav/menu_icon_nicknews.jpg','')		
 	for url,thumb,name in match1:
 		addDir(name.replace('&amp;','&'),'http://www.nick.com/videos/'+url+'-videos',2,'http://nick.mtvnimages.com/nick-assets/navigation/shownav/'+thumb+'.jpg','')
 
-def NICKCAT(url):
+def NICKSPONGEANDNEWS(url):
 	if (settings['proxy'] == 'true'):
         	link= getURL(url,True)
         else:
@@ -222,7 +222,13 @@ def NICKCAT(url):
 	elif url.find('news.nick')>0:
 		addDir('Full Episodes','http://www.nick.com/ajax/videos/nick-news-videos?_&sort=date+desc&start=0&page=1&type=fullEpisodeItem',8,'','')
         	addDir('Clips','http://www.nick.com/ajax/videos/nick-news-videos?_&sort=date+desc&start=0&page=1&type=videoItem',3,'','')
-	elif '>Full Episodes</a>' in link:   
+
+def NICKCAT(url):
+	if (settings['proxy'] == 'true'):
+        	link= getURL(url,True)
+        else:
+                link= getURL(url)
+	if '>Full Episodes</a>' in link:   
 		ref = re.compile('"urlAlias", "(.+?)"').findall(link)[0]
 		save(referer,ref)
         	addDir('Full Episodes','http://www.nick.com/ajax/videos/'+ref+'?_&sort=date+desc&start=0&page=1&type=fullEpisodeItem',4,'','')
@@ -528,5 +534,8 @@ elif mode==20:
 elif mode==22:
         print "PAGE"
         SUBALLSHOWS(url)
+elif mode==24:
+        print "PAGE"
+        NICKSPONGEANDNEWS(url)
         
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
