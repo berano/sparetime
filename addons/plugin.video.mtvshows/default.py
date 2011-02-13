@@ -21,6 +21,7 @@ def LISTING(url):
 	videos = [(names[i],urls[i],thumbs[i])for i in range (0,len(names))]
 	for name,url,thumb in videos:
 		addDir(name,'http://www.mtv.com/shows'+url,2,'http://www.mtv.com/onair'+thumb,'')
+	addDir('I Used To Be Fat','http://www.mtv.com/shows/i_used_to_be_fat/series.jhtml',2,'http://www.mtv.com/onair/i_used_to_be_fat/images/seriesmain/140x105.jpg','')
 	for url in next:
 		addDir(' More','http://www.mtv.com'+url,1,'','')
 
@@ -74,9 +75,10 @@ def EPISODES(url):
 		return
         thumbs = re.compile('src="(.+?)"').findall(all[0])
         urls = re.compile('mainuri="mgid:uma:videolist:mtv.com:(.+?)"').findall(all[0])
-	videos = [(names[i],urls[i],thumbs[i])for i in range (0,len(urls))]
-	for name,url,thumb in videos:
-		addDir(name,'http://www.mtv.com/player/embed/AS3/fullepisode/rss/?id='+url+'&uri=mgid:uma:videolist:mtv.com:'+url+'&instance= fullepisode'+url,6,'http://www.mtv.com'+thumb,'')
+	dates = re.compile('mainposted="(.+?)"').findall(all[0])
+	videos = [(names[i],urls[i],thumbs[i],dates[i])for i in range (0,len(urls))]
+	for name,url,thumb,date in videos:
+		addDir(name,'http://www.mtv.com/player/embed/AS3/fullepisode/rss/?id='+url+'&uri=mgid:uma:videolist:mtv.com:'+url+'&instance= fullepisode'+url,6,'http://www.mtv.com'+thumb,date)
 
 def CLIPS(name,url):
 	req = urllib2.Request(url)
@@ -149,7 +151,6 @@ def PLAYEPISODE(name,url):
         		link= proxy(url,True)
         	else:
                 	link= proxy(url)		
-		link = proxy(url)
 		if link.find('mp4')>0:
 			clean = re.compile('rtmpe://cp10740.edgefcs.net/ondemand/mtvcomstor/_!/mtv.com/onair(.+?).mp4').findall(link)[-1]
 			finalurl = "rtmpe://cp10740.edgefcs.net/ondemand/" + " playpath=mp4:mtvcomstor/_!/mtv.com/onair"+ clean + " swfurl=" + "http://media.mtvnservices.com/player/release/?v=4.4.3" + " swfvfy=true"
