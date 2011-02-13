@@ -150,7 +150,14 @@ def PLAYEPISODE(name,url):
 		if (settings['proxy'] == 'true'):
         		link= proxy(url,True)
         	else:
-                	link= proxy(url)		
+                	link= proxy(url)
+		try:
+			testip = re.compile('rtmpe:(.+?)\n').findall(link)[0]
+		except:
+			dialog = xbmcgui.Dialog()
+			ok = dialog.ok("MTV Shows",'Your proxy IP is no longer working', 'or you need to enable the proxy.')
+			return
+		
 		if link.find('mp4')>0:
 			clean = re.compile('rtmpe://cp10740.edgefcs.net/ondemand/mtvcomstor/_!/mtv.com/onair(.+?).mp4').findall(link)[-1]
 			finalurl = "rtmpe://cp10740.edgefcs.net/ondemand/" + " playpath=mp4:mtvcomstor/_!/mtv.com/onair"+ clean + " swfurl=" + "http://media.mtvnservices.com/player/release/?v=4.4.3" + " swfvfy=true"
