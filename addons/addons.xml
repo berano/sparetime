@@ -56,7 +56,7 @@
 
 <addon id="plugin.video.mtvshows"
        name="MTV Shows"
-       version="1.0.2"
+       version="1.0.3"
        provider-name="nixa">
   <requires>
     <import addon="xbmc.python" version="1.0"/>
