@@ -5,6 +5,7 @@ settings={}
 settings['proxy'] = xbmcplugin.getSetting(pluginhandle,'us_proxy_enable')
 
 def CATS():
+	addDir('Popular TV Shows','http://www.mtv.com/',9,'')
 	addDir('All Current MTV Shows','http://www.mtv.com/ontv/all/current.jhtml',1,'')
 	addDir('Archives of MTV Shows','http://www.mtv.com/ontv/all/index.jhtml',7,'')
  
@@ -40,6 +41,16 @@ def LISTING2(url):
 		addDir(name,'http://www.mtv.com'+url,2,'http://www.mtv.com'+thumb,'')
 	for url in next:
 		addDir(' More','http://www.mtv.com'+url,7,'','')
+
+def LISTINGPOPULAR(url):
+	req = urllib2.Request(url)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        response = urllib2.urlopen(req)
+        link=response.read()
+        all = re.compile('<span>Popular Shows</span>.+?<a href="/ontv/all/" class=" allshows">', re.DOTALL).findall(link)
+        urls = re.compile('<a href="(.+?)">(.+?)</a>').findall(all[0])
+	for url,name in urls:
+		addDir(name,'http://www.mtv.com'+url,2,'','')
 
 def EP_CP(name,url):
 	req = urllib2.Request(url)
@@ -266,5 +277,11 @@ elif mode==6:
 elif mode==7:
         print "PAGE"
         LISTING2(url)
+elif mode==8:
+        print "PAGE"
+        LISTINGLATEST(url)
+elif mode==9:
+        print "PAGE"
+        LISTINGPOPULAR(url)
 
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
