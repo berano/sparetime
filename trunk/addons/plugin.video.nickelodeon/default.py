@@ -344,10 +344,11 @@ def EPISODESNEWS(url):
 
 
 def EPISODESSPONGE(url):
-        req = urllib2.Request(url)
-        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        response = urllib2.urlopen(req).read()
-	match=re.compile('"cmsid">(.+?)</div>').findall(response)
+	if (settings['proxy'] == 'true'):
+        	link= getURL(url,True)
+        else:
+                link= getURL(url)
+	match=re.compile('"cmsid">(.+?)</div>').findall(link)
 	for url in match:
        		req = urllib2.Request('http://www.nick.com/dynamo/video/data/mrssGen.jhtml?type=network&hub=home&loc=default&mode=episode&dartSite=nick.nol&mgid=mgid:cms:episode:spongebob.com:'+ url +'&demo=null&block=false')
         	req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
