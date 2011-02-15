@@ -1,5 +1,5 @@
 <settings>
    <setting id="us_proxy_enable" type="bool" label="30039" default="false"/>
-   <setting id="us_proxy" type="text" label="30040" default="75.147.173.215"/>
-   <setting id="us_proxy_port" type="text" label="30041" default="80"/>
+   <setting id="us_proxy" type="text" label="30040" default="208.115.60.146"/>
+   <setting id="us_proxy_port" type="text" label="30041" default="8080"/>
 </settings>
