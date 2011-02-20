@@ -1,3 +1,6 @@
+v2.3.0:
+  - complied to website http changed
+
 v2.2.6:
   - dialog added for error links, add documentary category
 

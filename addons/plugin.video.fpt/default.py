@@ -188,22 +188,22 @@ def Y3TV(url,name):
        	wise=re.compile('<b>WiseVid</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
 	for url in mega:
 		i=i+1
-		addDir('Megavideo (flv) #'+str(i),'http://www.fastpasstv.com'+url,15,'')
+		addDir('Megavideo (flv) #'+str(i),'http://www.fastpasstv.eu'+url,15,'')
 	for url in dv1:
 		i=i+1
-		addDir('DivxDen (avi) Pt 1 #'+str(i),'http://www.fastpasstv.com'+url,8,'')
+		addDir('DivxDen (avi) Pt 1 #'+str(i),'http://www.fastpasstv.eu'+url,8,'')
 	for url in dv2:
 		i=i+1
-		addDir('DivxDen (avi) Pt 2 #'+str(i),'http://www.fastpasstv.com'+url,8,'')
+		addDir('DivxDen (avi) Pt 2 #'+str(i),'http://www.fastpasstv.eu'+url,8,'')
 	for url in dv:
 		i=i+1
-		addDir('DivxDen (avi) #'+str(i),'http://www.fastpasstv.com'+url,8,'')
+		addDir('DivxDen (avi) #'+str(i),'http://www.fastpasstv.eu'+url,8,'')
 	for url in vidbx:
 		i=i+1
-		addDir('VidBux (avi) #'+str(i),'http://www.fastpasstv.com'+url,10,'')
+		addDir('VidBux (avi) #'+str(i),'http://www.fastpasstv.eu'+url,10,'')
 	for url in wise:
 		i=i+1
-		addDir('Wisevid (flv) #'+str(i),'http://www.fastpasstv.com'+url,19,'')
+		addDir('Wisevid (flv) #'+str(i),'http://www.fastpasstv.eu'+url,19,'')
 
 def VIDSFLV(url,name):
 	urlogin = 'http://www.fastpasstv.com/register'
@@ -267,7 +267,7 @@ def VIDSFLV(url,name):
         	return
 
 def VIDSDIVX(url,name):
-	urlogin = 'http://www.fastpasstv.com/register'
+	urlogin = 'http://www.fastpasstv.eu/register'
 	cookiejar = cookielib.LWPCookieJar()
 	cookiejar = urllib2.HTTPCookieProcessor(cookiejar) 
 	opener = urllib2.build_opener(cookiejar)
@@ -335,7 +335,7 @@ def VIDSDIVX(url,name):
         	return
 
 def VIDBUX(url,name):
-	urlogin = 'http://www.fastpasstv.com/register'
+	urlogin = 'http://www.fastpasstv.eu/register'
 	cookiejar = cookielib.LWPCookieJar()
 	cookiejar = urllib2.HTTPCookieProcessor(cookiejar) 
 	opener = urllib2.build_opener(cookiejar)
@@ -436,7 +436,7 @@ def Nova(url,name):
         	return
 
 def Mega(url,name):
-	urlogin = 'http://www.fastpasstv.com/register'
+	urlogin = 'http://www.fastpasstv.eu/register'
 	cookiejar = cookielib.LWPCookieJar()
 	cookiejar = urllib2.HTTPCookieProcessor(cookiejar) 
 	opener = urllib2.build_opener(cookiejar)
@@ -627,7 +627,7 @@ def SEARCH():
 		user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
 		headers = { 'User-Agent' : user_agent }
 		data = urllib.urlencode(values)
-                req = urllib2.Request('http://www.fastpasstv.com/search',data,headers)
+                req = urllib2.Request('http://www.fastpasstv.eu/search',data,headers)
 	        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
                 response = urllib2.urlopen(req).read()
      		tvs=re.compile('<li><a href="/tv/(.+?)">(.+?)<span class="epnum">.+?</span></a></li>').findall(response)
@@ -639,12 +639,12 @@ def SEARCH():
 		for url,name in ctn:
 			addDir(name.replace('<font class="newvid">New Episodes!</font>','(NEW EPISODE)'),'http://www.fastpasstv.com/cartoons/'+url,21,'')
 		for url,name in mvs:
-			addDir(name,'http://www.fastpasstv.com/movies/'+url,6,'')
+			addDir(name,'http://www.fastpasstv.eu/movies/'+url,6,'')
 		for url,name in docs:
-			addDir(name,'http://www.fastpasstv.com/documentaries/'+url,6,'')
+			addDir(name,'http://www.fastpasstv.eu/documentaries/'+url,6,'')
 
 def WISE(url,name):
-	urlogin = 'http://www.fastpasstv.com/register'
+	urlogin = 'http://www.fastpasstv.eu/register'
 	cookiejar = cookielib.LWPCookieJar()
 	cookiejar = urllib2.HTTPCookieProcessor(cookiejar) 
 	opener = urllib2.build_opener(cookiejar)
