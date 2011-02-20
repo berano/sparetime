@@ -8,6 +8,7 @@ def CATS():
 	addDir('Popular TV Shows','http://www.mtv.com/',9,'')
 	addDir('All Current MTV Shows','http://www.mtv.com/ontv/all/current.jhtml',1,'')
 	addDir('Archives of MTV Shows','http://www.mtv.com/ontv/all/index.jhtml',7,'')
+	addLink('name','rtmpe://viacom.fcod.llnwd.net/a3951/e15/gsp.nickcomstor/nickvision/nick/onair/shows/icarly/ni_icarly_rt227177_307_cart_a_640x480_1600.mp4','','','')
  
 def LISTING(url):
 	req = urllib2.Request(url)
@@ -127,11 +128,12 @@ def PLAYCLIP(name,url):
         link=response.read()
 	id1 = re.compile('MTVN.Player.vid = (.+?);').findall(link)[0]
 	id2 = re.compile('MTVN.Player.defaultPlaylistId = (.+?);').findall(link)[0]
-	mediaGen = 'http://www.mtv.com/player/includes/mediaGen.jhtml?uri=mgid:uma:video:mtv.com:'+id1+'&id='+id2+'&vid='+id1+'&ref=www.mtv.com&viewUri=mgid:uma:video:mtv.com:'+id1
-	req = urllib2.Request(mediaGen)
-        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        response = urllib2.urlopen(req)
-        link=response.read()
+	url = 'http://www.mtv.com/player/includes/mediaGen.jhtml?uri=mgid:uma:video:mtv.com:'+id1+'&id='+id2+'&vid='+id1+'&ref=www.mtv.com&viewUri=mgid:uma:video:mtv.com:'+id1
+	if (settings['proxy'] == 'true'):
+        	link= proxy(url,True)
+        else:
+                link= proxy(url)
+
 	if 'mtvnorigin' in link:
 		clean = re.compile('rtmpe://cp10740.edgefcs.net/ondemand/mtvnorigin/gsp.egvrenditions/mtv.com/(.+?).mp4').findall(link)[-1]
 		finalurl = "rtmpe://cp10740.edgefcs.net/ondemand/" + " playpath=mp4:mtvnorigin/gsp.egvrenditions/mtv.com/"+ clean + " swfurl=" + "http://media.mtvnservices.com/player/release/?v=4.4.3" + " swfvfy=true"
@@ -168,8 +170,11 @@ def PLAYEPISODE(name,url):
 			dialog = xbmcgui.Dialog()
 			ok = dialog.ok("MTV Shows",'Your proxy IP is no longer working', 'or you need to enable the proxy.')
 			return
-		
-		if link.find('mp4')>0:
+		if 'mtvnorigin' in link:
+			clean2 = re.compile('rtmpe://cp10740.edgefcs.net/ondemand/mtvnorigin/gsp.originmusicstor/sites/mtv.com/(.+?).mp4').findall(link)[-1]
+			finalurl2 = "rtmpe://cp10740.edgefcs.net/ondemand/" + " playpath=mp4:mtvnorigin/gsp.originmusicstor/sites/mtv.com/"+ clean2 + " swfurl=" + "http://media.mtvnservices.com/player/release/?v=4.4.3" + " swfvfy=true"
+			addLink('Part # '+str(i),finalurl2,'','','')
+		elif link.find('mp4')>0:
 			clean = re.compile('rtmpe://cp10740.edgefcs.net/ondemand/mtvcomstor/_!/mtv.com/onair(.+?).mp4').findall(link)[-1]
 			finalurl = "rtmpe://cp10740.edgefcs.net/ondemand/" + " playpath=mp4:mtvcomstor/_!/mtv.com/onair"+ clean + " swfurl=" + "http://media.mtvnservices.com/player/release/?v=4.4.3" + " swfvfy=true"
 			addLink('Part # '+str(i),finalurl,'','','')
