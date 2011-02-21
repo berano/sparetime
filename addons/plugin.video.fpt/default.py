@@ -29,9 +29,9 @@ referer = xbmcpath(fptpath,'ref.txt')
 def CATS():
         addDir('Most Popular TV Shows Today','http://www.fastpasstv.com/',14,'')
         addDir('Most Popular Movies Today','http://www.fastpasstv.com/',5,'')
-        addDir('Latest Added TV Shows','http://www.fastpasstv.com/tv',4,'')
-        addDir('Latest Added Movies','http://www.fastpasstv.com/movies',20,'')
-        addDir('Latest Added Documentaries','http://www.fastpasstv.com/documentaries',22,'')
+        addDir('Latest Added TV Shows','http://www.fastpasstv.com/rss/tv',4,'')
+        addDir('Latest Added Movies','http://www.fastpasstv.com/rss/movies',20,'')
+        addDir('Latest Added Documentaries','http://www.fastpasstv.com/rss/documentaries',22,'')
         addDir('All TV Shows','http://www.fastpasstv.com/tv',2,'')
 	addDir('All Movies','http://www.fastpasstv.com/movies',1,'')
 	addDir('All Documentaries','http://www.fastpasstv.com/documentaries',1,'')
@@ -61,9 +61,9 @@ def MOVLAT(url,name):
         response = urllib2.urlopen(req)
         link=response.read()
 	all = re.compile('<p><b>Latest additions</b>.+?<ul class="pagination">', re.DOTALL).findall(link)
-      	tvs=re.compile('<a href="/movies/(.+?)">(.+?)</a>').findall(all[0])
-	for url2,name in tvs:
-		addDir(name,'http://www.fastpasstv.com/movies/'+url2,6,'')
+      	mv=re.compile('<title>(.+?)</title>\n		<link>http://www.fastpasstv.eu/movies/(.+?)/</link>').findall(link)
+	for name,url in mv:
+		addDir(name.replace('&amp;','&'),'http://www.fastpasstv.com/movies/'+url,6,'')
 
 def DOCLAT(url,name):
         req = urllib2.Request(url)
@@ -71,9 +71,9 @@ def DOCLAT(url,name):
         response = urllib2.urlopen(req)
         link=response.read()
 	all = re.compile('<p><b>Latest additions</b>.+?<ul class="pagination">', re.DOTALL).findall(link)
-      	docs=re.compile('<a href="/documentaries/(.+?)">(.+?)</a>').findall(all[0])
-	for url2,name in docs:
-		addDir(name,'http://www.fastpasstv.com/documentaries/'+url2,6,'')
+      	doc=re.compile('<title>(.+?)</title>\n		<link>http://www.fastpasstv.eu/documentaries/(.+?)/</link>').findall(link)
+	for name,url in doc:
+		addDir(name.replace('&amp;','&'),'http://www.fastpasstv.com/documentaries/'+url,6,'')
 
 def X2(url,name): 
         req = urllib2.Request(url)
@@ -100,10 +100,10 @@ def Y1(url,name):
         response = urllib2.urlopen(req)
         link=response.read()
 	all = re.compile('<p><b>Latest additions</b>.+?<ul class="pagination">', re.DOTALL).findall(link)
-      	tvs=re.compile('<a href="/tv/(.+?)">(.+?)</a>').findall(all[0])
+      	tvs=re.compile('<title>(.+?)</title>\n		<link>http://www.fastpasstv.eu/tv/(.+?)/</link>').findall(link)
       	#crt=re.compile('<li><a href="/cartoons/(.+?)">(.+?)</a></li>').findall(link)
-	for url2,name in tvs:
-		addDir(name,'http://www.fastpasstv.com/tv/'+url2,18,'')
+	for name,url in tvs:
+		addDir(name.replace('&amp;','&'),'http://www.fastpasstv.com/tv/'+url,18,'')
 
 def Y2(url,name):
         req = urllib2.Request(url)
