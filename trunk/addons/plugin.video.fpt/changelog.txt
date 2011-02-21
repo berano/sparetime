@@ -1,3 +1,6 @@
+v2.4.2:
+  - now latest categories follow RSS feeds
+
 v2.4.0:
   - fix domain changed
 
