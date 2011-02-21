@@ -1,3 +1,6 @@
+v2.4.0:
+  - fix domain changed
+
 v2.3.0:
   - complied to website http changed
 

@@ -267,7 +267,7 @@ def VIDSFLV(url,name):
         	return
 
 def VIDSDIVX(url,name):
-	urlogin = 'http://www.fastpasstv.com/register'
+	urlogin = 'http://www.fastpasstv.eu/register'
 	cookiejar = cookielib.LWPCookieJar()
 	cookiejar = urllib2.HTTPCookieProcessor(cookiejar) 
 	opener = urllib2.build_opener(cookiejar)
@@ -335,7 +335,7 @@ def VIDSDIVX(url,name):
         	return
 
 def VIDBUX(url,name):
-	urlogin = 'http://www.fastpasstv.com/register'
+	urlogin = 'http://www.fastpasstv.eu/register'
 	cookiejar = cookielib.LWPCookieJar()
 	cookiejar = urllib2.HTTPCookieProcessor(cookiejar) 
 	opener = urllib2.build_opener(cookiejar)
@@ -436,7 +436,7 @@ def Nova(url,name):
         	return
 
 def Mega(url,name):
-	urlogin = 'http://www.fastpasstv.com/register'
+	urlogin = 'http://www.fastpasstv.eu/register'
 	cookiejar = cookielib.LWPCookieJar()
 	cookiejar = urllib2.HTTPCookieProcessor(cookiejar) 
 	opener = urllib2.build_opener(cookiejar)
@@ -644,7 +644,7 @@ def SEARCH():
 			addDir(name,'http://www.fastpasstv.eu/documentaries/'+url,6,'')
 
 def WISE(url,name):
-	urlogin = 'http://www.fastpasstv.com/register'
+	urlogin = 'http://www.fastpasstv.eu/register'
 	cookiejar = cookielib.LWPCookieJar()
 	cookiejar = urllib2.HTTPCookieProcessor(cookiejar) 
 	opener = urllib2.build_opener(cookiejar)
