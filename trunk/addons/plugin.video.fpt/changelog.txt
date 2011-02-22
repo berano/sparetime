@@ -1,5 +1,8 @@
 v2.4.3:
-  - support wootly, removed mega
+  - support megavideo
+
+v2.4.3:
+  - support wootly, removed megavideo
 
 v2.3.0:
   - complied to website http changed

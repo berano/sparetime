@@ -169,9 +169,9 @@ def Y3MOV(url,name):
 	for url in wise:
 		i=i+1
 		addDir('Wisevid (flv) #'+str(i),'http://www.fastpasstv.com'+url,19,'')
-	#for url in mega:
-	#	i=i+1
-	#	addDir('Megavideo (flv) #'+str(i),'http://www.fastpasstv.com'+url,15,'')
+	for url in mega:
+		i=i+1
+		addDir('Megavideo (flv) #'+str(i),'http://www.fastpasstv.com'+url,15,'')
 
 def Y3TV(url,name):
 	i=0
@@ -189,9 +189,9 @@ def Y3TV(url,name):
       	dv2=re.compile('<b>VidX.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href=".+?" target="_blank">1</a>&nbsp;<a href="(.+?)"').findall(link)
       	vidbx=re.compile('<b>VidBux.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">Watch This Video!').findall(link)
        	wise=re.compile('<b>WiseVid</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-	#for url in mega:
-	#	i=i+1
-	#	addDir('Megavideo (flv) #'+str(i),'http://www.fastpasstv.eu'+url,15,'')
+	for url in mega:
+		i=i+1
+		addDir('Megavideo (flv) #'+str(i),'http://www.fastpasstv.eu'+url,15,'')
 	for url in woot:
 		i=i+1
 		addDir('Wootly (mp4) #'+str(i),'http://www.fastpasstv.eu'+url,7,'')
