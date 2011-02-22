@@ -1,8 +1,5 @@
-v2.4.2:
-  - now latest categories follow RSS feeds
-
-v2.4.0:
-  - fix domain changed
+v2.4.3:
+  - support wootly, removed mega
 
 v2.3.0:
   - complied to website http changed
