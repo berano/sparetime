@@ -133,7 +133,7 @@ def Y3MOV(url,name):
         link=response2.read()
 	nova=re.compile('<b>Novamov</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
 	mega=re.compile('<b>Megavideo</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-       	fv=re.compile('<b>.+?Flash.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+       	woot=re.compile('<b>Wootly</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
        	fv2=re.compile('<b>VidX.+?FLV.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
       	dv=re.compile('<b>VidX.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">Watch This Video!').findall(link)
       	dv1=re.compile('<b>VidX.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">1</a>&nbsp;<a href=".+?"').findall(link)
@@ -145,6 +145,9 @@ def Y3MOV(url,name):
 	for url in nova:
 		i=i+1
 		addDir('Novamov (flv) #'+str(i),'http://www.fastpasstv.com'+url,12,'')
+	for url in woot:
+		i=i+1
+		addDir('Wootly (mp4) #'+str(i),'http://www.fastpasstv.eu'+url,7,'')
 	for url in dv1:
 		i=i+1
 		addDir('DivxDen (avi) Pt 1 #'+str(i),'http://www.fastpasstv.com'+url,8,'')
@@ -179,7 +182,7 @@ def Y3TV(url,name):
 	save(referer,ref)
         link=response2.read()
 	mega=re.compile('<b>Megavideo</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-       	fv=re.compile('<b>.+?Flash.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+       	woot=re.compile('<b>Wootly</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
        	fv2=re.compile('<b>VidX.+?FLV.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
       	dv=re.compile('<b>VidX.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">Watch This Video!').findall(link)
       	dv1=re.compile('<b>VidX.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">1</a>&nbsp;<a href=".+?"').findall(link)
@@ -189,6 +192,9 @@ def Y3TV(url,name):
 	#for url in mega:
 	#	i=i+1
 	#	addDir('Megavideo (flv) #'+str(i),'http://www.fastpasstv.eu'+url,15,'')
+	for url in woot:
+		i=i+1
+		addDir('Wootly (mp4) #'+str(i),'http://www.fastpasstv.eu'+url,7,'')
 	for url in dv1:
 		i=i+1
 		addDir('DivxDen (avi) Pt 1 #'+str(i),'http://www.fastpasstv.eu'+url,8,'')
@@ -206,7 +212,7 @@ def Y3TV(url,name):
 		addDir('Wisevid (flv) #'+str(i),'http://www.fastpasstv.eu'+url,19,'')
 
 def VIDSFLV(url,name):
-	urlogin = 'http://www.fastpasstv.com/register'
+	urlogin = 'http://www.fastpasstv.eu/register'
 	cookiejar = cookielib.LWPCookieJar()
 	cookiejar = urllib2.HTTPCookieProcessor(cookiejar) 
 	opener = urllib2.build_opener(cookiejar)
@@ -227,8 +233,15 @@ def VIDSFLV(url,name):
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
         response = urllib2.urlopen(req)
 	link2=response.read()
-	fcodenm=re.compile('name="fname" type="hidden" value="(.+?)"').findall(link2)[0]
-	fcodeid=re.compile('name="id" type="hidden" value="(.+?)"').findall(link2)[0]
+
+	try:
+		fcodenm=re.compile('name="fname" value="(.+?)"').findall(link2)[0]
+	except:
+		dialog = xbmcgui.Dialog()
+		ok = dialog.ok("FastPassTv",'The link is dead or site changed, report this to me')
+		return
+
+	fcodeid=re.compile('name="id" value="(.+?)"').findall(link2)[0]
 	refer=openfile(referer)
 
 	values = {'op': 'download1','usr_login': ' ','id': fcodeid, 'fname': fcodenm,'referer' : refer, 'method_free':'Continue to Video'}
@@ -240,26 +253,30 @@ def VIDSFLV(url,name):
 	link = response.read()
 	item = xbmcgui.ListItem(name)
 
-	file=re.compile("flv(.+?)182|file").findall(link)[0]
+	file=re.compile("mp4(.+?)182|file").findall(link)[0]
 	cleanup=file.replace('|',' ').replace('||',' ')
-	hashlong = cleanup[-46:].replace(' ','')	
-	hashshort =  re.compile('divxden(.+?)file').findall(link)[0]
-    	finalurl = 'http://'+hashshort.replace('the','').replace('you','').replace(' ','').replace('|','')+'.divxden.com:182/d/'+hashlong+'/'+ fcodenm
+	hashlong = cleanup[-57:].replace(' ','')	
+	hashshort =  re.compile("video(.+?)flvplayer").findall(link)[0]
+	if hashshort == '||' :
+		hashshort = 's1'
+    	finalurl = 'http://'+hashshort.replace('|','')+'.wootly.com:182/d/'+hashlong+'/'+ 'video.mp4'
 	print finalurl
        	if (fpt.getSetting('download') == '0'):
                     dia = xbmcgui.Dialog()
                     ret = dia.select('Streaming Options', ['Play','Download'])
                     if (ret == 0):
-	  		    item = xbmcgui.ListItem(path=finalurl)
-        	            xbmcplugin.setResolvedUrl(pluginhandle, True, item)
+			    addLink('Play',finalurl,'','','')
+			    item = xbmcgui.ListItem(name)
+          		    ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
                     elif (ret == 1):
                             path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
                             Download(finalurl,path+name+'.flv')
                     else:
                             return
 	elif (fpt.getSetting('download') == '1'):
-  		item = xbmcgui.ListItem(path=finalurl)
-        	xbmcplugin.setResolvedUrl(pluginhandle, True, item)
+ 		addLink('Play',finalurl,'','','')
+		item = xbmcgui.ListItem(name)
+          	ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
         elif (fpt.getSetting('download') == '2'):
                 path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
                 Download(finalurl,path+name+'.flv')
