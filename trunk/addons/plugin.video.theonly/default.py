@@ -89,6 +89,7 @@ def PARTS(url,name):
         ref=response.geturl()
         link=response.read()
       	mvs=re.compile('>http://www.movshare.net/(.+?)</a>').findall(link)
+      	mvs3=re.compile('>http://movshare.net/video/(.+?)</a>').findall(link)
       	mvs2=re.compile('>http://www2.movshare.net/(.+?)</a>').findall(link)
       	wisevid=re.compile('>http://www.wisevid.com/(.+?)</a>').findall(link)
       	n=re.compile('>http://www.novamov.com/video/(.+?)</a>').findall(link)
@@ -106,6 +107,8 @@ def PARTS(url,name):
 		addDir(name+' (movshare)','http://www.movshare.net/'+url,7,'','')
 	for url in mvs2:
 		addDir(name+' (movshare)','http://www2.movshare.net/'+url,7,'','')
+	for url in mvs3:
+		addDir(name+' (movshare)','http://www.movshare.net/player.php?v='+url,7,'','')
 	for url in dvden:
 		addDir(name+' (vidxden)','http://www.vidxden.com/'+url+'.avi.html',6,'','')
 	for url in xt:
@@ -170,8 +173,9 @@ def movshare(url,name):
 		swap=re.compile('<embed type="video/divx" src="(.+?)&.+?"').findall(the_page)
 		if not swap: swap=re.compile('<embed type="video/divx" src="(.+?)"').findall(the_page)
 		if not swap: swap=re.compile('"file","(.+?)&ec_rate=.+?"').findall(the_page)
-		for url in swap:
-			addLink('Play'+name,swap[0],'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png')
+		item = xbmcgui.ListItem(name)
+        	ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(swap[0], item)
+		addLink('Play',swap[0],'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png')
 
 def vidbux(url,name):
       	req = urllib2.Request(url)
