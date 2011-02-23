@@ -69,16 +69,16 @@ def INDEX3(url,name):
 	code5=re.sub('&#8217;','',code4)
        	code6=re.sub('&amp;','&',code5)
         code7=re.sub("`",'',code6)
-	urls=re.compile('<a href="(.+?)" title=".+?"><img style="background.+?"').findall(code7)
-	names=re.compile('<a href=".+?" title="(.+?)"><img style="background.+?"').findall(code7)
+	names=re.compile('title="Download (.+?) free"').findall(code7)
+	urls=re.compile('free"/></a><a href="(.+?)"').findall(code7)
 	thumbs=re.compile('<img style="background: .+?/images/(.+?)\)" class="thumb"').findall(response)
 	match=re.compile('<a href="(.+?)" >&laquo; Older Entries</a></div>').findall(response)
 	match2=re.compile('<a href="http://www.theonlydevice.com/page(.+?)" title="(.+?)">.+?</a>').findall(response)
-	videos=[(names[i],urls[i],thumbs[i])for i in range (0,len(urls))]
+	videos=[(names[i],urls[i],thumbs[i])for i in range (0,len(names))]
  	for name,url,thumb in videos:
                	addDir(name.replace('&#8221;',' ').replace('&#8243;',' ').replace('&#8220;',' '),url,3,'http://www.theonlydevice.com/images/'+thumb)
 	for url in match:
-		addDir('older entries',url,12,'')
+		addDir('Older entries',url,12,'')
 	for url,name in match2:
 		addDir(' Go to page '+name.replace('&raquo;',' '),'http://www.theonlydevice.com/page'+url,12,'http://www.clker.com/cliparts/0/5/7/9/1195435734741708243kuba_arrow_button_set_2.svg.hi.png')
 
@@ -88,47 +88,53 @@ def PARTS(url,name):
         response = urllib2.urlopen(req)
         ref=response.geturl()
         link=response.read()
-      	mvs=re.compile('<p><a href="http://www.movshare.net/(.+?)"').findall(link)
-      	mvs2=re.compile('<p><a href="http://www2.movshare.net/(.+?)"').findall(link)
-      	wisevid=re.compile('<p><a href="http://www.wisevid.com/(.+?)"').findall(link)
-      	n=re.compile('<p><a href="http://www.novamov.com/video/(.+?)"').findall(link)
-      	stg=re.compile('<p><a href="http://stagevu.com/video/(.+?)"').findall(link)
-      	fst=re.compile('<p><a href="http://www.freestreamtube.com/v/(.+?)"').findall(link)
-      	dvst=re.compile('<p><a href="http://divxstage.net/player.php?(.+?)"').findall(link)
-      	dvst2=re.compile('<p><a href="http://divxstage.net/play.php?(.+?)"').findall(link)
-      	dvden=re.compile('<p><a href="http://www.vidxden.com/(.+?)"').findall(link)
-     	dvst3=re.compile('href="http://www.divxstage.net/video/(.+?)"').findall(link)
-	img=re.compile('<img src="http://www.theonlydevice.com/images/(.+?)"').findall(link)
+      	mvs=re.compile('>http://www.movshare.net/(.+?)</a>').findall(link)
+      	mvs2=re.compile('>http://www2.movshare.net/(.+?)</a>').findall(link)
+      	wisevid=re.compile('>http://www.wisevid.com/(.+?)</a>').findall(link)
+      	n=re.compile('>http://www.novamov.com/video/(.+?)</a>').findall(link)
+      	stg=re.compile('>http://stagevu.com/video/(.+?)</a>').findall(link)
+      	vidb=re.compile('>http://www.vidbux.com/(.+?).avi.html</a>').findall(link)
+      	dvst=re.compile('>http://divxstage.net/player.php?(.+?)</a>').findall(link)
+      	dvst2=re.compile('>http://divxstage.net/play.php?(.+?)</a>').findall(link)
+      	dvden=re.compile('>http://www.vidxden.com/(.+?).avi.html</a>').findall(link)
+     	dvst3=re.compile('>http://www.divxstage.net/video/(.+?)</a>').findall(link)
+	img=re.compile('<img src="http://www.theonlydevice.com/images/(.+?).GIF"').findall(link)
 	info=re.compile('<meta name="description" content="(.+?)" />').findall(link)
-	xt=re.compile('<p><a href="http://xtshare.com/(.+?)"').findall(link)
-	vidr=re.compile('<p><a href="http://vidreel.com/(.+?)"').findall(link) 
+	xt=re.compile('>http://xtshare.com/(.+?)</a>').findall(link)
+	vidr=re.compile('>http://vidreel.com/(.+?)</a>').findall(link)
 	for url in mvs:
-		addDir(name+' (movshare)','http://www.movshare.net/'+url,7,'http://www.theonlydevice.com/images/'+img[0],info[0])
+		addDir(name+' (movshare)','http://www.movshare.net/'+url,7,'','')
 	for url in mvs2:
-		addDir(name+' (movshare)','http://www2.movshare.net/'+url,7,'http://www.theonlydevice.com/images/'+img[0],info[0])
+		addDir(name+' (movshare)','http://www2.movshare.net/'+url,7,'','')
 	for url in dvden:
-		addDir(name+' (vidxden)','http://www.vidxden.com/'+url,6,'http://www.theonlydevice.com/images/'+img[0],info[0])
+		addDir(name+' (vidxden)','http://www.vidxden.com/'+url+'.avi.html',6,'','')
 	for url in xt:
-		addDir(name+' (xtshare)','http://xtshare.com/'+url,8,'http://www.theonlydevice.com/images/'+img[0],info[0])
+		addDir(name+' (xtshare)','http://xtshare.com/'+url,8,'','')
 	for url in vidr:
-		addDir(name+' (vidreel)','http://vidreel.com/'+url,9,'http://www.theonlydevice.com/images/'+img[0],info[0])
+		addDir(name+' (vidreel)','http://vidreel.com/'+url,9,'','')
 	for url in wisevid:
-		addDir(name+' (wisevid)','http://www.wisevid.com/'+url,10,'http://www.theonlydevice.com/images/'+img[0],info[0])
+		addDir(name+' (wisevid)','http://www.wisevid.com/'+url,10,'','')
 	for url in dvst3:
-		addDir(name+' (divxstage)','http://www.divxstage.net/video/'+url,11,'http://www.theonlydevice.com/images/'+img[0],info[0])
+		addDir(name+' (divxstage)','http://www.divxstage.net/video/'+url,11,'','')
 	for url in dvst2:
-		addDir(name+' (divxstage)','http://divxstage.net/player.php?'+url,11,'http://www.theonlydevice.com/images/'+img[0],info[0])
+		addDir(name+' (divxstage)','http://divxstage.net/player.php?'+url,11,'','')
 	for url in dvst3:
-		addDir(name+' (divxstage)','http://divxstage.net/player.php?'+url,11,'http://www.theonlydevice.com/images/'+img[0],info[0])
+		addDir(name+' (divxstage)','http://divxstage.net/player.php?'+url,11,'','')
+	for url in vidb:
+		addDir(name+' (vidbux)','http://www.vidbux.com/'+url+'.avi.html',13,'','')
 
 def divxden(url,name):
       	req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
    	response = urllib2.urlopen(req)
 	link2=response.read()
-	fcodenm=re.compile('name="fname" type="hidden" value="(.+?)"').findall(link2)[0]
+	try:
+		fcodenm=re.compile('name="fname" type="hidden" value="(.+?)"').findall(link2)[0]
+	except:
+		dialog = xbmcgui.Dialog()
+		ok = dialog.ok("TheOnlyDevice",'The file has been removed due to copyright.')
+		return
 	fcodeid=re.compile('name="id" type="hidden" value="(.+?)"').findall(link2)[0]
-	print fcodenm
 	try:
 		values = {'op': 'download1','usr_login': ' ','id': fcodeid, 'fname': fcodenm,'referer' : ' ', 'method_free':'Continue to Video'}
 		user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
@@ -162,6 +168,32 @@ def movshare(url,name):
 		if not swap: swap=re.compile('"file","(.+?)&ec_rate=.+?"').findall(the_page)
 		for url in swap:
 			addLink('Play'+name,swap[0],'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png')
+
+def vidbux(url,name):
+      	req = urllib2.Request(url)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        response = urllib2.urlopen(req)
+	link2=response.read()
+
+	fcodenm=re.compile('name="fname" type="hidden" value="(.+?)"').findall(link2)[0]
+	fcodeid=re.compile('name="id" type="hidden" value="(.+?)"').findall(link2)[0]
+
+	values = {'op': 'download1','usr_login': ' ','id': fcodeid, 'fname': fcodenm,'referer' : ' ', 'method_free':'Continue to Video'}
+	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
+	headers = { 'User-Agent' : user_agent }
+	data = urllib.urlencode(values)
+	req = urllib2.Request(url, data, headers)
+	response = urllib2.urlopen(req)
+	link = response.read()
+
+	file=re.compile("custommode(.+?)182|file").findall(link)[0]
+	cleanup=file.replace('|',' ').replace('||',' ')
+	hashlong = cleanup[-41:].replace(' ','')
+	hashshort =  re.compile('</div><!-- <img src="http://(.+?).vidbux.com').findall(link)[0]
+   	finalurl = 'http://'+hashshort+'.vidbux.com:182/d/'+hashlong+'/'+ fcodenm
+	item = xbmcgui.ListItem(name)
+        ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
+	addLink('Play',finalurl,'http://www.bitdefender.com/files/KnowledgeBase/img/movie_icon.png')
 
 def xt(url,name):
       	req = urllib2.Request(url)
@@ -239,7 +271,13 @@ def wisevid(url,name):
         response = urllib2.urlopen(req)
 	link2=response.read()
 	try:
-		rawcode=re.compile("javascript:location.href='(.+?)'").findall(link2)[1]
+		try:
+			rawcode=re.compile("javascript:location.href='(.+?)'").findall(link2)[1]
+		except:
+			dialog = xbmcgui.Dialog()
+			ok = dialog.ok("TheOnlyDevice",'The file has been removed due to copyright.')
+			return
+
 		ref=response.geturl()
 		values = {'name': 'no','value': 'Yes, let me watch'}
 		user_agent = 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_2; en-US) AppleWebKit/532.9 (KHTML, like Gecko) Chrome/5.0.307.11 Safari/532.9'
@@ -408,6 +446,9 @@ elif mode==10:
 elif mode==11:
         print "PAGE"
         dvst(url,name)
+elif mode==13:
+        print "PAGE"
+        vidbux(url,name)
 elif mode==12:
         print "PAGE"
         INDEX3(url,name)
