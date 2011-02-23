@@ -1,2 +1,5 @@
+v1.3.0:
+  - revised all codes, support wootly, xtshare, vidreel, vidbux, divxden     and movshare
+
 v1.0:
   - initial release
