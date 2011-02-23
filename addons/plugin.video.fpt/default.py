@@ -326,6 +326,11 @@ def VIDSDIVX(url,name):
 	file=re.compile("pluginspage(.+?)video").findall(link)[0]
 	cleanup=file.replace('|',' ').replace('||',' ')
 	hashlong = cleanup[-46:].replace(' ','')
+	print hashlong
+	if hashlong == '':
+		file = re.compile("Stage6(.+?)182|divxden").findall(link)[0]
+		cleanup = file.replace('|',' ').replace('||',' ')
+		hashlong = cleanup[-46:].replace(' ','')
 	rawhashshort = re.compile('divxden(.+?)np_vid').findall(link)[0]
 	hashshort =  re.compile('divxden(.+?)src').findall(link)[0]
    	finalurl = 'http://'+hashshort.replace('the','').replace('you','').replace(' ','').replace('|','')+'.divxden.com:182/d/'+hashlong+'/'+ fcodenm
