@@ -5,10 +5,9 @@ settings={}
 settings['proxy'] = xbmcplugin.getSetting(pluginhandle,'us_proxy_enable')
 
 def CATS():
-	addDir('Popular TV Shows','http://www.mtv.com/',9,'')
 	addDir('All Current MTV Shows','http://www.mtv.com/ontv/all/current.jhtml',1,'')
 	addDir('Archives of MTV Shows','http://www.mtv.com/ontv/all/index.jhtml',7,'')
-	addLink('name','rtmpe://viacom.fcod.llnwd.net/a3951/e15/gsp.nickcomstor/nickvision/nick/onair/shows/icarly/ni_icarly_rt227177_307_cart_a_640x480_1600.mp4','','','')
+	addDir('Popular TV Shows','http://www.mtv.com/',9,'')
  
 def LISTING(url):
 	req = urllib2.Request(url)
