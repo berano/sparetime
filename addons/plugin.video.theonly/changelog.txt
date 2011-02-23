@@ -1,3 +1,6 @@
+v1.3.1:
+  - fix vidxden
+
 v1.3.0:
   - revised all codes, support wootly, xtshare, vidreel, vidbux, divxden     and movshare
 
