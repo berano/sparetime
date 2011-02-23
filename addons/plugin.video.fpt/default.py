@@ -142,6 +142,7 @@ def Y3MOV(url,name):
       	vidbx1=re.compile('<b>VidBux.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">1</a>&nbsp;<a href=".+?"').findall(link)
       	vidbx2=re.compile('<b>VidBux.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href=".+?" target="_blank">1</a>&nbsp;<a href="(.+?)"').findall(link)
       	wise=re.compile('<b>WiseVid</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+       	putloc=re.compile('<b>putlocker.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
 	for url in nova:
 		i=i+1
 		addDir('Novamov (flv) #'+str(i),'http://www.fastpasstv.com'+url,12,'')
@@ -166,6 +167,9 @@ def Y3MOV(url,name):
 	for url in vidbx2:
 		i=i+1
 		addDir('VidBux (avi) Pt 2 #'+str(i),'http://www.fastpasstv.com'+url,10,'')
+	for url in putloc:
+		i=i+1
+		addDir('PutLocker (avi) #'+str(i),'http://www.fastpasstv.eu'+url,23,'')
 	for url in wise:
 		i=i+1
 		addDir('Wisevid (flv) #'+str(i),'http://www.fastpasstv.com'+url,19,'')
@@ -189,6 +193,7 @@ def Y3TV(url,name):
       	dv2=re.compile('<b>VidX.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href=".+?" target="_blank">1</a>&nbsp;<a href="(.+?)"').findall(link)
       	vidbx=re.compile('<b>VidBux.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">Watch This Video!').findall(link)
        	wise=re.compile('<b>WiseVid</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+       	putloc=re.compile('<b>putlocker.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
 	for url in mega:
 		i=i+1
 		addDir('Megavideo (flv) #'+str(i),'http://www.fastpasstv.eu'+url,15,'')
@@ -207,11 +212,79 @@ def Y3TV(url,name):
 	for url in vidbx:
 		i=i+1
 		addDir('VidBux (avi) #'+str(i),'http://www.fastpasstv.eu'+url,10,'')
+	for url in putloc:
+		i=i+1
+		addDir('PutLocker (avi) #'+str(i),'http://www.fastpasstv.eu'+url,23,'')
 	for url in wise:
 		i=i+1
 		addDir('Wisevid (flv) #'+str(i),'http://www.fastpasstv.eu'+url,19,'')
 
-def VIDSFLV(url,name):
+def PUTLOC(url,name):
+	urlogin = 'http://www.fastpasstv.eu/register'
+	cookiejar = cookielib.LWPCookieJar()
+	cookiejar = urllib2.HTTPCookieProcessor(cookiejar) 
+	opener = urllib2.build_opener(cookiejar)
+	urllib2.install_opener(opener)
+ 	values = {'login': uname,'password': pwd}
+	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
+	headers = { 'User-Agent' : user_agent }
+	data = urllib.urlencode(values)
+	req = urllib2.Request(urlogin, data, headers)
+	response = urllib2.urlopen(req)
+	
+        req = urllib2.Request(url)
+        req.add_header('User-Agent', user_agent)
+        response = urllib2.urlopen(req)
+        gurl=response.geturl()
+
+    	req = urllib2.Request(gurl)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        response = urllib2.urlopen(req)
+	link2=response.read()
+
+	try:
+		hash=re.compile('type="hidden" value="(.+?)" name="hash"').findall(link2)[0]
+	except:
+		dialog = xbmcgui.Dialog()
+		ok = dialog.ok("FastPassTv",'The file has been removed due to copyright.')
+		return
+
+	values = {'hash': hash, 'confirm':'Continue as Free User'}
+	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
+	headers = { 'User-Agent' : user_agent }
+	data = urllib.urlencode(values)
+	req = urllib2.Request(gurl, data, headers)
+	response = urllib2.urlopen(req)
+	link = response.read()
+	code = re.compile("stream=(.+?)'").findall(link)
+        req = urllib2.Request('http://www.putlocker.com/get_file.php?stream='+code[0])
+        req.add_header('User-Agent', user_agent)
+        response = urllib2.urlopen(req)
+        link=response.read()
+    	finalurl = re.compile('<media:content url="(.+?)"').findall(link)[0]
+       	if (fpt.getSetting('download') == '0'):
+                    dia = xbmcgui.Dialog()
+                    ret = dia.select('Streaming Options', ['Play','Download'])
+                    if (ret == 0):
+			    addLink('Play',finalurl,'','','')
+			    item = xbmcgui.ListItem(name)
+          		    ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
+                    elif (ret == 1):
+                            path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
+                            Download(finalurl,path+name+'.flv')
+                    else:
+                            return
+	elif (fpt.getSetting('download') == '1'):
+ 		addLink('Play',finalurl,'','','')
+		item = xbmcgui.ListItem(name)
+          	ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
+        elif (fpt.getSetting('download') == '2'):
+                path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
+                Download(finalurl,path+name+'.flv')
+        else:
+        	return
+
+def WOOT(url,name):
 	urlogin = 'http://www.fastpasstv.eu/register'
 	cookiejar = cookielib.LWPCookieJar()
 	cookiejar = urllib2.HTTPCookieProcessor(cookiejar) 
@@ -238,7 +311,7 @@ def VIDSFLV(url,name):
 		fcodenm=re.compile('name="fname" value="(.+?)"').findall(link2)[0]
 	except:
 		dialog = xbmcgui.Dialog()
-		ok = dialog.ok("FastPassTv",'The link is dead or site changed, report this to me')
+		ok = dialog.ok("FastPassTv",'The file has been removed due to copyright.')
 		return
 
 	fcodeid=re.compile('name="id" value="(.+?)"').findall(link2)[0]
@@ -309,7 +382,7 @@ def VIDSDIVX(url,name):
 		fcodenm=re.compile('name="fname" type="hidden" value="(.+?)"').findall(link2)[0]
 	except:
 		dialog = xbmcgui.Dialog()
-		ok = dialog.ok("FastPassTv",'The link is dead or site changed, report this to me')
+		ok = dialog.ok("FastPassTv",'The file has been removed due to copyright.')
 		return
 
 	fcodeid=re.compile('name="id" type="hidden" value="(.+?)"').findall(link2)[0]
@@ -382,7 +455,7 @@ def VIDBUX(url,name):
 		fcodenm=re.compile('name="fname" type="hidden" value="(.+?)"').findall(link2)[0]
 	except:
 		dialog = xbmcgui.Dialog()
-		ok = dialog.ok("FastPassTv",'The link is dead or site changed, report this to me')
+		ok = dialog.ok("FastPassTv",'The file has been removed due to copyright.')
 		return
 
 	fcodeid=re.compile('name="id" type="hidden" value="(.+?)"').findall(link2)[0]
@@ -916,7 +989,7 @@ elif mode==6:
         Y3MOV(url,name)
 elif mode==7:
         print "PAGE"
-        VIDSFLV(url,name)
+        WOOT(url,name)
 elif mode==8:
         print "PAGE"
         VIDSDIVX(url,name)
@@ -947,5 +1020,8 @@ elif mode==20:
 elif mode==22:
         print "PAGE"
         DOCLAT(url,name)
+elif mode==23:
+        print "PAGE"
+        PUTLOC(url,name)
 
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

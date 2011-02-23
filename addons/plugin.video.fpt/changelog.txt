@@ -1,7 +1,10 @@
+v2.4.6:
+  - support putlocker
+
 v2.4.5:
   - fix vidxden video unable to play
 
-v2.4.3:
+v2.4.4:
   - support megavideo
 
 v2.4.3:
