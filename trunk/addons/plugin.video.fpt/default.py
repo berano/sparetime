@@ -6,6 +6,32 @@ import xbmcaddon
 fpt=xbmcaddon.Addon(id='plugin.video.fpt')
 pluginhandle = int(sys.argv[1])
 
+def login():
+	urlogin = 'http://www.fastpasstv.eu/register'
+	cookiejar = cookielib.LWPCookieJar()
+	cookiejar = urllib2.HTTPCookieProcessor(cookiejar) 
+	opener = urllib2.build_opener(cookiejar)
+	urllib2.install_opener(opener)
+ 	values = {'login': uname,'password': pwd}
+	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
+	headers = { 'User-Agent' : user_agent }
+	data = urllib.urlencode(values)
+	req = urllib2.Request(urlogin, data, headers)
+	response = urllib2.urlopen(req)
+
+def geturl(url):
+        req = urllib2.Request(url)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        response = urllib2.urlopen(req)
+        link=response.read()
+	return link
+
+def redirect(url):
+        req = urllib2.Request(url)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        response = urllib2.urlopen(req)
+	gurl=response.geturl()
+	return gurl
 
 def xbmcpath(path,filename):
      translatedpath = os.path.join(xbmc.translatePath( path ), ''+filename+'')
@@ -143,6 +169,10 @@ def Y3MOV(url,name):
       	vidbx2=re.compile('<b>VidBux.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href=".+?" target="_blank">1</a>&nbsp;<a href="(.+?)"').findall(link)
       	wise=re.compile('<b>WiseVid</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
        	putloc=re.compile('<b>putlocker.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+       	apex=re.compile('<b>apexvid.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+	for url in apex:
+		i=i+1
+		addDir('Apexvid (flv) #'+str(i),'http://www.fastpasstv.eu'+url,24,'')
 	for url in nova:
 		i=i+1
 		addDir('Novamov (flv) #'+str(i),'http://www.fastpasstv.com'+url,12,'')
@@ -194,12 +224,10 @@ def Y3TV(url,name):
       	vidbx=re.compile('<b>VidBux.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">Watch This Video!').findall(link)
        	wise=re.compile('<b>WiseVid</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
        	putloc=re.compile('<b>putlocker.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-	for url in mega:
+       	apex=re.compile('<b>apexvid.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+	for url in apex:
 		i=i+1
-		addDir('Megavideo (flv) #'+str(i),'http://www.fastpasstv.eu'+url,15,'')
-	for url in woot:
-		i=i+1
-		addDir('Wootly (mp4) #'+str(i),'http://www.fastpasstv.eu'+url,7,'')
+		addDir('Apexvid (flv) #'+str(i),'http://www.fastpasstv.eu'+url,24,'')
 	for url in dv1:
 		i=i+1
 		addDir('DivxDen (avi) Pt 1 #'+str(i),'http://www.fastpasstv.eu'+url,8,'')
@@ -209,41 +237,28 @@ def Y3TV(url,name):
 	for url in dv:
 		i=i+1
 		addDir('DivxDen (avi) #'+str(i),'http://www.fastpasstv.eu'+url,8,'')
-	for url in vidbx:
+	for url in mega:
 		i=i+1
-		addDir('VidBux (avi) #'+str(i),'http://www.fastpasstv.eu'+url,10,'')
+		addDir('Megavideo (flv) #'+str(i),'http://www.fastpasstv.eu'+url,15,'')
+	for url in woot:
+		i=i+1
+		addDir('Wootly (mp4) #'+str(i),'http://www.fastpasstv.eu'+url,7,'')
 	for url in putloc:
 		i=i+1
 		addDir('PutLocker (avi) #'+str(i),'http://www.fastpasstv.eu'+url,23,'')
+	for url in vidbx:
+		i=i+1
+		addDir('VidBux (avi) #'+str(i),'http://www.fastpasstv.eu'+url,10,'')
 	for url in wise:
 		i=i+1
 		addDir('Wisevid (flv) #'+str(i),'http://www.fastpasstv.eu'+url,19,'')
 
 def PUTLOC(url,name):
-	urlogin = 'http://www.fastpasstv.eu/register'
-	cookiejar = cookielib.LWPCookieJar()
-	cookiejar = urllib2.HTTPCookieProcessor(cookiejar) 
-	opener = urllib2.build_opener(cookiejar)
-	urllib2.install_opener(opener)
- 	values = {'login': uname,'password': pwd}
-	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
-	headers = { 'User-Agent' : user_agent }
-	data = urllib.urlencode(values)
-	req = urllib2.Request(urlogin, data, headers)
-	response = urllib2.urlopen(req)
-	
-        req = urllib2.Request(url)
-        req.add_header('User-Agent', user_agent)
-        response = urllib2.urlopen(req)
-        gurl=response.geturl()
-
-    	req = urllib2.Request(gurl)
-        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        response = urllib2.urlopen(req)
-	link2=response.read()
-
+	login()
+	link1 = geturl(url)
+	link2 = redirect(url)
 	try:
-		hash=re.compile('type="hidden" value="(.+?)" name="hash"').findall(link2)[0]
+		hash=re.compile('type="hidden" value="(.+?)" name="hash"').findall(link1)[0]
 	except:
 		dialog = xbmcgui.Dialog()
 		ok = dialog.ok("FastPassTv",'The file has been removed due to copyright.')
@@ -253,7 +268,7 @@ def PUTLOC(url,name):
 	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
 	headers = { 'User-Agent' : user_agent }
 	data = urllib.urlencode(values)
-	req = urllib2.Request(gurl, data, headers)
+	req = urllib2.Request(link2, data, headers)
 	response = urllib2.urlopen(req)
 	link = response.read()
 	code = re.compile("stream=(.+?)'").findall(link)
@@ -262,66 +277,27 @@ def PUTLOC(url,name):
         response = urllib2.urlopen(req)
         link=response.read()
     	finalurl = re.compile('<media:content url="(.+?)"').findall(link)[0]
-       	if (fpt.getSetting('download') == '0'):
-                    dia = xbmcgui.Dialog()
-                    ret = dia.select('Streaming Options', ['Play','Download'])
-                    if (ret == 0):
-			    addLink('Play',finalurl,'','','')
-			    item = xbmcgui.ListItem(name)
-          		    ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
-                    elif (ret == 1):
-                            path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
-                            Download(finalurl,path+name+'.flv')
-                    else:
-                            return
-	elif (fpt.getSetting('download') == '1'):
- 		addLink('Play',finalurl,'','','')
-		item = xbmcgui.ListItem(name)
-          	ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
-        elif (fpt.getSetting('download') == '2'):
-                path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
-                Download(finalurl,path+name+'.flv')
-        else:
-        	return
+	Play(finalurl)
 
 def WOOT(url,name):
-	urlogin = 'http://www.fastpasstv.eu/register'
-	cookiejar = cookielib.LWPCookieJar()
-	cookiejar = urllib2.HTTPCookieProcessor(cookiejar) 
-	opener = urllib2.build_opener(cookiejar)
-	urllib2.install_opener(opener)
- 	values = {'login': uname,'password': pwd}
-	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
-	headers = { 'User-Agent' : user_agent }
-	data = urllib.urlencode(values)
-	req = urllib2.Request(urlogin, data, headers)
-	response = urllib2.urlopen(req)
-	
-        req = urllib2.Request(url)
-        req.add_header('User-Agent', user_agent)
-        response = urllib2.urlopen(req)
-        gurl=response.geturl()
-
-    	req = urllib2.Request(gurl)
-        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        response = urllib2.urlopen(req)
-	link2=response.read()
-
+	login()	
+	link1 = geturl(url)
+	link2 = redirect(url)
 	try:
-		fcodenm=re.compile('name="fname" value="(.+?)"').findall(link2)[0]
+		fcodenm=re.compile('name="fname" value="(.+?)"').findall(link1)[0]
 	except:
 		dialog = xbmcgui.Dialog()
 		ok = dialog.ok("FastPassTv",'The file has been removed due to copyright.')
 		return
 
-	fcodeid=re.compile('name="id" value="(.+?)"').findall(link2)[0]
+	fcodeid=re.compile('name="id" value="(.+?)"').findall(link1)[0]
 	refer=openfile(referer)
 
 	values = {'op': 'download1','usr_login': ' ','id': fcodeid, 'fname': fcodenm,'referer' : refer, 'method_free':'Continue to Video'}
 	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
 	headers = { 'User-Agent' : user_agent }
 	data = urllib.urlencode(values)
-	req = urllib2.Request(gurl, data, headers)
+	req = urllib2.Request(link2, data, headers)
 	response = urllib2.urlopen(req)
 	link = response.read()
 	item = xbmcgui.ListItem(name)
@@ -333,66 +309,59 @@ def WOOT(url,name):
 	if hashshort == '||' :
 		hashshort = 's1'
     	finalurl = 'http://'+hashshort.replace('|','')+'.wootly.com:182/d/'+hashlong+'/'+ 'video.mp4'
-	print finalurl
-       	if (fpt.getSetting('download') == '0'):
-                    dia = xbmcgui.Dialog()
-                    ret = dia.select('Streaming Options', ['Play','Download'])
-                    if (ret == 0):
-			    addLink('Play',finalurl,'','','')
-			    item = xbmcgui.ListItem(name)
-          		    ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
-                    elif (ret == 1):
-                            path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
-                            Download(finalurl,path+name+'.flv')
-                    else:
-                            return
-	elif (fpt.getSetting('download') == '1'):
- 		addLink('Play',finalurl,'','','')
-		item = xbmcgui.ListItem(name)
-          	ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
-        elif (fpt.getSetting('download') == '2'):
-                path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
-                Download(finalurl,path+name+'.flv')
-        else:
-        	return
+	Play(finalurl)
 
-def VIDSDIVX(url,name):
-	urlogin = 'http://www.fastpasstv.eu/register'
-	cookiejar = cookielib.LWPCookieJar()
-	cookiejar = urllib2.HTTPCookieProcessor(cookiejar) 
-	opener = urllib2.build_opener(cookiejar)
-	urllib2.install_opener(opener)
- 	values = {'login': uname,'password': pwd}
-	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
-	headers = { 'User-Agent' : user_agent }
-	data = urllib.urlencode(values)
-	req = urllib2.Request(urlogin, data, headers)
-	response = urllib2.urlopen(req)
-
-        req = urllib2.Request(url)
-        req.add_header('User-Agent', user_agent)
-        response = urllib2.urlopen(req)
-        gurl=response.geturl()
-
-      	req = urllib2.Request(gurl)
-        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        response = urllib2.urlopen(req)
-	link2=response.read()
+def APEX(url,name):
+	login()	
+	link1 = geturl(url)
+	link2 = redirect(url)
 	try:
-		fcodenm=re.compile('name="fname" type="hidden" value="(.+?)"').findall(link2)[0]
+		fcodenm=re.compile('name="fname" value="(.+?)"').findall(link1)[0]
 	except:
 		dialog = xbmcgui.Dialog()
 		ok = dialog.ok("FastPassTv",'The file has been removed due to copyright.')
 		return
 
-	fcodeid=re.compile('name="id" type="hidden" value="(.+?)"').findall(link2)[0]
+	fcodeid=re.compile('name="id" value="(.+?)"').findall(link1)[0]
 	refer=openfile(referer)
 
 	values = {'op': 'download1','usr_login': ' ','id': fcodeid, 'fname': fcodenm,'referer' : refer, 'method_free':'Continue to Video'}
 	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
 	headers = { 'User-Agent' : user_agent }
 	data = urllib.urlencode(values)
-	req = urllib2.Request(gurl, data, headers)
+	req = urllib2.Request(link2, data, headers)
+	response = urllib2.urlopen(req)
+	link = response.read()
+	item = xbmcgui.ListItem(name)
+
+	file=re.compile("mp4(.+?)182.+?file").findall(link)[0]
+	cleanup=file.replace('|',' ').replace('||',' ')
+	hashlong = cleanup[-57:].replace(' ','')	
+	hashshort =  re.compile("video(.+?)flvplayer").findall(link)[0]
+	if hashshort == '||' :
+		hashshort = 's1'
+    	finalurl = 'http://'+hashshort.replace('|','')+'.apexvid.com:182/d/'+hashlong+'/'+ 'video.mp4'
+	Play(finalurl)
+
+def VIDSDIVX(url,name):
+	login()
+	link1 = geturl(url)
+	link2 = redirect(url)
+	try:
+		fcodenm=re.compile('name="fname" type="hidden" value="(.+?)"').findall(link1)[0]
+	except:
+		dialog = xbmcgui.Dialog()
+		ok = dialog.ok("FastPassTv",'The file has been removed due to copyright.')
+		return
+
+	fcodeid=re.compile('name="id" type="hidden" value="(.+?)"').findall(link1)[0]
+	refer=openfile(referer)
+
+	values = {'op': 'download1','usr_login': ' ','id': fcodeid, 'fname': fcodenm,'referer' : refer, 'method_free':'Continue to Video'}
+	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
+	headers = { 'User-Agent' : user_agent }
+	data = urllib.urlencode(values)
+	req = urllib2.Request(link2, data, headers)
 	response = urllib2.urlopen(req)
 	link = response.read()
 
@@ -407,65 +376,27 @@ def VIDSDIVX(url,name):
 	rawhashshort = re.compile('divxden(.+?)np_vid').findall(link)[0]
 	hashshort =  re.compile('divxden(.+?)src').findall(link)[0]
    	finalurl = 'http://'+hashshort.replace('the','').replace('you','').replace(' ','').replace('|','')+'.divxden.com:182/d/'+hashlong+'/'+ fcodenm
-        if (fpt.getSetting('download') == '0'):
-                    dia = xbmcgui.Dialog()
-                    ret = dia.select('Streaming Options', ['Play','Download'])
-                    if (ret == 0):
-			    addLink('Play',finalurl,'','','')
-			    item = xbmcgui.ListItem(name)
-          		    ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
-                    elif (ret == 1):
-                            path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
-                            Download(finalurl,path+name+'.avi')
-                    else:
-                            return
-	elif (fpt.getSetting('download') == '1'):
-		addLink('Play',finalurl,'','','')
-		item = xbmcgui.ListItem(name)
-         	ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
-        elif (fpt.getSetting('download') == '2'):
-                path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
-                Download(finalurl,path+name+'.avi')
-        else:
-        	return
-
+	Play(finalurl)
+ 
 def VIDBUX(url,name):
-	urlogin = 'http://www.fastpasstv.eu/register'
-	cookiejar = cookielib.LWPCookieJar()
-	cookiejar = urllib2.HTTPCookieProcessor(cookiejar) 
-	opener = urllib2.build_opener(cookiejar)
-	urllib2.install_opener(opener)
- 	values = {'login': uname,'password': pwd}
-	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
-	headers = { 'User-Agent' : user_agent }
-	data = urllib.urlencode(values)
-	req = urllib2.Request(urlogin, data, headers)
-	response = urllib2.urlopen(req)
-
-        req = urllib2.Request(url)
-        req.add_header('User-Agent', user_agent)
-        response = urllib2.urlopen(req)
-        gurl=response.geturl()
-
-      	req = urllib2.Request(gurl)
-        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        response = urllib2.urlopen(req)
-	link2=response.read()
+	login()
+	link1 = geturl(url)
+	link2 = redirect(url)
 	try:
-		fcodenm=re.compile('name="fname" type="hidden" value="(.+?)"').findall(link2)[0]
+		fcodenm=re.compile('name="fname" type="hidden" value="(.+?)"').findall(link1)[0]
 	except:
 		dialog = xbmcgui.Dialog()
 		ok = dialog.ok("FastPassTv",'The file has been removed due to copyright.')
 		return
 
-	fcodeid=re.compile('name="id" type="hidden" value="(.+?)"').findall(link2)[0]
+	fcodeid=re.compile('name="id" type="hidden" value="(.+?)"').findall(link1)[0]
 	refer=openfile(referer)
 
 	values = {'op': 'download1','usr_login': ' ','id': fcodeid, 'fname': fcodenm,'referer' : refer, 'method_free':'Continue to Video'}
 	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
 	headers = { 'User-Agent' : user_agent }
 	data = urllib.urlencode(values)
-	req = urllib2.Request(gurl, data, headers)
+	req = urllib2.Request(link2, data, headers)
 	response = urllib2.urlopen(req)
 	link = response.read()
 
@@ -474,27 +405,7 @@ def VIDBUX(url,name):
 	hashlong = cleanup[-41:].replace(' ','')
 	hashshort =  re.compile('</div><!-- <img src="http://(.+?).vidbux.com').findall(link)[0]
    	finalurl = 'http://'+hashshort+'.vidbux.com:182/d/'+hashlong+'/'+ fcodenm
-       	if (fpt.getSetting('download') == '0'):
-                    dia = xbmcgui.Dialog()
-                    ret = dia.select('Streaming Options', ['Play','Download'])
-                    if (ret == 0):
-			    addLink('Play',finalurl,'','','')
-			    item = xbmcgui.ListItem(name)
-          		    ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
-                    elif (ret == 1):
-                            path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
-                            Download(finalurl,path+name+'.avi')
-                    else:
-                            return
-	elif (fpt.getSetting('download') == '1'):
-		addLink('Play',finalurl,'','','')
-		item = xbmcgui.ListItem(name)
-         	ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
-        elif (fpt.getSetting('download') == '2'):
-                path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
-                Download(finalurl,path+name+'.avi')
-        else:
-        	return
+	Play(finalurl)
 
 def Nova(url,name):
         req = urllib2.Request(url)
@@ -507,46 +418,11 @@ def Nova(url,name):
         response = urllib2.urlopen(req)
 	link=response.read()
 	finalurl=re.compile('file="(.+?)"').findall(link)[0]
-
-        if (fpt.getSetting('download') == '0'):
-                    dia = xbmcgui.Dialog()
-                    ret = dia.select('Streaming Options', ['Play','Download'])
-                    if (ret == 0):
-			    addLink('Play',finalurl,'','','')
-			    item = xbmcgui.ListItem(name)
-          		    ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
-                    elif (ret == 1):
-                            path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
-                            Download(finalurl,path+name+'.flv')
-                    else:
-                            return
-	elif (fpt.getSetting('download') == '1'):
-		addLink('Play',finalurl,'','','')
-		item = xbmcgui.ListItem(name)
-         	ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
-        elif (fpt.getSetting('download') == '2'):
-                path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
-                Download(finalurl,path+name+'.flv')
-        else:
-        	return
+	Play(finalurl)
 
 def Mega(url,name):
-	urlogin = 'http://www.fastpasstv.eu/register'
-	cookiejar = cookielib.LWPCookieJar()
-	cookiejar = urllib2.HTTPCookieProcessor(cookiejar) 
-	opener = urllib2.build_opener(cookiejar)
-	urllib2.install_opener(opener)
- 	values = {'login': uname,'password': pwd}
-	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
-	headers = { 'User-Agent' : user_agent }
-	data = urllib.urlencode(values)
-	req = urllib2.Request(urlogin, data, headers)
-	response = urllib2.urlopen(req)
-
-        req = urllib2.Request(url)
-        req.add_header('User-Agent', user_agent)
-        response = urllib2.urlopen(req)
-        gurl=response.geturl() #code is here
+	login()
+	gurl = redirect(url)
 	code = gurl[-8:]
         try:
                 req = urllib2.Request("http://www.megavideo.com/xml/videolink.php?v="+code)
@@ -561,27 +437,7 @@ def Mega(url,name):
                         k2 = re.compile(' k2="(.+?)"').findall(response)
                         un = re.compile(' un="(.+?)"').findall(response)
                         finalurl = "http://www" + s[0] + ".megavideo.com/files/" + __calculateFileHash(un[0], k1[0], k2[0]) + "/?.flv"
-         		if (fpt.getSetting('download') == '0'):
-                    		dia = xbmcgui.Dialog()
-                    		ret = dia.select('Streaming Options', ['Play','Download'])
-                    		if (ret == 0):
-			    		addLink('Play',finalurl,'','','')
-			    		item = xbmcgui.ListItem(name)
-          		    		ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
-                    		elif (ret == 1):
-                            		path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
-                            		Download(finalurl,path+name+'.flv')
-                    		else:
-                            		return
-			elif (fpt.getSetting('download') == '1'):
-				addLink('Play',finalurl,'','','')
- 				item = xbmcgui.ListItem(name)
-         			ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
-        		elif (fpt.getSetting('download') == '2'):
-                		path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
-                		Download(finalurl,path+name+'.flv')
-        		else:
-        			return
+			Play(finalurl)
         except: pass
 
 def __calcDecriptionMix(hash, keyMix):
@@ -739,29 +595,11 @@ def SEARCH():
 			addDir(name,'http://www.fastpasstv.eu/documentaries/'+url,6,'')
 
 def WISE(url,name):
-	urlogin = 'http://www.fastpasstv.eu/register'
-	cookiejar = cookielib.LWPCookieJar()
-	cookiejar = urllib2.HTTPCookieProcessor(cookiejar) 
-	opener = urllib2.build_opener(cookiejar)
-	urllib2.install_opener(opener)
- 	values = {'login': uname,'password': pwd}
-	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
-	headers = { 'User-Agent' : user_agent }
-	data = urllib.urlencode(values)
-	req = urllib2.Request(urlogin, data, headers)
-	response = urllib2.urlopen(req)
-	#Redirect
-        req = urllib2.Request(url)
-        req.add_header('User-Agent', user_agent)
-        response = urllib2.urlopen(req)
-        gurl=response.geturl()
-
-      	req = urllib2.Request(gurl)
-        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        response = urllib2.urlopen(req)
-	link2=response.read()
+	login()
+	link1 = geturl(url)
+	link2 = redirect(url)
 	try:
-			rawcode=re.compile("javascript:location.href='(.+?)'").findall(link2)[1]
+			rawcode=re.compile("javascript:location.href='(.+?)'").findall(link1)[1]
 			code=rawcode.replace('http://www.wisevid.com/play?v=','')
 			ref=response.geturl()
 			values = {'name': 'no','value': 'Yes, let me watch'}
@@ -774,32 +612,12 @@ def WISE(url,name):
 			match=re.compile("getF(\(.+?)'").findall(link)[0]
 			clean= match.replace("('","")
 			finalurl=base64.decodestring(clean)
-         		if (fpt.getSetting('download') == '0'):
-                    		dia = xbmcgui.Dialog()
-                    		ret = dia.select('Streaming Options', ['Play','Download'])
-                    		if (ret == 0):
-			    		addLink('Play',finalurl,'','','')
-			    		item = xbmcgui.ListItem(name)
-          		    		ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
-                    		elif (ret == 1):
-                            		path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
-                            		Download(finalurl,path+name+'.avi')
-                    		else:
-                            		return
-			elif (fpt.getSetting('download') == '1'):
-				addLink('Play',finalurl,'','','')
- 				item = xbmcgui.ListItem(name)
-         			ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
-        		elif (fpt.getSetting('download') == '2'):
-                		path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
-                		Download(finalurl,path+name+'.avi')
-        		else:
-        			return
+			Play(finalurl) 
 	except: pass
 
 	try:
-			acode=re.compile('<input type="hidden" name="a" value="(.+?)" />').findall(link2)[0]
-			vcode=re.compile('<input type="hidden" name="v" value="(.+?)" />').findall(link2)[0]
+			acode=re.compile('<input type="hidden" name="a" value="(.+?)" />').findall(link1)[0]
+			vcode=re.compile('<input type="hidden" name="v" value="(.+?)" />').findall(link1)[0]
 			url2='http://www.wisevid.com/play?v='+vcode
 			values = {'a': acode,'v': vcode, 'no1' : 'Yes, let me watch'}
 			user_agent = 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_2; en-US) AppleWebKit/532.9 (KHTML, like Gecko) Chrome/5.0.307.11 Safari/532.9'
@@ -811,27 +629,7 @@ def WISE(url,name):
 			match=re.compile("getF(\(.+?)'").findall(link)[0]
 			clean= match.replace("('","")
 			finalurl=base64.decodestring(clean)
-         		if (fpt.getSetting('download') == '0'):
-                    		dia = xbmcgui.Dialog()
-                    		ret = dia.select('Streaming Options', ['Play','Download'])
-                    		if (ret == 0):
-			    		addLink('Play',finalurl,'','','')
-			    		item = xbmcgui.ListItem(name)
-          		    		ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
-                    		elif (ret == 1):
-                            		path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
-                            		Download(finalurl,path+name+'.avi')
-                    		else:
-                            		return
-			elif (fpt.getSetting('download') == '1'):
-			    	addLink('Play',finalurl,'','','')
- 				item = xbmcgui.ListItem(name)
-         			ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
-        		elif (fpt.getSetting('download') == '2'):
-                		path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
-                		Download(finalurl,path+name+'.avi')
-        		else:
-        			return
+			Play(finalurl)
 	except: pass
 
 def get_params():
@@ -917,7 +715,30 @@ def _pbhook(numblocks, blocksize, filesize, dp, start_time):
             dp.update(percent) 
         if dp.iscanceled(): 
             dp.close() 
-            raise StopDownloading('Stopped Downloading') 
+            raise StopDownloading('Stopped Downloading')
+
+def Play(finalurl):
+       	if (fpt.getSetting('download') == '0'):
+                    dia = xbmcgui.Dialog()
+                    ret = dia.select('Streaming Options', ['Play','Download'])
+                    if (ret == 0):
+			    addLink('Play',finalurl,'','','')
+			    item = xbmcgui.ListItem(name)
+          		    ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
+                    elif (ret == 1):
+                            path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
+                            Download(finalurl,path+name+'.flv')
+                    else:
+                            return
+	elif (fpt.getSetting('download') == '1'):
+ 		addLink('Play',finalurl,'','','')
+		item = xbmcgui.ListItem(name)
+          	ok=xbmc.Player(xbmc.PLAYER_CORE_DVDPLAYER).play(finalurl, item)
+        elif (fpt.getSetting('download') == '2'):
+                path = xbmc.translatePath(os.path.join(fpt.getSetting('download_path'), name))
+                Download(finalurl,path+name+'.flv')
+        else:
+        	return
  
 def addLink(name,url,iconimage,plot,date):
         ok=True
@@ -1023,5 +844,8 @@ elif mode==22:
 elif mode==23:
         print "PAGE"
         PUTLOC(url,name)
+elif mode==24:
+        print "PAGE"
+        APEX(url,name)
 
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
