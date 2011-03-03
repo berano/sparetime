@@ -50,9 +50,9 @@ def getURL( url, enableproxy = False ):
         return link
 
 def CATS():
-        addDir('nick.com','http://www.nick.com/videos/',1,'','')
-        addDir('nickjr.com','http://www.nickjr.com/video/index.jhtml',14,'','')
-        addDir('nicktoons.com','http://nicktoons.nick.com/videos',16,'','')
+        addDir('nick','http://www.nick.com/videos/',1,'','')
+        addDir('nickjr','http://www.nickjr.com/video/index.jhtml',14,'','')
+        addDir('nicktoons','http://nicktoons.nick.com/videos',16,'','')
 
 def CATSJR():
         addDir('Videos','http://www.nickjr.com/common/data/kids/get-kids-config-data.jhtml?fsd=/dynaboss&urlAlias=kids-video-landing',10,'','')
@@ -64,8 +64,8 @@ def SHOWSTOON(url):
         else:
                 link= getURL(url)
         all=re.compile('href="/overlay/login.html">Log in</a>.+?<span>Neopets</span>', re.DOTALL).findall(link)
-	match1=re.compile('<a href="/shows/(.+?)" style="background-image.+?http://nick.mtvnimages.com/nicktoons-assets/navigation/shownav/(.+?).jpg.+?".+?title="(.+?)"').findall(all[0])
-	for url,thumb,name in match1:
+	showname=re.compile('<a href="/shows/(.+?)" style="background-image.+?http://nick.mtvnimages.com/nicktoons-assets/navigation/shownav/(.+?).jpg.+?".+?title="(.+?)"').findall(all[0])
+	for url,thumb,name in showname:
 		addDir(name.replace('&amp;','&'),'http://nicktoons.nick.com/videos/'+url+'-videos',17,'http://nick.mtvnimages.com/nicktoons-assets/navigation/shownav/'+thumb+'.jpg','')
 
 def CATALLTOON(url):
@@ -129,7 +129,6 @@ def EPISODESTOON(url):
           		item.setInfo( type="Video", infoLabels={ "Title": name, "Duration": duration} )                
 			item.setProperty('IsPlayable', 'true')
                 	xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
-
 
 def SHOWSJR(url):
         req = urllib2.Request(url)
@@ -203,7 +202,7 @@ def NICKSHOWS(url):
         	link= getURL(url,True)
         else:
                 link= getURL(url)
-        all=re.compile('href="/overlay/login.html">Log in</a>.+?<a href="/thebighelp"', re.DOTALL).findall(link)
+        all=re.compile('href="/overlay/registration.html".+?<a href="/thebighelp"', re.DOTALL).findall(link)
 	match1=re.compile('<a href="/shows/(.+?)" style="background-image.+?http://nick.mtvnimages.com/nick-assets/navigation/shownav/(.+?).jpg.+?".+?title="(.+?)"').findall(all[0])
 	addDir('Spongebob Squarepants','http://spongebob.nick.com/',24,'http://nick.mtvnimages.com/nick-assets/navigation/shownav/menu_icon_spongebob.jpg','')
 	addDir('NickNews','http://news.nick.com/',24,'http://nick.mtvnimages.com/nick-assets/navigation/shownav/menu_icon_nicknews.jpg','')		
@@ -402,7 +401,6 @@ def PLAY(url):
 	link = page.read()
 	if link.find('video/x-flv')<0:
 		finalurl=re.compile('<src>(.+?)</src>\n</rendition>\n<rendition cdn=".+?" duration=".+?" bitrate=".+?" width=".+?" height=".+?"\ntype="video/mp4">').findall(link)[-1]
-		print finalurl
      		item = xbmcgui.ListItem(path=finalurl)
         	xbmcplugin.setResolvedUrl(pluginhandle, True, item)
 	else:

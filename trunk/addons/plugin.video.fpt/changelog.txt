@@ -1,4 +1,7 @@
-v2.4.6:
+v2.4.8:
+  - support wootly (avi)
+
+v2.4.7:
   - support apexvid.com
 
 v2.4.6:
