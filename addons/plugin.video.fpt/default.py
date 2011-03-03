@@ -64,89 +64,54 @@ def CATS():
 	addDir('Search','http://www.fastpasstv.com/',9,'')
 
 def NEWEP(url,name):
-        req = urllib2.Request(url)
-        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        response = urllib2.urlopen(req)
-        link=response.read()
+        link= geturl(url)
       	tvs=re.compile('<li><a href="/tv/(.+?)">(.+?)</a></li>').findall(link)
 	for url2,name in tvs:
 		addDir(name,'http://www.fastpasstv.com/tv/'+url2,18,'')
 
 def MOVALL(url,name):
-        req = urllib2.Request(url)
-        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        response = urllib2.urlopen(req)
-        link=response.read()
+        link= geturl(url)
      	mvs=re.compile('<li><a href="(.+?)">(.+?)<span class="epnum">.+?</span></a></li>').findall(link)
 	for url,name in mvs:
 		addDir(name.replace('<font class="newvid">New Episodes!</font>','(NEW EPISODE)'),'http://www.fastpasstv.com'+url,6,'')
 
 def MOVLAT(url,name):
-        req = urllib2.Request(url)
-        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        response = urllib2.urlopen(req)
-        link=response.read()
+        link= geturl(url)
 	all = re.compile('<p><b>Latest additions</b>.+?<ul class="pagination">', re.DOTALL).findall(link)
       	mv=re.compile('<title>(.+?)</title>\n		<link>http://www.fastpasstv.eu/movies/(.+?)/</link>').findall(link)
 	for name,url in mv:
 		addDir(name.replace('&amp;','&'),'http://www.fastpasstv.com/movies/'+url,6,'')
 
 def DOCLAT(url,name):
-        req = urllib2.Request(url)
-        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        response = urllib2.urlopen(req)
-        link=response.read()
+        link= geturl(url)
 	all = re.compile('<p><b>Latest additions</b>.+?<ul class="pagination">', re.DOTALL).findall(link)
       	doc=re.compile('<title>(.+?)</title>\n		<link>http://www.fastpasstv.eu/documentaries/(.+?)/</link>').findall(link)
 	for name,url in doc:
 		addDir(name.replace('&amp;','&'),'http://www.fastpasstv.com/documentaries/'+url,6,'')
 
 def X2(url,name): 
-        req = urllib2.Request(url)
-        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        response = urllib2.urlopen(req)
-        link=response.read()
+        link= geturl(url)
      	list=re.compile('<li><a href="(.+?)">(.+?)<span class="epnum">.+?</span></a></li>').findall(link)
 	for url,name in list:
 		addDir(name.replace('<font class="newvid">New Episodes!</font>','(NEW EPISODE)'),'http://www.fastpasstv.com'+url,21,'')
 
-def X3(url,name):
-        req = urllib2.Request(url)
-        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        response2 = urllib2.urlopen(req)
-        link=response2.read()
-        response2.close()
-      	mvs=re.compile('<li><a href="(.+?)">(.+?)</a></li>').findall(link)
-	for url,name in mvs:
-		addDir(name,'http://www.fastpasstv.com'+url,18,'')
-
 def Y1(url,name):
-        req = urllib2.Request(url)
-        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        response = urllib2.urlopen(req)
-        link=response.read()
+        link= geturl(url)
 	all = re.compile('<p><b>Latest additions</b>.+?<ul class="pagination">', re.DOTALL).findall(link)
       	tvs=re.compile('<title>(.+?)</title>\n		<link>http://www.fastpasstv.eu/tv/(.+?)/</link>').findall(link)
-      	#crt=re.compile('<li><a href="/cartoons/(.+?)">(.+?)</a></li>').findall(link)
 	for name,url in tvs:
 		addDir(name.replace('&amp;','&'),'http://www.fastpasstv.com/tv/'+url,18,'')
 
 def Y2(url,name):
-        req = urllib2.Request(url)
-        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        response = urllib2.urlopen(req)
-        link=response.read()
+        link= geturl(url)
       	mvs=re.compile('<li><a href="/movies/(.+?)">(.+?)</a></li>').findall(link)
 	for url2,name in mvs:
 		addDir(name,'http://www.fastpasstv.com/movies/'+url2,6,'')
 
 def Y3(url,name):
-        req = urllib2.Request(url)
-        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        response = urllib2.urlopen(req)
-        link=response.read()
-      	mvs=re.compile('<li><a href="/tv/(.+?)">(.+?)</a></li>').findall(link)
-	for url2,name in mvs:
+        link= geturl(url)
+      	tvs=re.compile('<li><a href="/tv/(.+?)">(.+?)</a></li>').findall(link)
+	for url2,name in tvs:
 		addDir(name,'http://www.fastpasstv.com/tv/'+url2,18,'')
 
 def Y3MOV(url,name):
@@ -222,6 +187,7 @@ def Y3TV(url,name):
       	dv1=re.compile('<b>VidX.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">1</a>&nbsp;<a href=".+?"').findall(link)
       	dv2=re.compile('<b>VidX.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href=".+?" target="_blank">1</a>&nbsp;<a href="(.+?)"').findall(link)
       	vidbx=re.compile('<b>VidBux.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">Watch This Video!').findall(link)
+      	vidbx2=re.compile('<b>VidBux.+?FLV.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">Watch This Video!').findall(link)
        	wise=re.compile('<b>WiseVid</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
        	putloc=re.compile('<b>putlocker.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
        	apex=re.compile('<b>apexvid.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
@@ -249,6 +215,9 @@ def Y3TV(url,name):
 	for url in vidbx:
 		i=i+1
 		addDir('VidBux (avi) #'+str(i),'http://www.fastpasstv.eu'+url,10,'')
+	for url in vidbx2:
+		i=i+1
+		addDir('VidBux (flv) #'+str(i),'http://www.fastpasstv.eu'+url,25,'')
 	for url in wise:
 		i=i+1
 		addDir('Wisevid (flv) #'+str(i),'http://www.fastpasstv.eu'+url,19,'')
@@ -300,12 +269,53 @@ def WOOT(url,name):
 	req = urllib2.Request(link2, data, headers)
 	response = urllib2.urlopen(req)
 	link = response.read()
-	item = xbmcgui.ListItem(name)
 
-	file=re.compile("mp4(.+?)182|file").findall(link)[0]
+	if 'mp4' in fcodenm:
+		file=re.compile("mp4(.+?)182|file").findall(link)[0]
+		cleanup=file.replace('|',' ').replace('||',' ')
+		hashlong = cleanup[-57:].replace(' ','')	
+		hashshort =  re.compile("video(.+?)flvplayer").findall(link)[0]
+		if hashshort == '||' :
+			hashshort = 's1'
+    		finalurl = 'http://'+hashshort.replace('|','')+'.wootly.com:182/d/'+hashlong+'/'+ 'video.mp4'
+		Play(finalurl)
+		return
+	else:
+		file=re.compile("Stage6(.+?)182|file").findall(link)[0]
+		cleanup=file.replace('|',' ').replace('||',' ')
+		hashlong = cleanup[-57:].replace(' ','')	
+		hashshort =  re.compile("wootly(.+?)divx").findall(link)[0]
+		if hashshort == '||' :
+			hashshort = 's1'
+    		finalurl = 'http://'+hashshort.replace('|','')+'.wootly.com:182/d/'+hashlong+'/'+ 'video.avi'
+		Play(finalurl)
+
+def WOOTAVI(url,name):
+	login()	
+	link1 = geturl(url)
+	link2 = redirect(url)
+	try:
+		fcodenm=re.compile('name="fname" value="(.+?)"').findall(link1)[0]
+	except:
+		dialog = xbmcgui.Dialog()
+		ok = dialog.ok("FastPassTv",'The file has been removed due to copyright.')
+		return
+
+	fcodeid=re.compile('name="id" value="(.+?)"').findall(link1)[0]
+	refer=openfile(referer)
+
+	values = {'op': 'download1','usr_login': ' ','id': fcodeid, 'fname': fcodenm,'referer' : refer, 'method_free':'Continue to Video'}
+	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
+	headers = { 'User-Agent' : user_agent }
+	data = urllib.urlencode(values)
+	req = urllib2.Request(link2, data, headers)
+	response = urllib2.urlopen(req)
+	link = response.read()
+
+	file=re.compile("Stage6(.+?)182|file").findall(link)[0]
 	cleanup=file.replace('|',' ').replace('||',' ')
 	hashlong = cleanup[-57:].replace(' ','')	
-	hashshort =  re.compile("video(.+?)flvplayer").findall(link)[0]
+	hashshort =  re.compile("wootly(.+?)divx").findall(link)[0]
 	if hashshort == '||' :
 		hashshort = 's1'
     	finalurl = 'http://'+hashshort.replace('|','')+'.wootly.com:182/d/'+hashlong+'/'+ 'video.mp4'
@@ -332,7 +342,6 @@ def APEX(url,name):
 	req = urllib2.Request(link2, data, headers)
 	response = urllib2.urlopen(req)
 	link = response.read()
-	item = xbmcgui.ListItem(name)
 
 	file=re.compile("mp4(.+?)182.+?file").findall(link)[0]
 	cleanup=file.replace('|',' ').replace('||',' ')
@@ -368,7 +377,6 @@ def VIDSDIVX(url,name):
 	file=re.compile("pluginspage(.+?)video").findall(link)[0]
 	cleanup=file.replace('|',' ').replace('||',' ')
 	hashlong = cleanup[-46:].replace(' ','')
-	print hashlong
 	if hashlong == '':
 		file = re.compile("Stage6(.+?)182|divxden").findall(link)[0]
 		cleanup = file.replace('|',' ').replace('||',' ')
@@ -407,11 +415,37 @@ def VIDBUX(url,name):
    	finalurl = 'http://'+hashshort+'.vidbux.com:182/d/'+hashlong+'/'+ fcodenm
 	Play(finalurl)
 
+def VIDBUX2(url,name):
+	login()
+	link1 = geturl(url)
+	link2 = redirect(url)
+	try:
+		fcodenm=re.compile('name="fname" type="hidden" value="(.+?)"').findall(link1)[0]
+	except:
+		dialog = xbmcgui.Dialog()
+		ok = dialog.ok("FastPassTv",'The file has been removed due to copyright.')
+		return
+
+	fcodeid=re.compile('name="id" type="hidden" value="(.+?)"').findall(link1)[0]
+	refer=openfile(referer)
+
+	values = {'op': 'download1','usr_login': ' ','id': fcodeid, 'fname': fcodenm,'referer' : refer, 'method_free':'Continue to Video'}
+	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
+	headers = { 'User-Agent' : user_agent }
+	data = urllib.urlencode(values)
+	req = urllib2.Request(link2, data, headers)
+	response = urllib2.urlopen(req)
+	link = response.read()
+
+	file=re.compile("'(.+?)182").findall(link)[0]
+	cleanup=file.replace('|',' ').replace('||',' ')
+	hashlong = cleanup[-41:].replace(' ','')
+	hashshort =  re.compile("182(.+?)file").findall(link)[0]
+   	finalurl = 'http://'+hashshort.replace('|','')+'.vidbux.com:182/d/'+hashlong+'/'+ fcodenm
+	Play(finalurl)
+
 def Nova(url,name):
-        req = urllib2.Request(url)
-        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        response = urllib2.urlopen(req)
-	link=response.read()
+        link= geturl(url)
 	code=re.compile('src="http://www.novamov.com/(.+?)"').findall(link)[0]
       	req = urllib2.Request('http://embed.novamov.com/'+code)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
@@ -753,7 +787,7 @@ def check_settings():
 		pwd   = fpt.getSetting('pwd')
 		if (not uname or uname == '') or (not pwd or pwd == ''):
 				d = xbmcgui.Dialog()
-				d.ok('Welcome to fastpasstv.com', 'To start using this plugin first go to www.fastpasstv.com.','and create an (free) account.')
+				d.ok('Welcome to fastpasstv.com', 'To start using this plugin first go to the fastpasstv.com.','and register an (free) account.')
 				fpt.openSettings(sys.argv[ 0 ]) 
 						
 params=get_params()
@@ -787,9 +821,6 @@ if mode==None or url==None or len(url)<1:
 elif mode==1:
         print "PAGE"
         MOVALL(url,name)
-elif mode==11:
-        print "PAGE"
-        ICE(url,name)
 elif mode==2:
         print "PAGE"
         X2(url,name)
@@ -802,9 +833,6 @@ elif mode==4:
 elif mode==5:
         print "PAGE"
         Y2(url,name)
-elif mode==21:
-        print "PAGE"
-        Y3(url,name)
 elif mode==6:
         print "PAGE"
         Y3MOV(url,name)
@@ -817,27 +845,33 @@ elif mode==8:
 elif mode==9:
         print "SEARCH  :"+url
         SEARCH()
+elif mode==10:
+        print "PAGE"
+        VIDBUX(url,name)
+elif mode==11:
+        print "PAGE"
+        ICE(url,name)
+elif mode==12:
+        print "PAGE"
+        Nova(url,name)
 elif mode==14:
         print "PAGE"
         NEWEP(url,name)
+elif mode==15:
+        print "PAGE"
+        Mega(url,name)
 elif mode==18:
         print "PAGE"
         Y3TV(url,name)
 elif mode==19:
         print "PAGE"
         WISE(url,name)
-elif mode==10:
-        print "PAGE"
-        VIDBUX(url,name)
-elif mode==12:
-        print "PAGE"
-        Nova(url,name)
-elif mode==15:
-        print "PAGE"
-        Mega(url,name)
 elif mode==20:
         print "PAGE"
         MOVLAT(url,name)
+elif mode==21:
+        print "PAGE"
+        Y3(url,name)
 elif mode==22:
         print "PAGE"
         DOCLAT(url,name)
@@ -847,5 +881,11 @@ elif mode==23:
 elif mode==24:
         print "PAGE"
         APEX(url,name)
+elif mode==25:
+        print "PAGE"
+        VIDBUX2(url,name)
+elif mode==26:
+        print "PAGE"
+        WOOTAVI(url,name)
 
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
