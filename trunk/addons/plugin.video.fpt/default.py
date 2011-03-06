@@ -374,16 +374,12 @@ def VIDSDIVX(url,name):
 	response = urllib2.urlopen(req)
 	link = response.read()
 
-	file=re.compile("pluginspage(.+?)video").findall(link)[0]
-	cleanup=file.replace('|',' ').replace('||',' ')
+	file = re.compile("Stage6(.+?)364|divxden").findall(link)[0]
+	print file
+	cleanup = file.replace('|',' ').replace('||',' ')
 	hashlong = cleanup[-46:].replace(' ','')
-	if hashlong == '':
-		file = re.compile("Stage6(.+?)182|divxden").findall(link)[0]
-		cleanup = file.replace('|',' ').replace('||',' ')
-		hashlong = cleanup[-46:].replace(' ','')
-	rawhashshort = re.compile('divxden(.+?)np_vid').findall(link)[0]
 	hashshort =  re.compile('divxden(.+?)src').findall(link)[0]
-   	finalurl = 'http://'+hashshort.replace('the','').replace('you','').replace(' ','').replace('|','')+'.divxden.com:182/d/'+hashlong+'/'+ fcodenm
+   	finalurl = 'http://'+hashshort.replace('the','').replace('you','').replace(' ','').replace('|','')+'.divxden.com:364/d/'+hashlong+'/'+ fcodenm
 	Play(finalurl)
  
 def VIDBUX(url,name):
