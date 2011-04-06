@@ -274,7 +274,7 @@ def WOOT(url,name):
 		file=re.compile("mp4(.+?)182|file").findall(link)[0]
 		cleanup=file.replace('|',' ').replace('||',' ')
 		hashlong = cleanup[-57:].replace(' ','')	
-		hashshort =  re.compile("video(.+?)flvplayer").findall(link)[0]
+		hashshort =  re.compile("ltas(.+?)flvplayer").findall(link)[0]
 		if hashshort == '||' :
 			hashshort = 's1'
     		finalurl = 'http://'+hashshort.replace('|','')+'.wootly.com:182/d/'+hashlong+'/'+ 'video.mp4'
