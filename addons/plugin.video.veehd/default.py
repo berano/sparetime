@@ -66,14 +66,68 @@ def VIDEO(url):
 	data = urllib.urlencode(values)
 	req = urllib2.Request(urlogin, data, headers)
 	response = urllib2.urlopen(req)
+	if url.find('flv')>0:
+		req = urllib2.Request(url)
+        	req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        	response = urllib2.urlopen(req)
+        	link=response.read()
+		vpi = re.compile('"/vpi.+?h=(.+?)"').findall(link)[0]
+		req = urllib2.Request('http://veehd.com/vpi?h='+vpi)
+        	req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        	response = urllib2.urlopen(req)
+        	link=response.read()
+		swap = re.compile('"url":"(.+?)"').findall(link)[0]
+		finalurl = swap.replace('%2F','/').replace('%3F','?').replace('%3D','=').replace('%25','%').replace('%2F','/').replace('%26','&').replace('%3A',':')
+        	if (vhd.getSetting('download') == '0'):
+                	dia = xbmcgui.Dialog()
+                    	ret = dia.select('Streaming Options', ['Play','Download'])
+                    	if (ret == 0):
+  			    item = xbmcgui.ListItem(path=finalurl)
+        		    xbmcplugin.setResolvedUrl(pluginhandle, True, item)
+                    	elif (ret == 1):
+                            path = xbmc.translatePath(os.path.join(vhd.getSetting('download_path'), name))
+                            Download(finalurl,path+name+'.avi')
+                    	else:
+                            return
+		elif (vhd.getSetting('download') == '1'):
+      			item = xbmcgui.ListItem(path=finalurl)
+        		xbmcplugin.setResolvedUrl(pluginhandle, True, item)
+        	elif (vhd.getSetting('download') == '2'):
+                	path = xbmc.translatePath(os.path.join(vhd.getSetting('download_path'), name))
+                	Download(finalurl,path+name+'.avi')
+        	else:
+        		return
 
-	req = urllib2.Request(url)
-        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        response = urllib2.urlopen(req)
-        link=response.read()
-      	match=re.compile('href="(.+?)"><b><u>Download video</u>').findall(link)[0]
-  	item = xbmcgui.ListItem(path=match)
-        xbmcplugin.setResolvedUrl(pluginhandle, True, item)
+	if url.find('flv')<0:
+		req = urllib2.Request(url)
+        	req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        	response = urllib2.urlopen(req)
+        	link=response.read()
+		vpi = re.compile('"/vpi.+?h=(.+?)"').findall(link)[0]
+		req = urllib2.Request('http://veehd.com/vpi?h='+vpi)
+        	req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        	response = urllib2.urlopen(req)
+        	link=response.read()
+		finalurl = re.compile('param name="src" value="(.+?)"').findall(link)[0]
+        	if (vhd.getSetting('download') == '0'):
+                	dia = xbmcgui.Dialog()
+                    	ret = dia.select('Streaming Options', ['Play','Download'])
+                    	if (ret == 0):
+  			    item = xbmcgui.ListItem(path=finalurl)
+        		    xbmcplugin.setResolvedUrl(pluginhandle, True, item)
+                    	elif (ret == 1):
+                            path = xbmc.translatePath(os.path.join(vhd.getSetting('download_path'), name))
+                            Download(finalurl,path+name+'.avi')
+                    	else:
+                            return
+		elif (vhd.getSetting('download') == '1'):
+      			item = xbmcgui.ListItem(path=finalurl)
+        		xbmcplugin.setResolvedUrl(pluginhandle, True, item)
+        	elif (vhd.getSetting('download') == '2'):
+                	path = xbmc.translatePath(os.path.join(vhd.getSetting('download_path'), name))
+                	Download(finalurl,path+name+'.avi')
+        	else:
+        		return
 
 def SEARCH():
         keyb = xbmc.Keyboard('', 'Search VEEHD')
@@ -97,6 +151,65 @@ def SEARCH():
                 	xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=item)
 		for url in nxt:
 			addDir('Next page','http://veehd.com'+url+'&page=2',2,'')
+
+def Download(url, dest): 
+        dp = xbmcgui.DialogProgress() 
+        dp.create('Downloading', '', name) 
+        start_time = time.time() 
+        try: 
+            urllib.urlretrieve(url, dest, lambda nb, bs, fs: _pbhook(nb, bs, fs, dp, start_time)) 
+        except: 
+            #delete partially downloaded file 
+            while os.path.exists(dest): 
+                try: 
+                    print 'hello' 
+                    break 
+                except: 
+                     pass 
+            #only handle StopDownloading (from cancel), ContentTooShort (from urlretrieve), and OS (from the race condition); let other exceptions bubble 
+            if sys.exc_info()[0] in (urllib.ContentTooShortError, StopDownloading, OSError): 
+                return 'false' 
+            else: 
+                raise 
+        return 'downloaded' 
+         
+def _pbhook(numblocks, blocksize, filesize, dp, start_time): 
+        try: 
+            percent = min(numblocks * blocksize * 100 / filesize, 100) 
+            currently_downloaded = float(numblocks) * blocksize / (1024 * 1024) 
+            kbps_speed = numblocks * blocksize / (time.time() - start_time) 
+            if kbps_speed > 0: 
+                eta = (filesize - numblocks * blocksize) / kbps_speed 
+            else: 
+                eta = 0 
+            kbps_speed = kbps_speed / 1024 
+            total = float(filesize) / (1024 * 1024) 
+            # print ( 
+                # percent, 
+                # numblocks, 
+                # blocksize, 
+                # filesize, 
+                # currently_downloaded, 
+                # kbps_speed, 
+                # eta, 
+                # ) 
+            mbs = '%.02f MB of %.02f MB' % (currently_downloaded, total) 
+            e = 'Speed: %.02f Kb/s ' % kbps_speed 
+            e += 'ETA: %02d:%02d' % divmod(eta, 60) 
+            dp.update(percent, mbs, e) 
+            #print percent, mbs, e 
+        except: 
+            percent = 100 
+            dp.update(percent) 
+        if dp.iscanceled(): 
+            dp.close() 
+            raise StopDownloading('Stopped Downloading') 
+
+class StopDownloading(Exception): 
+        def __init__(self, value): 
+            self.value = value 
+        def __str__(self): 
+            return repr(self.value) 
 
 def get_params():
         param=[]
