@@ -109,6 +109,9 @@ def VIDEO(url):
         	response = urllib2.urlopen(req)
         	link=response.read()
 		finalurl = re.compile('param name="src" value="(.+?)"').findall(link)[0]
+ 		item = xbmcgui.ListItem(path=finalurl)
+        	xbmcplugin.setResolvedUrl(pluginhandle, True, item)
+
         	if (vhd.getSetting('download') == '0'):
                 	dia = xbmcgui.Dialog()
                     	ret = dia.select('Streaming Options', ['Play','Download'])
