@@ -3,9 +3,9 @@ pluginhandle = int(sys.argv[1])
 
 
 def CATS():
-			addDir('Recently Added','http://topdocumentaryfilms.com/all/',3,'')
+			addDir('Recently Added','http://topdocumentaryfilms.com/',3,'')
 			addDir('Featured Documentaries','http://topdocumentaryfilms.com/',4,'')
-			addDir('Recommended Documentaries','http://topdocumentaryfilms.com/most-commented-documentaries/',10,'')
+			addDir('Recommended Documentaries','http://topdocumentaryfilms.com/',10,'')
 			addDir('Genres','http://topdocumentaryfilms.com/',13,'')
 			addDir('Search','http://topdocumentaryfilms.com/',9,'')
 			addDir('List All','http://topdocumentaryfilms.com/watch-online/',8,'')
@@ -19,7 +19,7 @@ def GENRE(url):
 			for url,name in match:
 				addDir(name,'http://topdocumentaryfilms.com/category/'+url,1,'','')
 
-def LIST(url):
+def geturl(url):
         		req=urllib2.Request(url)
                         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.8.1.14) Gecko/20080404 Firefox/2.0.0.14')
                         response = urllib2.urlopen(req).read()
@@ -35,95 +35,46 @@ def LIST(url):
 			code9=re.sub('&#8212;','',code8)
     			code10=re.sub('&amp;','&',code9)
         		code11=re.sub("`",'',code10)
-                       	lexus=re.compile('href="http://topdocumentaryfilms.com/(.+?)" rel="bookmark" title="(.+?)"').findall(code11)
+			return code11
+
+def LIST(url):
+			link = geturl(url)
+                       	lexus=re.compile('href="http://topdocumentaryfilms.com/(.+?)" rel="bookmark" title="(.+?)"').findall(link)
 			for url,name in lexus:
 				addDir(name,'http://topdocumentaryfilms.com/'+url,2,'','')
 	     
 def INDEX(url):
-        		req=urllib2.Request(url)
-                        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.8.1.14) Gecko/20080404 Firefox/2.0.0.14')
-                        response = urllib2.urlopen(req).read()
-			code=re.sub('&quot;','',response)
-			code1=re.sub('&#039;','',code)
-			code2=re.sub('&#215;','',code1)
-	       		code3=re.sub('&#038;','',code2)
-			code4=re.sub('&#8216;','',code3)
-			code5=re.sub('&#8217;','',code4)
-			code6=re.sub('&#8211;','',code5)
-			code7=re.sub('&#8220;','',code6)
-			code8=re.sub('&#8221;','',code7)
-			code9=re.sub('&#8212;','',code8)
-    			code10=re.sub('&amp;','&',code9)
-        		code11=re.sub("`",'',code10)
-                       	lexus=re.compile('href="(.+?)" title="(.+?)"><img\nsrc="(.+?)" alt=".+?" align="left" /></a>(.+?)</p><p\n').findall(code11)
-                       	nxt=re.compile('href="(.+?)">Next</a></div></div><div').findall(code11)
-			for url,name,thumb,plot in lexus:
-				addDir(name,url,2,thumb,plot)
+			link = geturl(url)
+                       	lexus=re.compile('title="(.+?)" href="(.+?)"><img\nsrc="(.+?)"').findall(link)
+                       	lexus2=re.compile('href="(.+?)" title="(.+?)"><img\nsrc="(.+?)"').findall(link)
+                       	nxt=re.compile('href="(.+?)">Next</a></div></div><div').findall(link)
+			for name,url,thumb in lexus:
+				addDir(name,url,2,thumb,'')
+			for url,name,thumb in lexus2:
+				addDir(name,url,2,thumb,'')
 			for url in nxt:
 				addDir('Next',url,1,'http://www.nws.noaa.gov/os/marine/safeboating/monday_files/next.gif','')
 
 def INDEX2(url):
-                        req=urllib2.Request(url)
-                        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.8.1.14) Gecko/20080404 Firefox/2.0.0.14')
-                        response = urllib2.urlopen(req).read()
-			code=re.sub('&quot;','',response)
-			code1=re.sub('&#039;','',code)
-			code2=re.sub('&#215;','',code1)
-	       		code3=re.sub('&#038;','',code2)
-			code4=re.sub('&#8216;','',code3)
-			code5=re.sub('&#8217;','',code4)
-			code6=re.sub('&#8211;','',code5)
-			code7=re.sub('&#8220;','',code6)
-			code8=re.sub('&#8221;','',code7)
-			code9=re.sub('&#8212;','',code8)
-    			code10=re.sub('&amp;','&',code9)
-        		code11=re.sub("`",'',code10)
-                       	lexus=re.compile('href="(.+?)" title="(.+?)"><img').findall(code11)
+			link = geturl(url)
+			match=re.compile('<li>Recently Added Documentaries - <a.+?<li>The Discussion</li></ul><ul', re.DOTALL).findall(link)
+                       	lexus=re.compile("href='(.+?)' title='(.+?)'>.+?<").findall(match[0])
                         for url,name in lexus:
 				addDir(name,url,2,'','')
 
 def INDEX3(url):
-                        req=urllib2.Request(url)
-                        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.8.1.14) Gecko/20080404 Firefox/2.0.0.14')
-                        response = urllib2.urlopen(req).read()
-			code=re.sub('&quot;','',response)
-			code1=re.sub('&#039;','',code)
-			code2=re.sub('&#215;','',code1)
-	       		code3=re.sub('&#038;','',code2)
-			code4=re.sub('&#8216;','',code3)
-			code5=re.sub('&#8217;','',code4)
-			code6=re.sub('&#8211;','',code5)
-			code7=re.sub('&#8220;','',code6)
-			code8=re.sub('&#8221;','',code7)
-			code9=re.sub('&#8212;','',code8)
-    			code10=re.sub('&amp;','&',code9)
-        		code11=re.sub("`",'',code10)
-			match=re.compile('class="blackborder">.+?>ESSENCE</div><div', re.DOTALL).findall(code11)
+			link = geturl(url)
+			match=re.compile('class="blackborder">.+?>ESSENCE</div><div', re.DOTALL).findall(link)
                        	lexus=re.compile('href="(.+?)" title="(.+?)"><img\nsrc="(.+?)"').findall(match[0])
                         for url,name,thumb in lexus:
 				addDir(name,url,2,thumb,'')
 
 def INDEX4(url):
-                        req=urllib2.Request(url)
-                        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.8.1.14) Gecko/20080404 Firefox/2.0.0.14')
-                        response = urllib2.urlopen(req).read()
-			code=re.sub('&quot;','',response)
-			code1=re.sub('&#039;','',code)
-			code2=re.sub('&#215;','',code1)
-	       		code3=re.sub('&#038;','',code2)
-			code4=re.sub('&#8216;','',code3)
-			code5=re.sub('&#8217;','',code4)
-			code6=re.sub('&#8211;','',code5)
-			code7=re.sub('&#8220;','',code6)
-			code8=re.sub('&#8221;','',code7)
-			code9=re.sub('&#8212;','',code8)
-    			code10=re.sub('&amp;','&',code9)
-        		code11=re.sub("`",'',code10)
-			match=re.compile('<li>Recommended Documentaries</li>.+?<li>Recently Added Documentaries', re.DOTALL).findall(code11)
+			link = geturl(url)
+			match=re.compile('<li>Recommended Documentaries</li>.+?class="sidebar2"><ul><li><h2>Documentary Categories</h2><ul><li', re.DOTALL).findall(link)
                        	lexus=re.compile('href="(.+?)">(.+?)</a>').findall(match[0])
                         for url,name in lexus:
 				addDir(name,url,2,'','')
-
 
 def VIDS(url,name):
 	i=0
