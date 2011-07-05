@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="plugin.video.topdoc"
        name="TopDocumentaryFilms"
-       version="1.4.3"
+       version="1.4.4"
        provider-name="nixa">
   <requires>
     <import addon="xbmc.python" version="1.0"/>
@@ -12,7 +12,7 @@
   </extension>
   <extension point="xbmc.addon.metadata">
     <summary lang="en">Watch documentaries from topdocumentaryfilms.com</summary>
-    <description lang="en">Enjoy it!</description>
+    <description lang="en">Place where you want to watch documentary shows covering various topics.</description>
      <platform>all</platform>
   </extension>
 </addon>
