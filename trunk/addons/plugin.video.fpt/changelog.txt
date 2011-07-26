@@ -1,3 +1,6 @@
+v3.0.0:
+  - dropped authentication
+
 v2.5.0:
   - fix wootly video provider
 

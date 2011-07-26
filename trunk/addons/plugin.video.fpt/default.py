@@ -1,7 +1,9 @@
 import urllib,urllib2,re,sys,xbmcplugin,xbmcgui
 import cookielib,os,string,cookielib,StringIO
 import os,time,base64,logging
-import xbmcaddon
+import xbmcaddon, mechanize
+from mechanize import Browser
+from BeautifulSoup import BeautifulSoup
 
 fpt=xbmcaddon.Addon(id='plugin.video.fpt')
 pluginhandle = int(sys.argv[1])
@@ -24,14 +26,14 @@ def geturl(url):
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
         response = urllib2.urlopen(req)
         link=response.read()
-	return link
+        return link
 
 def redirect(url):
         req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
         response = urllib2.urlopen(req)
-	gurl=response.geturl()
-	return gurl
+        gurl=response.geturl()
+        return gurl
 
 def xbmcpath(path,filename):
      translatedpath = os.path.join(xbmc.translatePath( path ), ''+filename+'')
@@ -48,71 +50,71 @@ def save(filename,contents):
      fh.write(contents)  
      fh.close()
 
-fptpath = 'special://profile/addon_data/plugin.video.fpt'
+fptpath = 'special://temp/'
 translatedfptpath = xbmcpath(fptpath,'')
 referer = xbmcpath(fptpath,'ref.txt')
 
 def CATS():
-        addDir('Most Popular TV Shows Today','http://www.fastpasstv.com/',14,'')
-        addDir('Most Popular Movies Today','http://www.fastpasstv.com/',5,'')
-        addDir('Latest Added TV Shows','http://www.fastpasstv.com/rss/tv',4,'')
-        addDir('Latest Added Movies','http://www.fastpasstv.com/rss/movies',20,'')
-        addDir('Latest Added Documentaries','http://www.fastpasstv.com/rss/documentaries',22,'')
-        addDir('All TV Shows','http://www.fastpasstv.com/tv',2,'')
-	addDir('All Movies','http://www.fastpasstv.com/movies',1,'')
-	addDir('All Documentaries','http://www.fastpasstv.com/documentaries',1,'')
-	addDir('Search','http://www.fastpasstv.com/',9,'')
+        addDir('Most Popular TV Shows Today','http://www.fastpasstv.ms/',14,'')
+        addDir('Most Popular Movies Today','http://www.fastpasstv.ms/',5,'')
+        addDir('Latest Added TV Shows','http://www.fastpasstv.ms/tv/',4,'')
+        addDir('Latest Added Movies','http://www.fastpasstv.ms/movies',20,'')
+        addDir('Latest Added Documentaries','http://www.fastpasstv.ms/documentaries',22,'')
+        addDir('All TV Shows','http://www.fastpasstv.ms/tv',2,'')
+	addDir('All Movies','http://www.fastpasstv.ms/movies',1,'')
+	addDir('All Documentaries','http://www.fastpasstv.ms/documentaries',1,'')
+	addDir('Search','http://www.fastpasstv.ms/',9,'')
 
 def NEWEP(url,name):
         link= geturl(url)
       	tvs=re.compile('<li><a href="/tv/(.+?)">(.+?)</a></li>').findall(link)
 	for url2,name in tvs:
-		addDir(name,'http://www.fastpasstv.com/tv/'+url2,18,'')
+		addDir(name,'http://www.fastpasstv.ms/tv/'+url2,18,'')
 
 def MOVALL(url,name):
         link= geturl(url)
      	mvs=re.compile('<li><a href="(.+?)">(.+?)<span class="epnum">.+?</span></a></li>').findall(link)
 	for url,name in mvs:
-		addDir(name.replace('<font class="newvid">New Episodes!</font>','(NEW EPISODE)'),'http://www.fastpasstv.com'+url,6,'')
+		addDir(name.replace('<font class="newvid">New Episodes!</font>','(NEW EPISODE)'),'http://www.fastpasstv.ms'+url,18,'')
 
 def MOVLAT(url,name):
         link= geturl(url)
 	all = re.compile('<p><b>Latest additions</b>.+?<ul class="pagination">', re.DOTALL).findall(link)
       	mv=re.compile('<title>(.+?)</title>\n		<link>http://www.fastpasstv.eu/movies/(.+?)/</link>').findall(link)
 	for name,url in mv:
-		addDir(name.replace('&amp;','&'),'http://www.fastpasstv.com/movies/'+url,6,'')
+		addDir(name.replace('&amp;','&'),'http://www.fastpasstv.ms/movies/'+url,18,'')
 
 def DOCLAT(url,name):
         link= geturl(url)
 	all = re.compile('<p><b>Latest additions</b>.+?<ul class="pagination">', re.DOTALL).findall(link)
       	doc=re.compile('<title>(.+?)</title>\n		<link>http://www.fastpasstv.eu/documentaries/(.+?)/</link>').findall(link)
 	for name,url in doc:
-		addDir(name.replace('&amp;','&'),'http://www.fastpasstv.com/documentaries/'+url,6,'')
+		addDir(name.replace('&amp;','&'),'http://www.fastpasstv.ms/documentaries/'+url,18,'')
 
 def X2(url,name): 
         link= geturl(url)
      	list=re.compile('<li><a href="(.+?)">(.+?)<span class="epnum">.+?</span></a></li>').findall(link)
 	for url,name in list:
-		addDir(name.replace('<font class="newvid">New Episodes!</font>','(NEW EPISODE)'),'http://www.fastpasstv.com'+url,21,'')
+		addDir(name.replace('<font class="newvid">New Episodes!</font>','(NEW EPISODE)'),'http://www.fastpasstv.ms'+url,21,'')
 
 def Y1(url,name):
         link= geturl(url)
-	all = re.compile('<p><b>Latest additions</b>.+?<ul class="pagination">', re.DOTALL).findall(link)
-      	tvs=re.compile('<title>(.+?)</title>\n		<link>http://www.fastpasstv.eu/tv/(.+?)/</link>').findall(link)
-	for name,url in tvs:
-		addDir(name.replace('&amp;','&'),'http://www.fastpasstv.com/tv/'+url,18,'')
+	all = re.compile('	<b>Latest additions</b>:.+?<ul class="pagination">', re.DOTALL).findall(link)
+      	tvs=re.compile('<a href="(.+?)">(.+?)</a>').findall(all[0])
+	for url,name in tvs:
+		addDir(name.replace('&amp;','&'),'http://www.fastpasstv.ms'+url,18,'')
 
 def Y2(url,name):
         link= geturl(url)
       	mvs=re.compile('<li><a href="/movies/(.+?)">(.+?)</a></li>').findall(link)
 	for url2,name in mvs:
-		addDir(name,'http://www.fastpasstv.com/movies/'+url2,6,'')
+		addDir(name,'http://www.fastpasstv.ms/movies/'+url2,18,'')
 
 def Y3(url,name):
         link= geturl(url)
       	tvs=re.compile('<li><a href="/tv/(.+?)">(.+?)</a></li>').findall(link)
 	for url2,name in tvs:
-		addDir(name,'http://www.fastpasstv.com/tv/'+url2,18,'')
+		addDir(name,'http://www.fastpasstv.ms/tv/'+url2,18,'')
 
 def Y3MOV(url,name):
 	i=0
@@ -133,44 +135,44 @@ def Y3MOV(url,name):
       	vidbx1=re.compile('<b>VidBux.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">1</a>&nbsp;<a href=".+?"').findall(link)
       	vidbx2=re.compile('<b>VidBux.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href=".+?" target="_blank">1</a>&nbsp;<a href="(.+?)"').findall(link)
       	wise=re.compile('<b>WiseVid</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-       	putloc=re.compile('<b>putlocker.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+       	putloc=re.compile('<b>Putlocker </b></td>\n									<td class="siteparts" style="width:165px;"><a href="(.+?)"').findall(link)
        	apex=re.compile('<b>apexvid.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
 	for url in apex:
 		i=i+1
-		addDir('Apexvid (flv) #'+str(i),'http://www.fastpasstv.eu'+url,24,'')
+		addDir('Apexvid (flv) #'+str(i),'http://www.fastpasstv.ms'+url.replace('/watch','/redirect'),24,'')
 	for url in nova:
 		i=i+1
-		addDir('Novamov (flv) #'+str(i),'http://www.fastpasstv.com'+url,12,'')
+		addDir('Novamov (flv) #'+str(i),'http://www.fastpasstv.ms'+url.replace('/watch','/redirect'),12,'')
 	for url in woot:
 		i=i+1
-		addDir('Wootly (mp4) #'+str(i),'http://www.fastpasstv.eu'+url,7,'')
+		addDir('Wootly (mp4) #'+str(i),'http://www.fastpasstv.ms'+url.replace('/watch','/redirect'),7,'')
 	for url in dv1:
 		i=i+1
-		addDir('DivxDen (avi) Pt 1 #'+str(i),'http://www.fastpasstv.com'+url,8,'')
+		addDir('DivxDen (avi) Pt 1 #'+str(i),'http://www.fastpasstv.ms'+url.replace('/watch','/redirect'),8,'')
 	for url in dv2:
 		i=i+1
-		addDir('DivxDen (avi) Pt 2 #'+str(i),'http://www.fastpasstv.com'+url,8,'')
+		addDir('DivxDen (avi) Pt 2 #'+str(i),'http://www.fastpasstv.ms'+url.replace('/watch','/redirect'),8,'')
 	for url in dv:
 		i=i+1
-		addDir('DivxDen (avi) #'+str(i),'http://www.fastpasstv.com'+url,8,'')
+		addDir('DivxDen (avi) #'+str(i),'http://www.fastpasstv.ms'+url.replace('/watch','/redirect'),8,'')
 	for url in vidbx:
 		i=i+1
-		addDir('VidBux (avi) #'+str(i),'http://www.fastpasstv.com'+url,10,'')
+		addDir('VidBux (avi) #'+str(i),'http://www.fastpasstv.ms'+url.replace('/watch','/redirect'),10,'')
 	for url in vidbx1:
 		i=i+1
-		addDir('VidBux (avi) Pt 1 #'+str(i),'http://www.fastpasstv.com'+url,10,'')
+		addDir('VidBux (avi) Pt 1 #'+str(i),'http://www.fastpasstv.ms'+url.replace('/watch','/redirect'),10,'')
 	for url in vidbx2:
 		i=i+1
-		addDir('VidBux (avi) Pt 2 #'+str(i),'http://www.fastpasstv.com'+url,10,'')
+		addDir('VidBux (avi) Pt 2 #'+str(i),'http://www.fastpasstv.ms'+url.replace('/watch','/redirect'),10,'')
 	for url in putloc:
 		i=i+1
-		addDir('PutLocker (avi) #'+str(i),'http://www.fastpasstv.eu'+url,23,'')
+		addDir('PutLocker (avi) #'+str(i),'http://www.fastpasstv.ms'+url.replace('/watch','/redirect'),23,'')
 	for url in wise:
 		i=i+1
-		addDir('Wisevid (flv) #'+str(i),'http://www.fastpasstv.com'+url,19,'')
+		addDir('Wisevid (flv) #'+str(i),'http://www.fastpasstv.ms'+url.replace('/watch','/redirect'),19,'')
 	for url in mega:
 		i=i+1
-		addDir('Megavideo (flv) #'+str(i),'http://www.fastpasstv.com'+url,15,'')
+		addDir('Megavideo (flv) #'+str(i),'http://www.fastpasstv.ms'+url.replace('/watch','/redirect'),15,'')
 
 def Y3TV(url,name):
 	i=0
@@ -182,74 +184,97 @@ def Y3TV(url,name):
         link=response2.read()
 	mega=re.compile('<b>Megavideo</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
        	woot=re.compile('<b>Wootly</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-       	fv2=re.compile('<b>VidX.+?FLV.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-      	dv=re.compile('<b>VidX.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">Watch This Video!').findall(link)
-      	dv1=re.compile('<b>VidX.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">1</a>&nbsp;<a href=".+?"').findall(link)
-      	dv2=re.compile('<b>VidX.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href=".+?" target="_blank">1</a>&nbsp;<a href="(.+?)"').findall(link)
+
+      	dv=re.compile('<b>Vidxden.+?DivX.+?</b></td>\n.+?<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">Watch This Video!').findall(link)
+	dvflash=re.compile('<b>Vidxden.+?Flash.+?</b></td>\n.+?<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">Watch This Video!').findall(link)
+
+
       	vidbx=re.compile('<b>VidBux.+?DivX.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">Watch This Video!').findall(link)
       	vidbx2=re.compile('<b>VidBux.+?FLV.+?</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">Watch This Video!').findall(link)
+
        	wise=re.compile('<b>WiseVid</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
        	putloc=re.compile('<b>putlocker.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
        	apex=re.compile('<b>apexvid.com</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+
+	divxavi=re.compile('<b>Divxden.+?DivX.+?</b></td>\n.+?<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">Watch This Video!').findall(link)
+	divxflash=re.compile('<b>Divxden.+?Flash.+?</b></td>\n.+?<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">Watch This Video!').findall(link)
+
+       	new2=re.compile('<b>Put.+?</b></td>\n.+?<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+      	new3=re.compile('<b>Vidbu.+?</b></td>\n.+?<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+	new4=re.compile('<b>Novamov</b></td>\n.+?<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
 	for url in apex:
 		i=i+1
-		addDir('Apexvid (flv) #'+str(i),'http://www.fastpasstv.eu'+url,24,'')
-	for url in dv1:
-		i=i+1
-		addDir('DivxDen (avi) Pt 1 #'+str(i),'http://www.fastpasstv.eu'+url,8,'')
-	for url in dv2:
-		i=i+1
-		addDir('DivxDen (avi) Pt 2 #'+str(i),'http://www.fastpasstv.eu'+url,8,'')
+		addDir('Apexvid (flv) #'+str(i),'http://www.fastpasstv.ms'+url.replace('/watch','/redirect'),24,'')
+
 	for url in dv:
 		i=i+1
-		addDir('DivxDen (avi) #'+str(i),'http://www.fastpasstv.eu'+url,8,'')
+		addDir('Vidxden (avi) #'+str(i),'http://www.fastpasstv.ms'+url.replace('/watch','/redirect'),8,'')
+	for url in dvflash:
+		i=i+1
+		addDir('Vidxden (flv) #'+str(i),'http://www.fastpasstv.ms'+url.replace('/watch','/redirect'),27,'')
 	for url in mega:
 		i=i+1
-		addDir('Megavideo (flv) #'+str(i),'http://www.fastpasstv.eu'+url,15,'')
+		addDir('Megavideo (flv) #'+str(i),'http://www.fastpasstv.ms'+url.replace('/watch','/redirect'),15,'')
 	for url in woot:
 		i=i+1
-		addDir('Wootly (mp4) #'+str(i),'http://www.fastpasstv.eu'+url,7,'')
+		addDir('Wootly (mp4) #'+str(i),'http://www.fastpasstv.ms'+url.replace('/watch','/redirect'),7,'')
 	for url in putloc:
 		i=i+1
-		addDir('PutLocker (avi) #'+str(i),'http://www.fastpasstv.eu'+url,23,'')
+		addDir('PutLocker (avi) #'+str(i),'http://www.fastpasstv.ms'+url.replace('/watch','/redirect'),23,'')
 	for url in vidbx:
 		i=i+1
-		addDir('VidBux (avi) #'+str(i),'http://www.fastpasstv.eu'+url,10,'')
+		addDir('VidBux (avi) #'+str(i),'http://www.fastpasstv.ms'+url.replace('/watch','/redirect'),10,'')
 	for url in vidbx2:
 		i=i+1
-		addDir('VidBux (flv) #'+str(i),'http://www.fastpasstv.eu'+url,25,'')
-	for url in wise:
+		addDir('VidBux (flv) #'+str(i),'http://www.fastpasstv.ms'+url.replace('/watch','/redirect'),25,'')
+	for url in divxavi:
 		i=i+1
-		addDir('Wisevid (flv) #'+str(i),'http://www.fastpasstv.eu'+url,19,'')
+		addDir('Divxden (avi) #'+str(i),'http://www.fastpasstv.ms'+url.replace('/watch','/redirect'),8,'')
+	for url in divxflash:
+		i=i+1
+		addDir('Divxden (flv) #'+str(i),'http://www.fastpasstv.ms'+url.replace('/watch','/redirect'),27,'')
+	for url in new2:
+		i=i+1
+		addDir('Putlocker #'+str(i),'http://www.fastpasstv.ms'+url.replace('/watch','/redirect'),23,'')
+	for url in new3:
+		i=i+1
+		addDir('Vidbux #'+str(i),'http://www.fastpasstv.ms'+url.replace('/watch','/redirect'),10,'')
+	for url in new4:
+		i=i+1
+		addDir('Novamov #'+str(i),'http://www.fastpasstv.ms'+url.replace('/watch','/redirect'),12,'')
 
 def PUTLOC(url,name):
-	login()
-	link1 = geturl(url)
-	link2 = redirect(url)
-	try:
-		hash=re.compile('type="hidden" value="(.+?)" name="hash"').findall(link1)[0]
-	except:
-		dialog = xbmcgui.Dialog()
-		ok = dialog.ok("FastPassTv",'The file has been removed due to copyright.')
-		return
+        #login()
+        link1 = geturl(url)
+        link2 = redirect(url)
+        try:
+                hash=re.compile('type="hidden" value="(.+?)" name="hash"').findall(link1)[0]
+        except:
+                dialog = xbmcgui.Dialog()
+                ok = dialog.ok("FastPassTv",'The file has been removed due to copyright.')
+                return
 
-	values = {'hash': hash, 'confirm':'Continue as Free User'}
-	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
-	headers = { 'User-Agent' : user_agent }
-	data = urllib.urlencode(values)
-	req = urllib2.Request(link2, data, headers)
-	response = urllib2.urlopen(req)
-	link = response.read()
-	code = re.compile("stream=(.+?)'").findall(link)
+        values = {'hash': hash, 'confirm':'Continue as Free User'}
+        user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
+        headers = { 'User-Agent' : user_agent}
+	cookiejar = cookielib.LWPCookieJar()
+	cookiejar = urllib2.HTTPCookieProcessor(cookiejar) 
+	opener = urllib2.build_opener(cookiejar)
+	urllib2.install_opener(opener)
+        data = urllib.urlencode(values)
+        req = urllib2.Request(link2, data, headers)
+        response = urllib2.urlopen(req)
+        link = response.read()
+        code = re.compile("stream=(.+?)'").findall(link)
         req = urllib2.Request('http://www.putlocker.com/get_file.php?stream='+code[0])
         req.add_header('User-Agent', user_agent)
         response = urllib2.urlopen(req)
         link=response.read()
-    	finalurl = re.compile('<media:content url="(.+?)"').findall(link)[0]
-	Play(finalurl)
+        finalurl = re.compile('<media:content url="(.+?)"').findall(link)[0]
+        Play(finalurl)
 
 def WOOT(url,name):
-	login()	
+	#login()	
 	link1 = geturl(url)
 	link2 = redirect(url)
 	try:
@@ -265,6 +290,10 @@ def WOOT(url,name):
 	values = {'op': 'download1','usr_login': ' ','id': fcodeid, 'fname': fcodenm,'referer' : refer, 'method_free':'Continue to Video'}
 	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
 	headers = { 'User-Agent' : user_agent }
+	cookiejar = cookielib.LWPCookieJar()
+	cookiejar = urllib2.HTTPCookieProcessor(cookiejar) 
+	opener = urllib2.build_opener(cookiejar)
+	urllib2.install_opener(opener)
 	data = urllib.urlencode(values)
 	req = urllib2.Request(link2, data, headers)
 	response = urllib2.urlopen(req)
@@ -291,7 +320,7 @@ def WOOT(url,name):
 		Play(finalurl)
 
 def WOOTAVI(url,name):
-	login()	
+	#login()	
 	link1 = geturl(url)
 	link2 = redirect(url)
 	try:
@@ -307,6 +336,10 @@ def WOOTAVI(url,name):
 	values = {'op': 'download1','usr_login': ' ','id': fcodeid, 'fname': fcodenm,'referer' : refer, 'method_free':'Continue to Video'}
 	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
 	headers = { 'User-Agent' : user_agent }
+	cookiejar = cookielib.LWPCookieJar()
+	cookiejar = urllib2.HTTPCookieProcessor(cookiejar) 
+	opener = urllib2.build_opener(cookiejar)
+	urllib2.install_opener(opener)
 	data = urllib.urlencode(values)
 	req = urllib2.Request(link2, data, headers)
 	response = urllib2.urlopen(req)
@@ -322,7 +355,7 @@ def WOOTAVI(url,name):
 	Play(finalurl)
 
 def APEX(url,name):
-	login()	
+	#login()	
 	link1 = geturl(url)
 	link2 = redirect(url)
 	try:
@@ -338,6 +371,11 @@ def APEX(url,name):
 	values = {'op': 'download1','usr_login': ' ','id': fcodeid, 'fname': fcodenm,'referer' : refer, 'method_free':'Continue to Video'}
 	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
 	headers = { 'User-Agent' : user_agent }
+	cookiejar = cookielib.LWPCookieJar()
+	cookiejar = urllib2.HTTPCookieProcessor(cookiejar) 
+	opener = urllib2.build_opener(cookiejar)
+	urllib2.install_opener(opener)
+
 	data = urllib.urlencode(values)
 	req = urllib2.Request(link2, data, headers)
 	response = urllib2.urlopen(req)
@@ -353,7 +391,7 @@ def APEX(url,name):
 	Play(finalurl)
 
 def VIDSDIVX(url,name):
-	login()
+	#login()
 	link1 = geturl(url)
 	link2 = redirect(url)
 	try:
@@ -369,6 +407,11 @@ def VIDSDIVX(url,name):
 	values = {'op': 'download1','usr_login': ' ','id': fcodeid, 'fname': fcodenm,'referer' : refer, 'method_free':'Continue to Video'}
 	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
 	headers = { 'User-Agent' : user_agent }
+	cookiejar = cookielib.LWPCookieJar()
+	cookiejar = urllib2.HTTPCookieProcessor(cookiejar) 
+	opener = urllib2.build_opener(cookiejar)
+	urllib2.install_opener(opener)
+
 	data = urllib.urlencode(values)
 	req = urllib2.Request(link2, data, headers)
 	response = urllib2.urlopen(req)
@@ -381,9 +424,9 @@ def VIDSDIVX(url,name):
 	hashshort =  re.compile('divxden(.+?)src').findall(link)[0]
    	finalurl = 'http://'+hashshort.replace('the','').replace('you','').replace(' ','').replace('|','')+'.divxden.com:364/d/'+hashlong+'/'+ fcodenm
 	Play(finalurl)
- 
-def VIDBUX(url,name):
-	login()
+
+def VIDXFLV(url,name):
+	#login()
 	link1 = geturl(url)
 	link2 = redirect(url)
 	try:
@@ -399,20 +442,26 @@ def VIDBUX(url,name):
 	values = {'op': 'download1','usr_login': ' ','id': fcodeid, 'fname': fcodenm,'referer' : refer, 'method_free':'Continue to Video'}
 	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
 	headers = { 'User-Agent' : user_agent }
+	cookiejar = cookielib.LWPCookieJar()
+	cookiejar = urllib2.HTTPCookieProcessor(cookiejar) 
+	opener = urllib2.build_opener(cookiejar)
+	urllib2.install_opener(opener)
+
 	data = urllib.urlencode(values)
 	req = urllib2.Request(link2, data, headers)
 	response = urllib2.urlopen(req)
 	link = response.read()
 
-	file=re.compile("custommode(.+?)182|file").findall(link)[0]
-	cleanup=file.replace('|',' ').replace('||',' ')
-	hashlong = cleanup[-41:].replace(' ','')
-	hashshort =  re.compile('</div><!-- <img src="http://(.+?).vidbux.com').findall(link)[0]
-   	finalurl = 'http://'+hashshort+'.vidbux.com:182/d/'+hashlong+'/'+ fcodenm
+	file = re.compile("image(.+?)364|divxden").findall(link)[0]
+	print file
+	cleanup = file.replace('|',' ').replace('||',' ')
+	hashlong = cleanup[-46:].replace(' ','')
+	hashshort =  re.compile('divxden(.+?)file').findall(link)[0]
+   	finalurl = 'http://'+hashshort.replace('the','').replace('you','').replace(' ','').replace('|','')+'.divxden.com:364/d/'+hashlong+'/'+ fcodenm
 	Play(finalurl)
-
-def VIDBUX2(url,name):
-	login()
+ 
+def VIDBUX(url,name):
+	#login()
 	link1 = geturl(url)
 	link2 = redirect(url)
 	try:
@@ -428,6 +477,41 @@ def VIDBUX2(url,name):
 	values = {'op': 'download1','usr_login': ' ','id': fcodeid, 'fname': fcodenm,'referer' : refer, 'method_free':'Continue to Video'}
 	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
 	headers = { 'User-Agent' : user_agent }
+
+	data = urllib.urlencode(values)
+	req = urllib2.Request(link2, data, headers)
+	response = urllib2.urlopen(req)
+	link = response.read()
+
+	file=re.compile("vidbux(.+?)182|file").findall(link)[0]
+	cleanup=file.replace('|',' ').replace('||',' ')
+	hashlong = cleanup[-41:].replace(' ','')
+	hashshort =  re.compile('</div><!-- <img src="http://(.+?).vidbux.com').findall(link)[0]
+   	finalurl = 'http://'+hashshort+'.vidbux.com:182/d/'+hashlong+'/'+ fcodenm + '?start=0'
+	Play(finalurl)
+
+def VIDBUX2(url,name):
+	#login()
+	link1 = geturl(url)
+	link2 = redirect(url)
+	try:
+		fcodenm=re.compile('name="fname" type="hidden" value="(.+?)"').findall(link1)[0]
+	except:
+		dialog = xbmcgui.Dialog()
+		ok = dialog.ok("FastPassTv",'The file has been removed due to copyright.')
+		return
+
+	fcodeid=re.compile('name="id" type="hidden" value="(.+?)"').findall(link1)[0]
+	refer=openfile(referer)
+
+	values = {'op': 'download1','usr_login': ' ','id': fcodeid, 'fname': fcodenm,'referer' : refer, 'method_free':'Continue to Video'}
+	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
+	headers = { 'User-Agent' : user_agent }
+	cookiejar = cookielib.LWPCookieJar()
+	cookiejar = urllib2.HTTPCookieProcessor(cookiejar) 
+	opener = urllib2.build_opener(cookiejar)
+	urllib2.install_opener(opener)
+
 	data = urllib.urlencode(values)
 	req = urllib2.Request(link2, data, headers)
 	response = urllib2.urlopen(req)
@@ -437,17 +521,12 @@ def VIDBUX2(url,name):
 	cleanup=file.replace('|',' ').replace('||',' ')
 	hashlong = cleanup[-41:].replace(' ','')
 	hashshort =  re.compile("182(.+?)file").findall(link)[0]
-   	finalurl = 'http://'+hashshort.replace('|','')+'.vidbux.com:182/d/'+hashlong+'/'+ fcodenm
+   	finalurl = 'http://'+hashshort.replace('|','')+'.vidbux.com:182/d'+hashlong+'/'+ fcodenm
 	Play(finalurl)
 
 def Nova(url,name):
         link= geturl(url)
-	code=re.compile('src="http://www.novamov.com/(.+?)"').findall(link)[0]
-      	req = urllib2.Request('http://embed.novamov.com/'+code)
-        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        response = urllib2.urlopen(req)
-	link=response.read()
-	finalurl=re.compile('file="(.+?)"').findall(link)[0]
+	finalurl=re.compile('flashvars.file="(.+?)"').findall(link)[0]
 	Play(finalurl)
 
 def Mega(url,name):
@@ -838,6 +917,9 @@ elif mode==7:
 elif mode==8:
         print "PAGE"
         VIDSDIVX(url,name)
+elif mode==27:
+        print "PAGE"
+        VIDXFLV(url,name)
 elif mode==9:
         print "SEARCH  :"+url
         SEARCH()
