@@ -1,3 +1,6 @@
+v3.0.1:
+  - cleanup codes
+
 v3.0.0:
   - dropped authentication
 
