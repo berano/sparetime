@@ -1,9 +1,7 @@
 import urllib,urllib2,re,sys,xbmcplugin,xbmcgui
 import cookielib,os,string,cookielib,StringIO
 import os,time,base64,logging
-import xbmcaddon, mechanize
-from mechanize import Browser
-from BeautifulSoup import BeautifulSoup
+import xbmcaddon
 
 fpt=xbmcaddon.Addon(id='plugin.video.fpt')
 pluginhandle = int(sys.argv[1])
@@ -860,10 +858,10 @@ def addLink(name,url,iconimage,plot,date):
 def check_settings():
 		uname = fpt.getSetting('uname')
 		pwd   = fpt.getSetting('pwd')
-		if (not uname or uname == '') or (not pwd or pwd == ''):
-				d = xbmcgui.Dialog()
-				d.ok('Welcome to fastpasstv.com', 'To start using this plugin first go to the fastpasstv.com.','and register an (free) account.')
-				fpt.openSettings(sys.argv[ 0 ]) 
+		#if (not uname or uname == '') or (not pwd or pwd == ''):
+		#		d = xbmcgui.Dialog()
+		#		d.ok('Welcome to fastpasstv.com', 'To start using this plugin first go to the fastpasstv.com.','and register an (free) account.')
+		#		fpt.openSettings(sys.argv[ 0 ]) 
 						
 params=get_params()
 url=None
