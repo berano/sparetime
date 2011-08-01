@@ -180,7 +180,7 @@ def Y3TV(url,name):
         ref=response2.geturl()
 	save(referer,ref)
         link=response2.read()
-	mega=re.compile('<b>Megavideo</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+	mega=re.compile('<b>Megavid.+?</b></td>\n.+?<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
        	woot=re.compile('<b>Wootly</b></td>\n<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
 
       	dv=re.compile('<b>Vidxden.+?DivX.+?</b></td>\n.+?<td class="siteparts" style="width:.+?px;"><a href="(.+?)" target="_blank">Watch This Video!').findall(link)
@@ -199,7 +199,7 @@ def Y3TV(url,name):
 
        	new2=re.compile('<b>Put.+?</b></td>\n.+?<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
       	new3=re.compile('<b>Vidbu.+?</b></td>\n.+?<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
-	new4=re.compile('<b>Novamov</b></td>\n.+?<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
+	new4=re.compile('<b>Novamo.+?</b></td>\n.+?<td class="siteparts" style="width:.+?px;"><a href="(.+?)"').findall(link)
 	for url in apex:
 		i=i+1
 		addDir('Apexvid (flv) #'+str(i),'http://www.fastpasstv.ms'+url.replace('/watch','/redirect'),24,'')
@@ -530,13 +530,10 @@ def Nova(url,name):
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
         response = urllib2.urlopen(req)
         link=response.read()
-	print link
-	finalurl =re.compile('url=http://(.+?).flv&title=.+?0').findall(link)[0]
-	#print finalurl
-	Play('http://'+finalurl+'.flv')
+	finalurl =re.compile('url=http://(.+?)&title=.+?').findall(link)[0]
+	Play('http://'+finalurl)
 
 def Mega(url,name):
-	login()
 	gurl = redirect(url)
 	code = gurl[-8:]
         try:
@@ -551,7 +548,7 @@ def Mega(url,name):
                         k1 = re.compile(' k1="(.+?)"').findall(response)
                         k2 = re.compile(' k2="(.+?)"').findall(response)
                         un = re.compile(' un="(.+?)"').findall(response)
-                        finalurl = "http://www" + s[0] + ".megavideo.com/files/" + __calculateFileHash(un[0], k1[0], k2[0]) + "/?.flv"
+                        finalurl = "http://www" + s[0] + ".megavideo.com/files/" + __calculateFileHash(un[0], k1[0], k2[0]) + "/"
 			Play(finalurl)
         except: pass
 
@@ -701,7 +698,7 @@ def SEARCH():
      		ctn=re.compile('<li><a href="/cartoons/(.+?)">(.+?)<span class="epnum">.+?</span></a>').findall(response)
      		mvs=re.compile('<li><a href="/movies/(.+?)">(.+?)<span class="epnum">.+?</span></a>').findall(response)
 		for url,name in tvs:
-			addDir(name.replace('<font class="newvid">New Episodes!</font>','(NEW EPISODE)'),'http://www.fastpasstv.ms/tv/'+url,18,'')
+			addDir(name.replace('<font class="newvid">New Episodes!</font>','(NEW EPISODE)'),'http://www.fastpasstv.ms/tv/'+url,21,'')
 		for url,name in ctn:
 			addDir(name.replace('<font class="newvid">New Episodes!</font>','(NEW EPISODE)'),'http://www.fastpasstv.ms/cartoons/'+url,18,'')
 		for url,name in mvs:
