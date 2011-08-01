@@ -1,3 +1,6 @@
+v3.0.3:
+  - fix several regex
+
 v3.0.2:
   - fix Novamov, Search button scrapping issues
 
