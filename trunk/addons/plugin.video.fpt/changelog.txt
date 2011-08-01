@@ -1,3 +1,6 @@
+v3.0.2:
+  - fix Novamov, Search button scrapping issues
+
 v3.0.1:
   - cleanup codes
 

@@ -77,16 +77,16 @@ def MOVALL(url,name):
 
 def MOVLAT(url,name):
         link= geturl(url)
-	all = re.compile('<p><b>Latest additions</b>.+?<ul class="pagination">', re.DOTALL).findall(link)
-      	mv=re.compile('<title>(.+?)</title>\n		<link>http://www.fastpasstv.eu/movies/(.+?)/</link>').findall(link)
-	for name,url in mv:
+	all = re.compile('<b>Latest additions</b>.+?<ul class="pagination">', re.DOTALL).findall(link)
+      	mv = re.compile('<a href="(.+?)">(.+?)</a>').findall(all)
+	for url,name in mv:
 		addDir(name.replace('&amp;','&'),'http://www.fastpasstv.ms/movies/'+url,18,'')
 
 def DOCLAT(url,name):
         link= geturl(url)
-	all = re.compile('<p><b>Latest additions</b>.+?<ul class="pagination">', re.DOTALL).findall(link)
-      	doc=re.compile('<title>(.+?)</title>\n		<link>http://www.fastpasstv.eu/documentaries/(.+?)/</link>').findall(link)
-	for name,url in doc:
+	all = re.compile('<b>Latest additions</b>.+?<ul class="pagination">', re.DOTALL).findall(link)
+      	doc = re.compile('<a href="(.+?)">(.+?)</a>').findall(all)
+	for url,name in doc:
 		addDir(name.replace('&amp;','&'),'http://www.fastpasstv.ms/documentaries/'+url,18,'')
 
 def X2(url,name): 
@@ -524,8 +524,16 @@ def VIDBUX2(url,name):
 
 def Nova(url,name):
         link= geturl(url)
-	finalurl=re.compile('flashvars.file="(.+?)"').findall(link)[0]
-	Play(finalurl)
+	file =re.compile('flashvars.file="(.+?)"').findall(link)[0]
+	filekey =re.compile('flashvars.filekey="(.+?)"').findall(link)[0]
+       	req = urllib2.Request('http://www.novamov.com/api/player.api.php?key='+ filekey + '&user=undefined&codes=1&file='+ file +'&pass=undefined')
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        response = urllib2.urlopen(req)
+        link=response.read()
+	print link
+	finalurl =re.compile('url=http://(.+?).flv&title=.+?0').findall(link)[0]
+	#print finalurl
+	Play('http://'+finalurl+'.flv')
 
 def Mega(url,name):
 	login()
@@ -685,7 +693,7 @@ def SEARCH():
 		user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
 		headers = { 'User-Agent' : user_agent }
 		data = urllib.urlencode(values)
-                req = urllib2.Request('http://www.fastpasstv.eu/search',data,headers)
+                req = urllib2.Request('http://www.fastpasstv.ms/search/',data,headers)
 	        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
                 response = urllib2.urlopen(req).read()
      		tvs=re.compile('<li><a href="/tv/(.+?)">(.+?)<span class="epnum">.+?</span></a></li>').findall(response)
@@ -693,13 +701,13 @@ def SEARCH():
      		ctn=re.compile('<li><a href="/cartoons/(.+?)">(.+?)<span class="epnum">.+?</span></a>').findall(response)
      		mvs=re.compile('<li><a href="/movies/(.+?)">(.+?)<span class="epnum">.+?</span></a>').findall(response)
 		for url,name in tvs:
-			addDir(name.replace('<font class="newvid">New Episodes!</font>','(NEW EPISODE)'),'http://www.fastpasstv.com/tv/'+url,21,'')
+			addDir(name.replace('<font class="newvid">New Episodes!</font>','(NEW EPISODE)'),'http://www.fastpasstv.ms/tv/'+url,18,'')
 		for url,name in ctn:
-			addDir(name.replace('<font class="newvid">New Episodes!</font>','(NEW EPISODE)'),'http://www.fastpasstv.com/cartoons/'+url,21,'')
+			addDir(name.replace('<font class="newvid">New Episodes!</font>','(NEW EPISODE)'),'http://www.fastpasstv.ms/cartoons/'+url,18,'')
 		for url,name in mvs:
-			addDir(name,'http://www.fastpasstv.eu/movies/'+url,6,'')
+			addDir(name,'http://www.fastpasstv.ms/movies/'+url,18,'')
 		for url,name in docs:
-			addDir(name,'http://www.fastpasstv.eu/documentaries/'+url,6,'')
+			addDir(name,'http://www.fastpasstv.ms/documentaries/'+url,18,'')
 
 def WISE(url,name):
 	login()
