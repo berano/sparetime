@@ -78,16 +78,16 @@ def MOVALL(url,name):
 def MOVLAT(url,name):
         link= geturl(url)
 	all = re.compile('<b>Latest additions</b>.+?<ul class="pagination">', re.DOTALL).findall(link)
-      	mv = re.compile('<a href="(.+?)">(.+?)</a>').findall(all)
+      	mv = re.compile('<a href="(.+?)">(.+?)</a>').findall(all[0])
 	for url,name in mv:
-		addDir(name.replace('&amp;','&'),'http://www.fastpasstv.ms/movies/'+url,18,'')
+		addDir(name.replace('&amp;','&'),'http://www.fastpasstv.ms'+url,18,'')
 
 def DOCLAT(url,name):
         link= geturl(url)
 	all = re.compile('<b>Latest additions</b>.+?<ul class="pagination">', re.DOTALL).findall(link)
-      	doc = re.compile('<a href="(.+?)">(.+?)</a>').findall(all)
+      	doc = re.compile('<a href="(.+?)">(.+?)</a>').findall(all[0])
 	for url,name in doc:
-		addDir(name.replace('&amp;','&'),'http://www.fastpasstv.ms/documentaries/'+url,18,'')
+		addDir(name.replace('&amp;','&'),'http://www.fastpasstv.ms'+url,18,'')
 
 def X2(url,name): 
         link= geturl(url)
